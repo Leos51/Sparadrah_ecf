@@ -1,4 +1,4 @@
-package utils;
+package fr.sparadrah.ecf.utils;
 
 import java.util.Scanner;
 
@@ -15,7 +15,6 @@ public class UserInput {
     }
 
     public static int getIntValue(String msg) {
-        System.out.println(msg);
         String str = getStringValue(msg);
         try{
             return Integer.parseInt(str);
@@ -26,7 +25,6 @@ public class UserInput {
     }
 
     public static int getParseIntValue(String msg) {
-        System.out.println(msg);
         String str = getStringValue(msg);
         int num = Integer.parseInt(str);
         return num;

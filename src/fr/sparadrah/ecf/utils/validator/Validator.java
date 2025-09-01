@@ -1,9 +1,7 @@
-package utils.validator;
+package fr.sparadrah.ecf.utils.validator;
 
-import model.lists.books.Books;
-import utils.RegexPatterns;
 
-import java.util.regex.Pattern;
+import fr.sparadrah.ecf.utils.RegexPatterns;
 
 public class Validator {
 
@@ -15,18 +13,20 @@ public class Validator {
         return email.matches(RegexPatterns.EMAIL_REGEX);
     }
 
-    public static boolean isValidISBN(String isbn) {
-        return isbn.matches(RegexPatterns.ISBN_REGEX);
-    }
 
     public static boolean isValidPositiveInt(int quantity) {
         return quantity >= 0;
     }
 
-
-    public static boolean isValidBookTitle(String title) {
-        return title.matches(RegexPatterns.BOOK_TITLE_REGEX);
+    public static boolean isValidPostalCode(String postalCode) {
+        return postalCode.matches(RegexPatterns.POSTCODE_REGEX)  ;
     }
 
+    public static boolean isValidPhone(String phone){
+        return phone.matches(RegexPatterns.PHONE_REGEX);
+    }
 
+    public static boolean isValidNIR(String nir) {
+        return nir.length() == 13 && nir.matches(RegexPatterns.NIR_REGEX);
+    }
 }

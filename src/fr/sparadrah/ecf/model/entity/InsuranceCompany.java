@@ -1,12 +1,14 @@
 package fr.sparadrah.ecf.model.entity;
 
-public class InsuranceCompagny extends Entity {
+import fr.sparadrah.ecf.utils.exception.SaisieException;
+
+public class InsuranceCompany extends Entity {
     private String compagnyName;
     private String departementName;
     private double coverageRate;
 
 
-    public InsuranceCompagny(String compagnyName, String departementName, double coverageRate, String adress, String postalCode, String city, String phone, String email) {
+    public InsuranceCompany(String compagnyName, String departementName, double coverageRate, String adress, String postalCode, String city, String phone, String email) throws SaisieException {
         super(adress, postalCode, city, phone, email);
         this.setCompagnyName(compagnyName);
         this.setDepartementName(departementName);
