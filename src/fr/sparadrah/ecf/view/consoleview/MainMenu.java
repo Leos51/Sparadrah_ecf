@@ -40,7 +40,7 @@ public class MainMenu {
 
             switch (userChoice) {
                 case 1 -> System.out.println("Achat a effectuer");
-                case 2 -> System.out.println("Faire l'enregistrerment des achat");
+                case 2 -> PurchaseController.seedPurchaseData();
 
                 case 3 -> DoctorController.displayDoctors();
                 case 4 -> CustomerController.displayCustomersData();

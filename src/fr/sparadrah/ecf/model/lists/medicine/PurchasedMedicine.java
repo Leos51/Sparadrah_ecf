@@ -16,6 +16,11 @@ public class PurchasedMedicine {
     public void setMedicine(Medicine medicine) {
         this.medicine = medicine;
     }
+
+    public Medicine getMedicine() {
+        return medicine;
+    }
+
     public int getQuantity() {
         return quantity;
     }

@@ -13,8 +13,8 @@ public class Medicine {
     private int threshold = 10;
 
 
-    public Medicine(double price, String releaseDate, int quantity, Category categoryName, String medicationName) {
-        this.setMedicineName(medicationName);
+    public Medicine(double price, String releaseDate, int quantity, Category categoryName, String medicineName) {
+        this.setMedicineName(medicineName);
         this.setCategoryName(categoryName);
         this.setPrice(price);
         this.setReleaseDate(releaseDate);
@@ -24,7 +24,7 @@ public class Medicine {
     public String getMedicineName() {
         return medicineName;
     }
-    public void setMedicineName(String medicationName) {
+    public void setMedicineName(String medicineName) {
         this.medicineName = medicineName;
     }
     public Category getCategoryName() {
@@ -78,7 +78,12 @@ public class Medicine {
        return this.getQuantity() <= threshold ;
     }
 
-    public void reStocking(){
-
+    @Override
+    public String toString() {
+        return "Medicine{" +
+                "medicineName='" + medicineName + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                '}';
     }
 }

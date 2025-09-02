@@ -10,19 +10,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Purchase {
-    private final LocalDate purchaseDate ;
+    private LocalDate purchaseDate ;
     private Customer customer;
     private boolean isPrescriptionBased;
     private static List<PurchasedMedicine> purchasedMedicines = new ArrayList<PurchasedMedicine>();
 
 
 
-    public Purchase(Customer customer, boolean isPrescriptionBased,  List<MedicineList> purchasedMedicines) {
-        this.customer = customer;
-        this.purchaseDate = LocalDate.now();
-        this.isPrescriptionBased = isPrescriptionBased;
+    public Purchase(Customer customer, boolean isPrescriptionBased) {
+
+        this.setCustomer(customer);
+        this.setPurchaseDate(LocalDate.now());
+        this.setPrescriptionBased(isPrescriptionBased);
+
 
     }
+
+    public Purchase(LocalDate purchaseDate , Customer customer, boolean isPrescriptionBased) {
+        this.setCustomer(customer);
+        this.setPurchaseDate(purchaseDate);
+        this.setPrescriptionBased(isPrescriptionBased);
+
+    }
+
+    private void setPurchaseDate(LocalDate purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
 
     public LocalDate getPurchaseDate() {
         return purchaseDate;
@@ -67,7 +81,7 @@ public class Purchase {
         purchasedMedicines.remove(medicine);//A creer : une condition permettant de retirer une certaine quantité seulement
     }
 
-    public List<PurchasedMedicine> getPurchasedMedicines() {
+    public static List<PurchasedMedicine> getPurchasedMedicines() {
         return new ArrayList<>(purchasedMedicines);
     }
 
