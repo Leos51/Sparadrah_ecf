@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.model.lists;
+package fr.sparadrah.ecf.model.lists.medicine;
 
 import fr.sparadrah.ecf.model.medicine.Category;
 

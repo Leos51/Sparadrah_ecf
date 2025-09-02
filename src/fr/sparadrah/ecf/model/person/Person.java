@@ -3,20 +3,22 @@ package fr.sparadrah.ecf.model.person;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
 import fr.sparadrah.ecf.utils.validator.Validator;
 
+import static fr.sparadrah.ecf.utils.UserInput.capitalize;
+
 public class Person {
     private String firstName;
     private String lastName;
-    private String adress;
+    private String address;
     private String postCode;
     private String city;
     private String phone;
     private String email;
 
 
-    public Person(String lastName, String firstName, String adress, String postCode, String city, String phone, String email) throws SaisieException {
+    public Person(String lastName, String firstName, String address, String postCode, String city, String phone, String email) throws SaisieException {
         this.setLastName(lastName);
         this.setFirstName(firstName);
-        this.setAdress(adress);
+        this.setAddress(address);
         this.setPostCode(postCode);
         this.setCity(city);
         this.setPhone(phone);
@@ -28,20 +30,22 @@ public class Person {
         return firstName;
     }
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        firstName = firstName.trim();
+        this.firstName = capitalize(firstName);
     }
     public String getLastName() {
         return lastName;
     }
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        lastName = lastName.trim();
+        this.lastName = capitalize(lastName);
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return this.address;
     }
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
     public String getPostCode() {
         return postCode;
@@ -69,9 +73,17 @@ public class Person {
         return email;
     }
     public void setEmail(String email) throws SaisieException {
+        email = email
+                .trim()
+                .toLowerCase();
         if(!Validator.isValidEmail(email)) {
             throw new SaisieException("Email invalide");
         }
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return this.getFirstName() + " " + this.getLastName();
     }
 }

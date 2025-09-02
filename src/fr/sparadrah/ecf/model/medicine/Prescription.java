@@ -10,49 +10,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Prescription {
-    private LocalDate prescriptingDate;
-    private Doctor doctor;
-    private Customer customer;
-    private List<Medicine> prescriptedMedicines = new ArrayList<>();
+    private static LocalDate prescriptingDate;
+    private static Doctor doctor;
+    private static Customer customer;
+    private static List<Medicine> prescriptedMedicines = new ArrayList<>();
 
 
-    Prescription(String prescriptingDate, Doctor doctor, Customer customer, List<Medicine> medicines) {
-        this.setPrescriptingDate(prescriptingDate);
-        this.setDoctor(doctor);
-        this.setCustomer(customer);
-        this.setPrescriptedMedicines(medicines);
+    public Prescription(String prescriptingDate, Doctor doctor, Customer customer, List<Medicine> medicines) {
+        setPrescriptingDate(prescriptingDate);
+        setDoctor(doctor);
+        setCustomer(customer);
+        setPrescriptedMedicines(medicines);
     }
 
-    public LocalDate getPrescriptingDate() {
+    public static LocalDate getPrescriptingDate() {
         return prescriptingDate;
     }
     public void setPrescriptingDate(String prescriptingDate) {
         this.prescriptingDate = DateFormat.parseDateFromString(prescriptingDate);
     }
-    public Doctor getDoctor() {
+    public static Doctor getDoctor() {
         return doctor;
     }
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
-    public Customer getCustomer() {
+    public static Customer getCustomer() {
         return customer;
     }
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    public List<Medicine> getPrescriptedMedicines() {
+    public static List<Medicine> getPrescriptedMedicines() {
         return prescriptedMedicines;
     }
     public void setPrescriptedMedicines(List<Medicine> medicines) {
         this.prescriptedMedicines = medicines;
     }
 
-   public void addMedicine(Medicine medicine) {
-        this.prescriptedMedicines.add(medicine);
+   public static void addMedicine(Medicine medicine) {
+        prescriptedMedicines.add(medicine);
    }
 
-    public void removeMedicine(Medicine medicine) {
+    public static void removeMedicine(Medicine medicine) {
         prescriptedMedicines.remove(medicine);
     }
 

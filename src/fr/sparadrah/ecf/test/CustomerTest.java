@@ -1,6 +1,8 @@
 package fr.sparadrah.ecf.test;
 
+import fr.sparadrah.ecf.model.MutualInsurance;
 import fr.sparadrah.ecf.model.person.Customer;
+import fr.sparadrah.ecf.utils.DateFormat;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,19 +10,45 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.time.LocalDate;
+
 import static fr.sparadrah.ecf.utils.UserInput.capitalize;
 import static org.junit.jupiter.api.Assertions.*;
 class CustomerTest {
     Customer customer;
+    MutualInsurance macif;
 
     @BeforeEach
     void setUp() throws SaisieException {
-        customer = new Customer("Recto", "Verso", "3 rue Maurice de Broglie", "51000", "Chalons en Champagne", " 03 26 68 03 00", "rectoverso@gmail.com", "1825194528231", "28-02-2010");
+        macif = new MutualInsurance("Bourso", "Marne", 30, "address","51000","Ville", "0612324565","email@email.com");
+
+        customer = new Customer("Recto", "Verso", "Adresse 1", "51000", "Chalons en Champagne", " 03 26 68 03 00", "rectoverso@gmail.com", "1825194528231", "28/02/2010", macif);
     }
 
     @AfterEach
     void tearDown() {
         customer = null;
+    }
+
+    @Test
+    public void testConstructeurArgsValide() throws Exception {
+        // Assert
+        assertEquals("Verso", customer.getFirstName());
+        assertEquals("Recto", customer.getLastName());
+        assertEquals("Adresse 1", customer.getAddress());
+        assertEquals("51000", customer.getPostCode());
+        assertEquals("Chalons en Champagne", customer.getEmail());
+        assertEquals("1825194528231", customer.getPhone());
+        assertEquals("28/02/2010", customer.getBirthDate());
+        assertEquals(macif, customer.getMutualInsurance());
+
+    }
+
+    @Test
+    public void testConstructeurArgsinvalide() throws Exception {
+
+        assertNotEquals("Clark", customer.getFirstName());
+        assertNotEquals("Kent", customer.getLastName());
     }
 
     @Test
@@ -47,23 +75,33 @@ class CustomerTest {
     }
 
     @Test
-    void getAdress() {
+    void getAddress() {
+        assertEquals("Adresse 1", customer.getAddress());
     }
 
-    @Test
-    void setAdress() {
+
+    @ParameterizedTest(name = "{0} : le setter fonctionne correctement")
+    @ValueSource(strings = {"30 av. des Hauts", "rue des fleurs", "av.de Paris"} )
+    void setAdressTest_Success(String address) {
+        customer.setAddress(address);
+        assertEquals(address.trim(), customer.getAddress());
     }
 
     @Test
     void getPostCode() {
+        assertEquals("51000", customer.getPostCode());
     }
 
-    @Test
-    void setPostCode() {
+    @ParameterizedTest(name = "{0} : le setter fonctionne correctement")
+    @ValueSource(strings = {"75000", "01520", "51520"} )
+    void setPostCodeTest_Success(String cp) throws SaisieException {
+        customer.setPostCode(cp);
+        assertEquals(cp.trim(), customer.getPostCode());
     }
 
     @Test
     void getCity() {
+        assertEquals("Chalons en Champagne", customer.getCity());
     }
 
     @Test
@@ -72,6 +110,7 @@ class CustomerTest {
 
     @Test
     void getPhone() {
+        assertEquals("0612324565", customer.getPhone());
     }
 
     @ParameterizedTest(name = "{0} : le setter fonctionne correctement")
@@ -97,40 +136,45 @@ class CustomerTest {
     @ValueSource(strings = {"leo@mail.com", "link103@live.fr", "reD51@orange.fr"} )
     void testSetEmail_Success(String email) throws SaisieException {
         customer.setEmail(email);
-        assertEquals(email, customer.getEmail());
+        assertEquals(email.trim().toLowerCase(), customer.getEmail());
     }
 
 
     @Test
     void testGetNIR() {
-        assertEquals("1825194528231", customer.getNIR());
+        assertEquals("1825194528231", customer.getNir());
+    }
+
+
+    @ParameterizedTest(name = "{0} : le setter fonctionne correctement")
+    @ValueSource(strings = {"1850751234567", "2920339876543", "1901314567890"} )
+    void testSetNir_Success(String nir) throws SaisieException {
+        customer.setNir(nir);
+        assertEquals(nir, customer.getNir());
+
     }
 
     @Test
-    void setSecuNumber() {
+    void testGetBirthDate() {assertEquals(DateFormat.parseDateFromString("28/02/2010"), customer.getBirthDate());
+    }
+
+
+    @ParameterizedTest(name = "{0} : le setter fonctionne correctement")
+    @ValueSource(strings = {"18/12/1982", "24/10/2004", "02/02/1990"} )
+    void testSetBirthDate_Success(String date) throws SaisieException {
+        customer.setBirthDateFromString(date);
+        assertEquals(DateFormat.parseDateFromString(date), customer.getBirthDate());
+        System.out.println(date + " " + customer.getBirthDate());
     }
 
     @Test
-    void getBirthDate() {
-    }
+    void testGetMutualInsurance() {
+        assertEquals("Bourso", customer.getMutualInsurance().getCompagnyName());
 
-    @Test
-    void setBirthDate() {
-    }
-
-    @Test
-    void getInsuranceCompagny() {
     }
 
     @Test
     void setInsuranceCompagny() {
     }
 
-    @Test
-    void getDoctorName() {
-    }
-
-    @Test
-    void setDoctorName() {
-    }
 }

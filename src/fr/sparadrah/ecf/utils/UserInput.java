@@ -5,6 +5,12 @@ import java.util.Scanner;
 public class UserInput {
     private static Scanner sc = new Scanner(System.in);
 
+
+    /**
+     * enregistre la saisie utilisateur dans une variable
+     * @param msg : message predefini : String
+     * @return La valeur saisie :  String
+     */
     public static String getStringValue(String msg){
         System.out.println(msg);
         String str = "";
@@ -14,6 +20,11 @@ public class UserInput {
         return str;
     }
 
+    /**
+     * Permet d'enregistrer la saisie Utilisateur dans une variable
+     * @param msg  message predefini : String
+     * @return La valeur saisie : int
+     */
     public static int getIntValue(String msg) {
         String str = getStringValue(msg);
         try{
@@ -23,6 +34,7 @@ public class UserInput {
             return -1;
         }
     }
+
 
     public static int getParseIntValue(String msg) {
         String str = getStringValue(msg);
@@ -47,6 +59,12 @@ public class UserInput {
 //        return value;
 //    }
 
+
+    /**
+     * Met la 1ere lettre en majuscule et le reste en minuscule
+     * @param word
+     * @return String
+     */
     public static String capitalize(String word) {
         word = word.toLowerCase();
         return word.substring(0, 1).toUpperCase() + word.substring(1);

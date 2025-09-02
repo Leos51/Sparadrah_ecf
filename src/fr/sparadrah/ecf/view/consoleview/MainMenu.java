@@ -1,12 +1,16 @@
-package fr.sparadrah.ecf.view.consoleView;
+package fr.sparadrah.ecf.view.consoleview;
 
+import fr.sparadrah.ecf.controller.CustomerController;
+import fr.sparadrah.ecf.controller.DoctorController;
+import fr.sparadrah.ecf.controller.PrescriptionController;
+import fr.sparadrah.ecf.controller.PurchaseController;
 import fr.sparadrah.ecf.utils.UserInput;
 
 public class MainMenu {
     public static void displayMainMenu(){
-        System.out.println("----------------");
-        System.out.println("| \uD83E\uDE79 Sparadrah |");
-        System.out.println("----------------");
+        System.out.println("---------------------------------");
+        System.out.println("| \uD83E\uDE79 Sparadrah - Menu Principal |");
+        System.out.println("---------------------------------");
         System.out.println("1 - Effectuer un achat");
         System.out.println("2 - Consulter l'historique d'achat");
         System.out.println("3 - Consulter les medecins");
@@ -31,10 +35,11 @@ public class MainMenu {
             }
 
             switch (userChoice) {
-                case 1 -> System.out.println("Votre choix : 1");
-                case 2 -> System.out.println("Votre choix : 2");
-                case 3 -> System.out.println("Votre choix : 3");
-                case 4 -> System.out.println("Votre choix : 4");
+                case 1 -> System.out.println("Achat a effectuer");
+                case 2 -> PurchaseController.displayPurchase();// Faire l'enregistrerment des achat
+
+                case 3 -> DoctorController.displayDoctors();
+                case 4 -> CustomerController.displayCustomersData();
                 case 0 -> exitApp();
                 default -> System.err.println("Choix invalide.");
             }

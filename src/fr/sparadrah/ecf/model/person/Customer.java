@@ -10,32 +10,41 @@ import java.time.LocalDate;
 
 
 public class Customer extends Person {
-    private String NIR; //  Le NIR (Numéro d'inscription au Répertoire) est aussi appelé numéro de Sécurité sociale.
+    private String nir; //  Le NIR (Numéro d'inscription au Répertoire) est aussi appelé numéro de Sécurité sociale.
     private LocalDate birthDate;
     private MutualInsurance mutualInsurance;
     private Doctor doctor;
 
 
-    public Customer(String lastName, String firstName, String adress, String postCode, String city, String phone, String email, String NIR , String birthDate) throws SaisieException {
-        super(lastName, firstName, adress, postCode, city, phone, email);
+    public Customer(String lastName, String firstName, String address, String postCode, String city, String phone, String email, String nir , String birthDate, MutualInsurance mutualInsurance) throws SaisieException {
+        super(lastName, firstName, address, postCode, city, phone, email);
         this.setBirthDateFromString(birthDate);
         this.setMutualInsurance(mutualInsurance);
         this.setDoctor(doctor);
-        this.setNIR(NIR);
+        this.setNir(nir);
     }
 
-    public String getNIR() {
-        return NIR;
+    /**
+     * nir = numero de securité social
+     * @return nir : String
+     */
+    public String getNir() {
+        return nir;
     }
-    public void setNIR(String NIR) throws SaisieException {
-        if(!Validator.isValidNIR(NIR)){
-            throw new SaisieException("Erreur Saisie NIR :"+ NIR.length());
+    public void setNir(String nir) throws SaisieException {
+        if(!Validator.isValidNIR(nir)){
+            throw new SaisieException("Erreur Saisie NIR :"+ nir.length());
         }
-        this.NIR = NIR;
+        this.nir = nir;
     }
-    public String getBirthDate() {
-        return DateFormat.formatDate(birthDate, "dd-MM-yyyy");
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
+
+    /**
+     * transforme la date de naissance en LocalDate pour l'enregistrement
+     * @param birthDate : String
+     */
     public void setBirthDateFromString(String birthDate) {
         this.birthDate = DateFormat.parseDateFromString(birthDate);
     }
@@ -50,5 +59,10 @@ public class Customer extends Person {
     }
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\nNIR : " + this.getNir()+"\n---------------\n";
     }
 }

@@ -10,6 +10,7 @@ public class Medicine {
     private double price;
     private LocalDate releaseDate;
     private int quantity;
+    private int threshold = 10;
 
 
     public Medicine(double price, String releaseDate, int quantity, Category categoryName, String medicationName) {
@@ -64,6 +65,20 @@ public class Medicine {
         if (quantity > 0) {
             quantity --;
         }
+        if(isLowStock(threshold)) {
+            System.out.println("Stock bas - Reapro necessaire sur : " + this.getMedicineName());
+        }
+    }
+
+    public boolean isInStock() {
+        return this.getQuantity() > 0;
+
+    }
+    public boolean isLowStock(int threshold) {
+       return this.getQuantity() <= threshold ;
+    }
+
+    public void reStocking(){
 
     }
 }

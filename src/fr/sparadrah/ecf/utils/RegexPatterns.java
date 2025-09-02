@@ -1,5 +1,6 @@
 package fr.sparadrah.ecf.utils;
 
+
 public class RegexPatterns {
     public static final String EMAIL_REGEX = "^[\\w.-]+@[\\w.-]+\\.\\w{2,}$";
     public static final String NAME_REGEX = "^[A-Za-zÀ-ÖØ-öø-ÿ\\-\\s]+$";

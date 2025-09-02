@@ -9,6 +9,7 @@ public class Validator {
         return name.matches(RegexPatterns.NAME_REGEX);
     }
 
+
     public static boolean isValidEmail(String email) {
         return email.matches(RegexPatterns.EMAIL_REGEX);
     }
@@ -27,6 +28,6 @@ public class Validator {
     }
 
     public static boolean isValidNIR(String nir) {
-        return nir.length() == 13 && nir.matches(RegexPatterns.NIR_REGEX);
+        return nir.matches(RegexPatterns.NIR_REGEX);
     }
 }

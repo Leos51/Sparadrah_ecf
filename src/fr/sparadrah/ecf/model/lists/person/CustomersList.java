@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.model.lists;
+package fr.sparadrah.ecf.model.lists.person;
 
 import fr.sparadrah.ecf.model.person.Customer;
 
@@ -23,9 +23,9 @@ public class CustomersList {
         getCustomers().remove(customer);
     }
 
-    public Customer findByNIR(String nir) {
+    public static Customer findByNir(String nir) {
         for (Customer c : customers) {
-            if (c.getNIR().equals(nir)) {
+            if (c.getNir().equals(nir)) {
                 return c;
             }
         }

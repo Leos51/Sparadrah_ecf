@@ -1,7 +1,7 @@
 package fr.sparadrah.ecf.controller;
 
 
-import fr.sparadrah.ecf.model.lists.CategoriesList;
+import fr.sparadrah.ecf.model.lists.medicine.CategoriesList;
 import fr.sparadrah.ecf.model.medicine.Category;
 
 public class CategoriesController {

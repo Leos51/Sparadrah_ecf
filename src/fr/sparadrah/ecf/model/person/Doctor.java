@@ -16,4 +16,11 @@ public class Doctor extends Person {
     public void setCertificationNumber(String certificationNumber) {
         this.certificationNumber = certificationNumber;
     }
+
+    @Override
+    public String toString() {
+        return "Doctor{" + super.toString() +
+                " - certificationNumber='" + certificationNumber + '\'' +
+                '}';
+    }
 }
