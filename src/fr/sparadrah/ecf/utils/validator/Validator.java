@@ -14,11 +14,6 @@ public class Validator {
         return email.matches(RegexPatterns.EMAIL_REGEX);
     }
 
-
-    public static boolean isValidPositiveInt(int quantity) {
-        return quantity >= 0;
-    }
-
     public static boolean isValidPostalCode(String postalCode) {
         return postalCode.matches(RegexPatterns.POSTCODE_REGEX)  ;
     }

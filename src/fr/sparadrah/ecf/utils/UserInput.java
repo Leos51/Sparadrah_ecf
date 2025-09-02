@@ -3,7 +3,7 @@ package fr.sparadrah.ecf.utils;
 import java.util.Scanner;
 
 public class UserInput {
-    private static Scanner sc = new Scanner(System.in);
+    private final static Scanner sc = new Scanner(System.in);
 
 
     /**
@@ -35,34 +35,9 @@ public class UserInput {
         }
     }
 
-
-    public static int getParseIntValue(String msg) {
-        String str = getStringValue(msg);
-        int num = Integer.parseInt(str);
-        return num;
-
-    }
-
-
-//    public static double getDoubleValue(String msg){
-//        System.out.println(msg);
-//        double value = sc.nextDouble();
-//        sc.nextLine();
-//        return value;
-//
-//    }
-
-//    public static long getLongValue(String msg) {
-//        System.out.println(msg);
-//        long value = sc.nextLong();
-//        sc.nextLine();
-//        return value;
-//    }
-
-
     /**
      * Met la 1ere lettre en majuscule et le reste en minuscule
-     * @param word
+     * @param word Message predefini
      * @return String
      */
     public static String capitalize(String word) {

@@ -2,7 +2,6 @@ package fr.sparadrah.ecf.controller;
 
 import fr.sparadrah.ecf.model.Purchase;
 import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
-import fr.sparadrah.ecf.model.lists.medicine.PurchasedMedicine;
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
 import fr.sparadrah.ecf.model.person.Customer;
 

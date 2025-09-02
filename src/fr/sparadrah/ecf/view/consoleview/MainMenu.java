@@ -6,6 +6,10 @@ import fr.sparadrah.ecf.controller.PrescriptionController;
 import fr.sparadrah.ecf.controller.PurchaseController;
 import fr.sparadrah.ecf.utils.UserInput;
 
+
+/**
+ * affiche le menu principal
+ */
 public class MainMenu {
     public static void displayMainMenu(){
         System.out.println("---------------------------------");
@@ -36,7 +40,7 @@ public class MainMenu {
 
             switch (userChoice) {
                 case 1 -> System.out.println("Achat a effectuer");
-                case 2 -> PurchaseController.displayPurchase();// Faire l'enregistrerment des achat
+                case 2 -> System.out.println("Faire l'enregistrerment des achat");
 
                 case 3 -> DoctorController.displayDoctors();
                 case 4 -> CustomerController.displayCustomersData();
@@ -46,6 +50,10 @@ public class MainMenu {
         }while(!valid);
     }
 
+
+    /**
+     * Permet de sortir de l'application
+     */
     private static void exitApp() {
         System.out.println("Au revoir");
         System.exit(0);
