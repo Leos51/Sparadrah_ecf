@@ -1,21 +1,40 @@
-package fr.sparadrah.ecf.model.entity;
+package fr.sparadrah.ecf.model.person;
 
 import fr.sparadrah.ecf.utils.exception.SaisieException;
 import fr.sparadrah.ecf.utils.validator.Validator;
 
-public class Entity {
+public class Person {
+    private String firstName;
+    private String lastName;
     private String adress;
     private String postCode;
     private String city;
     private String phone;
     private String email;
 
-    public Entity(String adress, String postCode, String city, String phone, String email) throws SaisieException {
+
+    public Person(String lastName, String firstName, String adress, String postCode, String city, String phone, String email) throws SaisieException {
+        this.setLastName(lastName);
+        this.setFirstName(firstName);
         this.setAdress(adress);
         this.setPostCode(postCode);
         this.setCity(city);
         this.setPhone(phone);
         this.setEmail(email);
+
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getAdress() {
@@ -55,7 +74,4 @@ public class Entity {
         }
         this.email = email;
     }
-
-
-
 }

@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.model.medication;
+package fr.sparadrah.ecf.model.medicine;
 
 public class Category {
     private String categoryName;

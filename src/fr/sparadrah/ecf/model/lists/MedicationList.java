@@ -1,26 +1,26 @@
 package fr.sparadrah.ecf.model.lists;
 
-import fr.sparadrah.ecf.model.medication.Medication;
+import fr.sparadrah.ecf.model.medicine.Medicine;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MedicationList {
-    private static List<Medication> medications = new ArrayList<Medication>();
+    private static List<Medicine> medicines = new ArrayList<Medicine>();
 
-    public List<Medication> getMedications() {
-        return medications;
+    public List<Medicine> getMedications() {
+        return medicines;
     }
-    public void setMedications(List<Medication> medications) {
-        this.medications = medications;
-    }
-
-    public static void addMedication(Medication medication) {
-        medications.add(medication);
+    public void setMedications(List<Medicine> medicines) {
+        this.medicines = medicines;
     }
 
+    public static void addMedication(Medicine medicine) {
+        medicines.add(medicine);
+    }
 
-    public void deleteMedication(Medication medication) {
-        this.medications.remove(medication);
+
+    public void deleteMedication(Medicine medicine) {
+        this.medicines.remove(medicine);
     }
 }

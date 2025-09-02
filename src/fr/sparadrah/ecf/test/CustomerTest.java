@@ -1,6 +1,6 @@
 package fr.sparadrah.ecf.test;
 
-import fr.sparadrah.ecf.model.entity.person.Customer;
+import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +15,7 @@ class CustomerTest {
 
     @BeforeEach
     void setUp() throws SaisieException {
-        customer = new Customer("Recto", "Verso", "3 rue Maurice de Broglie", "51000", "Chalons en Champagne", " 03 26 68 03 00", "rectoverso@gmail.com", "1825194528231");
+        customer = new Customer("Recto", "Verso", "3 rue Maurice de Broglie", "51000", "Chalons en Champagne", " 03 26 68 03 00", "rectoverso@gmail.com", "1825194528231", "28-02-2010");
     }
 
     @AfterEach

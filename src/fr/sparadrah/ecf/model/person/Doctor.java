@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.model.entity.person;
+package fr.sparadrah.ecf.model.person;
 
 import fr.sparadrah.ecf.utils.exception.SaisieException;
 

@@ -1,6 +1,6 @@
 package fr.sparadrah.ecf.model.lists;
 
-import fr.sparadrah.ecf.model.medication.Category;
+import fr.sparadrah.ecf.model.medicine.Category;
 
 import java.util.ArrayList;
 import java.util.List;

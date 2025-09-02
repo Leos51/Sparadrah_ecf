@@ -1,26 +1,26 @@
-package fr.sparadrah.ecf.model.entity.person;
+package fr.sparadrah.ecf.model.person;
 
 
+import fr.sparadrah.ecf.model.MutualInsurance;
 import fr.sparadrah.ecf.utils.DateFormat;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
 import fr.sparadrah.ecf.utils.validator.Validator;
 
 import java.time.LocalDate;
 
-import static fr.sparadrah.ecf.utils.DateFormat.parseFR;
 
 public class Customer extends Person {
     private String NIR; //  Le NIR (Numéro d'inscription au Répertoire) est aussi appelé numéro de Sécurité sociale.
     private LocalDate birthDate;
-    private String insuranceCompagny;
-    private String doctorName;
+    private MutualInsurance mutualInsurance;
+    private Doctor doctor;
 
 
     public Customer(String lastName, String firstName, String adress, String postCode, String city, String phone, String email, String NIR , String birthDate) throws SaisieException {
         super(lastName, firstName, adress, postCode, city, phone, email);
-        this.setBirthDate(birthDate);
-        this.setInsuranceCompagny(insuranceCompagny);
-        this.setDoctorName(doctorName);
+        this.setBirthDateFromString(birthDate);
+        this.setMutualInsurance(mutualInsurance);
+        this.setDoctor(doctor);
         this.setNIR(NIR);
     }
 
@@ -34,21 +34,21 @@ public class Customer extends Person {
         this.NIR = NIR;
     }
     public String getBirthDate() {
-        return DateFormat.formatFR(birthDate);
+        return DateFormat.formatDate(birthDate, "dd-MM-yyyy");
     }
-    public void setBirthDate(String birthDate) {
-        this.birthDate = parseFR(birthDate);
+    public void setBirthDateFromString(String birthDate) {
+        this.birthDate = DateFormat.parseDateFromString(birthDate);
     }
-    public String getInsuranceCompagny() {
-        return insuranceCompagny;
+    public MutualInsurance getMutualInsurance() {
+        return mutualInsurance;
     }
-    public void setInsuranceCompagny(String insuranceCompagny) {
-        this.insuranceCompagny = insuranceCompagny;
+    public void setMutualInsurance(MutualInsurance mutualInsurance) {
+        this.mutualInsurance = mutualInsurance;
     }
-    public String getDoctorName() {
-        return doctorName;
+    public Doctor getDoctor() {
+        return doctor;
     }
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 }

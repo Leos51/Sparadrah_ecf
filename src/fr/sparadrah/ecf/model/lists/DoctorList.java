@@ -1,6 +1,6 @@
 package fr.sparadrah.ecf.model.lists;
 
-import fr.sparadrah.ecf.model.entity.person.Doctor;
+import fr.sparadrah.ecf.model.person.Doctor;
 
 import java.util.ArrayList;
 import java.util.List;

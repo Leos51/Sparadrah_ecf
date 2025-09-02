@@ -2,7 +2,7 @@ package fr.sparadrah.ecf.controller;
 
 
 import fr.sparadrah.ecf.model.lists.CategoriesList;
-import fr.sparadrah.ecf.model.medication.Category;
+import fr.sparadrah.ecf.model.medicine.Category;
 
 public class CategoriesController {
     public static void seedCategoriesData(){

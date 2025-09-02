@@ -1,6 +1,6 @@
 package fr.sparadrah.ecf.model.lists;
 
-import fr.sparadrah.ecf.model.entity.person.Customer;
+import fr.sparadrah.ecf.model.person.Customer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +19,17 @@ public class CustomersList {
         getCustomers().add(customer);
     }
 
-    public void deleteCustomer(Customer customer) {
+    public void removeCustomer(Customer customer) {
         getCustomers().remove(customer);
+    }
+
+    public Customer findByNIR(String nir) {
+        for (Customer c : customers) {
+            if (c.getNIR().equals(nir)) {
+                return c;
+            }
+        }
+        return null;
     }
 
 
