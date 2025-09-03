@@ -5,6 +5,9 @@ import fr.sparadrah.ecf.controller.person.DoctorController;
 import fr.sparadrah.ecf.controller.purchase.PurchaseController;
 
 import fr.sparadrah.ecf.utils.UserInput;
+import fr.sparadrah.ecf.view.consoleview.purchase.PurchaseMenu;
+
+import static fr.sparadrah.ecf.utils.UserInput.exitApp;
 
 
 /**
@@ -38,9 +41,7 @@ public class MainMenu {
                 }
             }
             switch (userChoice) {
-                case 1 -> {
-
-                }
+                case 1 -> PurchaseMenu.display();
                 case 2 -> PurchaseController.displayPurchaseData();
                 case 3 -> {
                     DoctorController.displayDoctors();
@@ -56,13 +57,7 @@ public class MainMenu {
         }while(!valid);
     }
 
-    /**
-     * Permet de sortir de l'application
-     */
-    private static void exitApp() {
-        System.out.println("Au revoir");
-        System.exit(0);
-    }
+
 }
 
 

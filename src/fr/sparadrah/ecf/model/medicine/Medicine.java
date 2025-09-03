@@ -1,6 +1,7 @@
 package fr.sparadrah.ecf.model.medicine;
 
 import fr.sparadrah.ecf.utils.DateFormat;
+import fr.sparadrah.ecf.utils.exception.StockInsuffisantException;
 
 import java.time.LocalDate;
 
@@ -9,16 +10,16 @@ public class Medicine {
     private Category categoryName;
     private double price;
     private LocalDate releaseDate;
-    private int quantity;
+    private int stockQuantity;
     private int threshold = 10;
 
 
-    public Medicine(double price, String releaseDate, int quantity, Category categoryName, String medicineName) {
+    public Medicine(double price, String releaseDate, int stockQuantity, Category categoryName, String medicineName) {
         this.setMedicineName(medicineName);
         this.setCategoryName(categoryName);
         this.setPrice(price);
         this.setReleaseDate(releaseDate);
-        this.setQuantity(quantity);
+        this.setStock(stockQuantity);
     }
 
     public String getMedicineName() {
@@ -45,43 +46,52 @@ public class Medicine {
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = DateFormat.parseDateFromString(releaseDate);
     }
-    public int getQuantity() {
-        return quantity;
+    public int getStock() {
+        return stockQuantity;
     }
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setStock(int quantity) {
+        this.stockQuantity = quantity;
     }
 
-    public int reduceQuantity(int quantityToReduce) {
-        if (quantityToReduce > quantity) {
-            System.err.println("Stock insuffisant : " +
-             this.quantity
-             + ". Restock necessaire");
+    public void reduceStock(int quantityToReduce)  {
+        if (quantityToReduce > this.stockQuantity) {
+            throw new StockInsuffisantException("Stock insuffisant !");
         }
-        return quantity - quantityToReduce;
+        this.stockQuantity -= quantityToReduce;
+        if(isLowStock(threshold)) {
+            System.out.println("Stock bas - A restocker : " + this.getMedicineName());
+        }
     }
 
     public void reduceQuantityByOne() {
-        if (quantity > 0) {
-            quantity --;
+        if (stockQuantity > 0) {
+            stockQuantity --;
         }
         if(isLowStock(threshold)) {
-            System.out.println("Stock bas - Reapro necessaire sur : " + this.getMedicineName());
+            System.out.println("Stock bas - A restocker : " + this.getMedicineName());
         }
     }
 
-    public boolean isInStock() {
-        return this.getQuantity() > 0;
+    public void restock(int quantity){
+        this.stockQuantity += quantity;
+    }
 
+
+    public boolean isOutOfStock(){
+        return this.stockQuantity == 0;
     }
+
     public boolean isLowStock(int threshold) {
-       return this.getQuantity() <= threshold ;
+       return this.getStock() <= threshold ;
     }
+
+
+
 
     @Override
     public String toString() {
         return "nom : " + medicineName + " " +
                 ", Prix : " + price +
-                ", Quantité Stock : " + quantity +"\n";
+                ", Quantité Stock : " + this.getStock() +"\n";
     }
 }

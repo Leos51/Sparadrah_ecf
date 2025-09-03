@@ -45,4 +45,12 @@ public class UserInput {
         return word.substring(0, 1).toUpperCase() + word.substring(1);
 
     }
+
+    /**
+     * Permet de sortir de l'application
+     */
+    public static void exitApp() {
+        System.out.println("Au revoir");
+        System.exit(0);
+    }
 }
