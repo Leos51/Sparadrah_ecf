@@ -1,7 +1,6 @@
-package fr.sparadrah.ecf.model;
+package fr.sparadrah.ecf.model.purchase;
 
 import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
-import fr.sparadrah.ecf.model.lists.medicine.PurchasedMedicine;
 import fr.sparadrah.ecf.model.medicine.Medicine;
 import fr.sparadrah.ecf.model.person.Customer;
 
@@ -13,27 +12,33 @@ public class Purchase {
     private LocalDate purchaseDate ;
     private Customer customer;
     private boolean isPrescriptionBased;
-    private static List<PurchasedMedicine> purchasedMedicines = new ArrayList<PurchasedMedicine>();
+    private List<PurchasedMedicine> purchasedMedicines = new ArrayList<PurchasedMedicine>();
 
 
+    public Purchase(Customer customer) {
 
+        this.setCustomer(customer);
+        this.setPurchaseDate(LocalDate.now());
+        this.setPrescriptionBased(false);
+        this.purchasedMedicines = new ArrayList<>();
+    }
     public Purchase(Customer customer, boolean isPrescriptionBased) {
 
         this.setCustomer(customer);
         this.setPurchaseDate(LocalDate.now());
         this.setPrescriptionBased(isPrescriptionBased);
-
-
+        this.purchasedMedicines = new ArrayList<>();
     }
 
     public Purchase(LocalDate purchaseDate , Customer customer, boolean isPrescriptionBased) {
         this.setCustomer(customer);
         this.setPurchaseDate(purchaseDate);
         this.setPrescriptionBased(isPrescriptionBased);
+        this.purchasedMedicines = new ArrayList<>();
 
     }
 
-    private void setPurchaseDate(LocalDate purchaseDate) {
+    public void setPurchaseDate(LocalDate purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
@@ -44,7 +49,7 @@ public class Purchase {
 
 
     public Customer getCustomer() {
-        return customer;
+        return this.customer;
     }
 
     public void setCustomer(Customer customer) {
@@ -56,40 +61,55 @@ public class Purchase {
 //    }
 
 
-    /**
-     * @param medicines
-     */
+
     public void setPurchasedMedicines(List<PurchasedMedicine> medicines) {
         purchasedMedicines = medicines;
     }
+
     public boolean isPrescriptionBased() {
         return isPrescriptionBased;
     }
+
     public void setPrescriptionBased(boolean isPrescriptionBased) {
         this.isPrescriptionBased = isPrescriptionBased;
     }
 
-    public static void addMedicine(Medicine medicine, int quantity) {
-        purchasedMedicines.add(new PurchasedMedicine(medicine,  quantity));
+
+    /**
+     * Ajoute un medicament et sa quantité dans la liste d'achat
+     * @param medicine Nom du medicament
+     * @param quantity Quantité de medicament acheté par le client
+     */
+    public void addMedicine(Medicine medicine, int quantity) {
+        this.purchasedMedicines.add(new PurchasedMedicine(medicine,  quantity));
         medicine.reduceQuantity(quantity);
     }
 
-    /**
-     *
-     * */
+
     public void removePurchasedMedicine(MedicineList medicine, int quantity) {
         purchasedMedicines.remove(medicine);//A creer : une condition permettant de retirer une certaine quantité seulement
     }
 
-    public static List<PurchasedMedicine> getPurchasedMedicines() {
-        return new ArrayList<>(purchasedMedicines);
+    public List<PurchasedMedicine> getPurchasedMedicines() {
+        return new ArrayList<>(this.purchasedMedicines);
     }
 
 
+    public String showDetails() {
+        StringBuilder details = new StringBuilder();
+        details.append(this);
+        for(PurchasedMedicine p : this.purchasedMedicines) {
+            details.append(p.toString());
+        }
+        details.append("\n");
+        return details.toString();
+    }
 
-
-
-
-
-
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("Date d'achat : ").append(this.purchaseDate);
+        sb.append(", Client : ").append(customer);
+        return sb.toString();
+    }
 }

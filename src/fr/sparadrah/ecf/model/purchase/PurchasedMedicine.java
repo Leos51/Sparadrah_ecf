@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.model.lists.medicine;
+package fr.sparadrah.ecf.model.purchase;
 
 import fr.sparadrah.ecf.model.medicine.Medicine;
 
@@ -28,4 +28,15 @@ public class PurchasedMedicine {
         this.quantity = quantity;
     }
 
+
+
+
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("Medicament : ").append(medicine);
+        sb.append(", Quantité : ").append(quantity);
+        return sb.toString();
+    }
 }

@@ -82,8 +82,24 @@ public class Person {
         this.email = email;
     }
 
+
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
+    public String showDetails() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\nAdresse: " + this.getAddress());
+        sb.append("\nCode Postal: " + this.getPostCode());
+        sb.append("\nVille: " + this.getCity());
+        sb.append("\nTéléphone: " + this.getPhone());
+        sb.append("\nEmail: " + this.getEmail());
+        return sb.toString();
+    }
+
+
     @Override
     public String toString() {
-        return this.getFirstName() + " " + this.getLastName();
+        return this.getFullName();
     }
 }

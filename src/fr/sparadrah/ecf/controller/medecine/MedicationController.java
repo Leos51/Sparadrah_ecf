@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.controller;
+package fr.sparadrah.ecf.controller.medecine;
 
 import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrah.ecf.model.medicine.Medicine;
@@ -16,6 +16,12 @@ public class MedicationController {
         MedicineList.addMedicine(doliprane);
         MedicineList.addMedicine(ibuprofen);
 
+
+    }
+
+    public static void displayInventory() {
+        System.out.println("Inventaire des medicaments");
+        System.out.println("--------------------------");
         for (Medicine medicine : MedicineList.getMedicines()) {
             System.out.println(medicine.toString());
         }

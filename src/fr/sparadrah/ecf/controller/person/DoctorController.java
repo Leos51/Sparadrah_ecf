@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.controller;
+package fr.sparadrah.ecf.controller.person;
 
 import fr.sparadrah.ecf.model.lists.person.DoctorList;
 import fr.sparadrah.ecf.model.person.Doctor;
@@ -18,7 +18,9 @@ public class DoctorController {
             System.out.println(doctor);
         }
         System.out.println("--------------");
-        MainMenu.displayMainMenu();
+    }
+    public static void displayDetailDoctor(Doctor doctor){
+        System.out.println(doctor.showDetails());
     }
 
 }

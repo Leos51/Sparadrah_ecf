@@ -1,6 +1,6 @@
 package fr.sparadrah.ecf.test;
 
-import fr.sparadrah.ecf.model.MutualInsurance;
+import fr.sparadrah.ecf.model.person.MutualInsurance;
 import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.utils.DateFormat;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
@@ -9,8 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import java.time.LocalDate;
 
 import static fr.sparadrah.ecf.utils.UserInput.capitalize;
 import static org.junit.jupiter.api.Assertions.*;

@@ -21,6 +21,14 @@ public class DoctorList {
     public void deleteDoctor(Doctor doctor) {
         this.doctors.remove(doctor);
     }
+    public static Doctor findDoctorByCertifNum(String certificateNumber) {
+        for (Doctor d : doctors) {
+            if(certificateNumber.equals(d.getCertificationNumber())){
+                return d;
+            };
+        }
+        return null;
+    }
 
 
 }

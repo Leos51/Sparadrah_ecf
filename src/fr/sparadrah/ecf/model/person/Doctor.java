@@ -17,10 +17,20 @@ public class Doctor extends Person {
         this.certificationNumber = certificationNumber;
     }
 
+
+
+
+    @Override
+    public String showDetails() {
+        StringBuilder details = new StringBuilder();
+        details.append(this);
+        details.append("\n------------------");
+        details.append(super.showDetails());
+        return details.toString();
+    }
+
     @Override
     public String toString() {
-        return "Doctor{" + super.toString() +
-                " - certificationNumber='" + certificationNumber + '\'' +
-                '}';
+        return super.toString() + " - N° agréement : " + this.certificationNumber;
     }
 }

@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.model;
+package fr.sparadrah.ecf.model.person;
 
 import fr.sparadrah.ecf.utils.exception.SaisieException;
 import fr.sparadrah.ecf.utils.validator.Validator;
@@ -87,4 +87,13 @@ public class MutualInsurance {
     }
 
 
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("MutualInsurance{");
+        sb.append("compagnyName='").append(compagnyName).append('\'');
+        sb.append(", reimbursementRate=").append(reimbursementRate);
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.controller;
+package fr.sparadrah.ecf.controller.medecine;
 
 
 import fr.sparadrah.ecf.model.lists.medicine.CategoriesList;
@@ -10,6 +10,8 @@ public class CategoriesController {
         CategoriesList.addCategory(new Category("Anti-inflammatoires"));
         CategoriesList.addCategory(new Category("Antiviraux"));
         CategoriesList.addCategory(new Category("Antibiotiques"));
-        CategoriesList.addCategory(new Category("Antibiotiques"));
+
     }
+
+
 }

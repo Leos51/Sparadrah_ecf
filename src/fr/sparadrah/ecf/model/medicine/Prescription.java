@@ -56,4 +56,8 @@ public class Prescription {
         prescriptedMedicines.remove(medicine);
     }
 
+    @Override
+    public String toString() {
+        return "date prescription : " + getPrescriptingDate() + " - Customer : " + getCustomer();
+    }
 }

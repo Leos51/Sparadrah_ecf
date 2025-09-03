@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.controller;
+package fr.sparadrah.ecf.controller.person;
 
 import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
@@ -17,7 +17,10 @@ public class CustomerController {
         for(Customer customer : CustomersList.getCustomers()){
             System.out.println(customer.toString() );
         }
-        MainMenu.displayMainMenu();
+    }
+
+    public static void displayCustomerDetails(Customer customer){
+        System.out.println(customer.showDetails());
     }
 
 

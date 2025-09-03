@@ -80,10 +80,8 @@ public class Medicine {
 
     @Override
     public String toString() {
-        return "Medicine{" +
-                "medicineName='" + medicineName + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                '}';
+        return "nom : " + medicineName + " " +
+                ", Prix : " + price +
+                ", Quantité Stock : " + quantity +"\n";
     }
 }

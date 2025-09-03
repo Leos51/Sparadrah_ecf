@@ -11,6 +11,7 @@ public class PrescriptionList {
     public static List<Prescription> getPrescriptionList(){
         return prescriptionList;
     }
+
     public static void addPrescription(Prescription p){
         prescriptionList.add(p);
     }

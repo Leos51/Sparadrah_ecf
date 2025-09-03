@@ -1,7 +1,8 @@
 package fr.sparadrah.ecf.model.person;
 
 
-import fr.sparadrah.ecf.model.MutualInsurance;
+import fr.sparadrah.ecf.model.lists.person.CustomersList;
+import fr.sparadrah.ecf.model.lists.person.DoctorList;
 import fr.sparadrah.ecf.utils.DateFormat;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
 import fr.sparadrah.ecf.utils.validator.Validator;
@@ -54,15 +55,35 @@ public class Customer extends Person {
     public void setMutualInsurance(MutualInsurance mutualInsurance) {
         this.mutualInsurance = mutualInsurance;
     }
+
     public Doctor getDoctor() {
         return doctor;
     }
-    public void setDoctor(Doctor doctor) {
+    private void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+    public void setDoctorByCertifNum(String str) throws SaisieException {
+        Doctor doctorTemp = DoctorList.findDoctorByCertifNum(str);
+        if(doctorTemp == null){
+            throw new SaisieException("Numéro d’agréement inconnu");
+        }
+        this.setDoctor(doctorTemp);
+    }
+
+
+
+    @Override
+    public String showDetails() {
+        StringBuilder details = new StringBuilder();
+        details.append(this);
+        details.append("\n------------------");
+        details.append(super.showDetails());
+        return details.toString();
     }
 
     @Override
     public String toString() {
-        return super.toString() + "\nNIR : " + this.getNir()+"\n---------------\n";
+        return super.toString() +
+                " - NIR : " + this.getNir();
     }
 }

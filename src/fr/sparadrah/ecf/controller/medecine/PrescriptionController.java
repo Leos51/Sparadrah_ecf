@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.controller;
+package fr.sparadrah.ecf.controller.medecine;
 
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
 import fr.sparadrah.ecf.model.lists.person.DoctorList;

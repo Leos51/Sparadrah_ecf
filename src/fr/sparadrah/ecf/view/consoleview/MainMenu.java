@@ -1,9 +1,9 @@
 package fr.sparadrah.ecf.view.consoleview;
 
-import fr.sparadrah.ecf.controller.CustomerController;
-import fr.sparadrah.ecf.controller.DoctorController;
-import fr.sparadrah.ecf.controller.PrescriptionController;
-import fr.sparadrah.ecf.controller.PurchaseController;
+import fr.sparadrah.ecf.controller.person.CustomerController;
+import fr.sparadrah.ecf.controller.person.DoctorController;
+import fr.sparadrah.ecf.controller.purchase.PurchaseController;
+
 import fr.sparadrah.ecf.utils.UserInput;
 
 
@@ -37,19 +37,24 @@ public class MainMenu {
                     break;
                 }
             }
-
             switch (userChoice) {
-                case 1 -> System.out.println("Achat a effectuer");
-                case 2 -> PurchaseController.seedPurchaseData();
+                case 1 -> {
 
-                case 3 -> DoctorController.displayDoctors();
-                case 4 -> CustomerController.displayCustomersData();
+                }
+                case 2 -> PurchaseController.displayPurchaseData();
+                case 3 -> {
+                    DoctorController.displayDoctors();
+                    DoctorMenu.detailDoctorMenu();
+                }
+                case 4 -> {
+                    CustomerController.displayCustomersData();
+                    CustomerMenu.detailCustomerMenu();
+                }
                 case 0 -> exitApp();
                 default -> System.err.println("Choix invalide.");
             }
         }while(!valid);
     }
-
 
     /**
      * Permet de sortir de l'application
