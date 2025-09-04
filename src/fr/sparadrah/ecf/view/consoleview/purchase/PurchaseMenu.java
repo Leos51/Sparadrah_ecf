@@ -116,6 +116,7 @@ public class PurchaseMenu {
 
             addMore = res.equalsIgnoreCase("o");
         }while(addMore);
+        printReceipt(purchase);
     }
 
     public void calculateReimbursement(Boolean isPrescriptionBased){
@@ -129,4 +130,47 @@ public class PurchaseMenu {
 //                .forEach(item -> totalPrice.updateAndGet(v -> new Double((double) (v + item.getMedicine().getPrice() * item.getQuantity()))));
 //        System.out.println("total : " + totalPrice);
 //    }
+
+    public static void printReceipt(Purchase purchase){
+        String customerName = purchase.getCustomer().getFullName();
+        String purchaseDate = purchase.getPurchaseDate().toString();
+        String purchaseType = purchase.isPrescriptionBased() ?
+                "Avec prescription":
+                "Sans prescription";
+        boolean isPrescriptionBased = purchase.isPrescriptionBased();
+        boolean isMutualInsurance = purchase.getCustomer().getMutualInsurance() != null;
+
+        AtomicReference<Double> totalPrice = new AtomicReference<>((double) 0);
+
+
+
+
+        System.out.println("============================");
+        System.out.println("Ticket de caisse - Sparadrah");
+        System.out.println("============================");
+        System.out.println("Client : " + customerName);
+        System.out.println("Date: " + purchaseDate);
+        System.out.println("Type d'achat : " + purchaseType);
+        System.out.println("----------------------------");
+        System.out.println("__________________________________________________");
+        System.out.println("| Designation | Prix unitaire x quantité | Total |");
+        System.out.println("--------------------------------------------------");
+        purchase.getPurchasedMedicines().forEach(item -> {
+            String medName = item.getMedicine().getMedicineName();
+            double medPrice = item.getMedicine().getPrice();
+            int purchaseQuantity = item.getQuantity();
+            double lineTotalPrice = medPrice * purchaseQuantity;
+             totalPrice.updateAndGet(v -> new Double((double) (v + lineTotalPrice)));
+            System.out.println("| " + medName + " | " + medPrice + " x " + purchaseQuantity + " | " + lineTotalPrice + " |");
+        });
+
+
+        System.out.println("Total : " + totalPrice);
+        if(isPrescriptionBased && isMutualInsurance){
+            System.out.println("Reduction possible !");
+        }
+        System.out.println("____________________________");
+
+
+    }
 }
