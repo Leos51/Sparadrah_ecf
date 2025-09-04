@@ -2,6 +2,7 @@ package fr.sparadrah.ecf.model.purchase;
 
 import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrah.ecf.model.medicine.Medicine;
+import fr.sparadrah.ecf.model.medicine.Prescription;
 import fr.sparadrah.ecf.model.person.Customer;
 
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ public class Purchase {
     private LocalDate purchaseDate ;
     private Customer customer;
     private boolean isPrescriptionBased;
+    private Prescription prescription;
     private List<PurchasedMedicine> purchasedMedicines = new ArrayList<PurchasedMedicine>();
 
 
@@ -37,6 +39,16 @@ public class Purchase {
         this.purchasedMedicines = new ArrayList<>();
 
     }
+
+    public void setPrescription(Prescription prescription) {
+        this.prescription = prescription;
+    }
+
+    public Prescription getPrescription() {
+        return prescription;
+    }
+
+
 
     public void setPurchaseDate(LocalDate purchaseDate) {
         this.purchaseDate = purchaseDate;
@@ -81,12 +93,17 @@ public class Purchase {
      * @param quantity Quantité de medicament acheté par le client
      */
     public void addMedicine(Medicine medicine, int quantity) {
+
         this.purchasedMedicines.add(new PurchasedMedicine(medicine,  quantity));
-        medicine.reduceQuantity(quantity);
+        medicine.reduceStock(quantity);
+    }
+
+    public void reducePurchasedMedicine(Medicine medicine, int quantity) {
+
     }
 
 
-    public void removePurchasedMedicine(MedicineList medicine, int quantity) {
+    public void removePurchasedMedicine(MedicineList medicine) {
         purchasedMedicines.remove(medicine);//A creer : une condition permettant de retirer une certaine quantité seulement
     }
 

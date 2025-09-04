@@ -8,67 +8,100 @@ import fr.sparadrah.ecf.model.purchase.Purchase;
 import fr.sparadrah.ecf.model.purchase.PurchasedMedicine;
 import fr.sparadrah.ecf.utils.UserInput;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
+import fr.sparadrah.ecf.utils.exception.StockInsuffisantException;
 import fr.sparadrah.ecf.view.consoleview.MainMenu;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static fr.sparadrah.ecf.controller.purchase.PurchaseController.purchaseMedicineInList;
+import static fr.sparadrah.ecf.utils.UserInput.exitApp;
 
 public class PurchaseMenu {
-    private void addPurchaseMenu(){
-        System.out.println("-----------------------------");
-        System.out.println("1 - Achat sur ordonnance");
-        System.out.println("2 - Achat sans ordonnance");
-        System.out.println("0 - Retour au menu principal");
-    }
 
-    private void choiceAddPurchaseMenu() throws SaisieException {
-        int[] validChoices = {0,1,2};
-        boolean valid = false;
-        int userChoice;
+    public static void display() {
+        String userChoice;
+        while(true){
+            System.out.println("-----------------------------");
+            System.out.println("1 - Achat direct");
+            System.out.println("2 - Achat avec ordonnance");
+            System.out.println("0 - Retour au menu principal");
+            System.out.println("Q - Quitter l'application");
 
-        do {
-            userChoice = UserInput.getIntValue("Votre Choix [1,2] ou [0] pour retourner au menu principal : ");
-
-            for(int validChoice : validChoices){
-                if(validChoice == userChoice){
-                    valid = true;
-                    break;
-                }
-            }
+            userChoice = UserInput.getStringValue("Votre Choix : ").trim().toUpperCase();
             switch (userChoice) {
-                case 0 -> MainMenu.displayMainMenu();
-                case 1 -> purchaseByPrescription();
-                case 2 -> purchaseWhithoutPrescription();
-                default -> System.out.println("choix invalide");
+                case "1" -> createPurchase(false);
+                case "2" -> createPurchase(true);
+                case "0" -> MainMenu.displayMainMenu();
+                case "Q" -> exitApp();
+                default -> System.err.println("Choix invalide");
             }
-        }while(!valid);
-
+        }
     }
 
+    private static void createPurchase(Boolean isPrescriptionBased){
+        System.out.println("Achat de medicaments");
+        System.out.println("-----------------------------");
+        String str = isPrescriptionBased ?
+                "Achat avec ordonnance":
+                "Achat sans ordonnance";
+        System.out.println(str);
+        System.out.println("-----------------------------");
 
-    private void purchaseByPrescription(){
-        System.out.println("Achat avec ordonnance");
-    }
-    private void purchaseWhithoutPrescription() throws SaisieException {
-       List<PurchasedMedicine> temp = new ArrayList<>();
-
-        System.out.println("Achat sans ordonnance");
-        String customerName = UserInput.getStringValue("Saisir le numero de securité social du Client : ");
-        Customer customer = CustomersList.findByNir(customerName);
+        // Saisie client
+        String nir = UserInput.getStringValue("Numéro de sécurité sociale du client : ");
+        Customer customer = CustomersList.findByNir(nir);
         if(customer == null){
-            System.err.println("Le nir n'est pas enregistré");
+            System.err.println("Client introuvable");
+            return;
         }
-        Purchase p = new Purchase(customer);
+        // Création de l’achat
+        Purchase p = new Purchase(customer , isPrescriptionBased);
+
+        // Ajout de medicament
+        boolean addMed = false;
+        do{
+            String medicineName = UserInput.getStringValue("Nom du medicament : ");
+            Medicine medicine = MedicineList.findMedicineByName(medicineName);
+            if(medicine == null){
+                System.err.println("Médicament introuvable");
+                continue;
+            }
+            int quantity = UserInput.getIntValue("Quantite de ce medicament :");
+            try{
+                p.addMedicine(medicine, quantity);
+            }catch(StockInsuffisantException e){
+                System.err.println(e.getMessage());
+            }
+            p.addMedicine(medicine, quantity);
+            String res;
+            do{
+                res = UserInput.getStringValue("Ajouter un autre medicament? (o/n)").trim().toLowerCase();
+            }while(!res.equalsIgnoreCase("o")&&!res.equalsIgnoreCase("n") );
+
+            addMed = res.equalsIgnoreCase("o");
+        }while(addMed);
+        System.out.println(" Achat enregistré !");
+
+
+
+
+
+
+
+
+
+    }
+
+
+    private void purchaseWhithoutPrescription() throws SaisieException {
+
+
+
+
+
         System.out.println("Enregistrement des medicaments dans la liste d'achat :");
-        String medicineName = UserInput.getStringValue("Nom du medicament : ");
-        Medicine medicine = MedicineList.findMedicineByName(medicineName);
-        if(medicine == null){
-            throw new SaisieException("Medicament non inventorié ou saisie incorrect");
-        }
-        int quantity = UserInput.getIntValue("Quantite de ce medicament :");
-        p.addMedicine(medicine, quantity);
+
         System.out.println("");
 
 
