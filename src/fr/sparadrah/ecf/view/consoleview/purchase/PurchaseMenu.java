@@ -6,6 +6,7 @@ import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
 import fr.sparadrah.ecf.model.medicine.Medicine;
 import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.model.purchase.Purchase;
+import fr.sparadrah.ecf.model.purchase.PurchasedMedicine;
 import fr.sparadrah.ecf.utils.UserInput;
 import fr.sparadrah.ecf.utils.exception.StockInsuffisantException;
 import fr.sparadrah.ecf.view.consoleview.MainMenu;
@@ -120,16 +121,11 @@ public class PurchaseMenu {
     }
 
     public void calculateReimbursement(Boolean isPrescriptionBased){
-        System.out.println("sd");
+
+
     }
 
-//    public static void printReceipt(Purchase purchase){
-//        AtomicReference<Double> totalPrice = new AtomicReference<>((double) 0);
-//        purchase.getPurchasedMedicines().stream().forEach(System.out::println);
-//        purchase.getPurchasedMedicines()
-//                .forEach(item -> totalPrice.updateAndGet(v -> new Double((double) (v + item.getMedicine().getPrice() * item.getQuantity()))));
-//        System.out.println("total : " + totalPrice);
-//    }
+
 
     public static void printReceipt(Purchase purchase){
         String customerName = purchase.getCustomer().getFullName();
@@ -139,11 +135,6 @@ public class PurchaseMenu {
                 "Sans prescription";
         boolean isPrescriptionBased = purchase.isPrescriptionBased();
         boolean isMutualInsurance = purchase.getCustomer().getMutualInsurance() != null;
-
-        AtomicReference<Double> totalPrice = new AtomicReference<>((double) 0);
-
-
-
 
         System.out.println("============================");
         System.out.println("Ticket de caisse - Sparadrah");
@@ -155,22 +146,27 @@ public class PurchaseMenu {
         System.out.println("__________________________________________________");
         System.out.println("| Designation | Prix unitaire x quantité | Total |");
         System.out.println("--------------------------------------------------");
-        purchase.getPurchasedMedicines().forEach(item -> {
-            String medName = item.getMedicine().getMedicineName();
-            double medPrice = item.getMedicine().getPrice();
-            int purchaseQuantity = item.getQuantity();
-            double lineTotalPrice = medPrice * purchaseQuantity;
-             totalPrice.updateAndGet(v -> new Double((double) (v + lineTotalPrice)));
-            System.out.println("| " + medName + " | " + medPrice + " x " + purchaseQuantity + " | " + lineTotalPrice + " |");
-        });
+        double totalPrice = purchase.getPurchasedMedicines().stream().mapToDouble(
+                item -> {
+                    String medName = item.getMedicine().getMedicineName();
+                    double medPrice = item.getMedicine().getPrice();
+                    int purchaseQuantity = item.getQuantity();
+                    double lineTotalPrice = medPrice * purchaseQuantity;
+
+                    System.out.println("| " + medName + " | " + medPrice + " x " + purchaseQuantity + " | " + lineTotalPrice + " |");
+                    return lineTotalPrice;
+                }
+        ).sum();
 
 
         System.out.println("Total : " + totalPrice);
         if(isPrescriptionBased && isMutualInsurance){
-            System.out.println("Reduction possible !");
+            double reimbursementRate = purchase.getCustomer().getMutualInsurance().getReimbursementRate();
+            double reimbursement = totalPrice * reimbursementRate;
+            double totalAfterReimbursement = totalPrice - reimbursement;
+            System.out.println("Reduction : " + reimbursement);
+            System.out.println("Total apres reduction : " + totalAfterReimbursement);
         }
         System.out.println("____________________________");
-
-
     }
 }
