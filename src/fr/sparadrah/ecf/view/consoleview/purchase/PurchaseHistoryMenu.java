@@ -80,7 +80,7 @@ public class PurchaseHistoryMenu {
                     displayPurchaseHistoryMenu();
                 }
                 case 4 -> {
-                    displaydetailPurchaseMenu()
+                    displaydetailPurchaseMenu();
                 }
                 case 0 -> displayMainMenu();
                 default -> System.err.println("Erreur");
