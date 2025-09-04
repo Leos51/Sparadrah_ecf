@@ -3,18 +3,21 @@ package fr.sparadrah.ecf.model.person;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
 
 public class Doctor extends Person {
-    private String certificationNumber;
-    public Doctor(String lastName, String firstName, String adress, String postalCode, String city, String phone, String email, String certificationNumber) throws SaisieException {
+    private String licenseNumber;
+
+
+
+    public Doctor(String lastName, String firstName, String adress, String postalCode, String city, String phone, String email, String licenseNumber) throws SaisieException {
         super(lastName, firstName, adress, postalCode, city, phone, email);
-        this.setCertificationNumber(certificationNumber);
+        this.setlicenseNumber(licenseNumber);
     }
 
-    public String getCertificationNumber() {
-        return certificationNumber;
+    public String getLicenseNumber() {
+        return licenseNumber;
     }
 
-    public void setCertificationNumber(String certificationNumber) {
-        this.certificationNumber = certificationNumber;
+    public void setlicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
     }
 
 
@@ -31,6 +34,6 @@ public class Doctor extends Person {
 
     @Override
     public String toString() {
-        return super.toString() + " - N° agréement : " + this.certificationNumber;
+        return super.toString() + " - N° agréement : " + this.licenseNumber;
     }
 }

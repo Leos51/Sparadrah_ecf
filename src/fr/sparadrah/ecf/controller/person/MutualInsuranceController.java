@@ -6,13 +6,9 @@ import fr.sparadrah.ecf.utils.exception.SaisieException;
 
 public class MutualInsuranceController {
     public static void seedMutualInsuranceData() throws SaisieException {
-        MutualInsuranceList.addInsuranceCompany(new MutualInsurance("Macif", "Marne", 30, "49 rue Verso", "51000", "Chalons", "0325426512", "contact@macif.com"));
+        MutualInsuranceList.addInsuranceCompany(new MutualInsurance("Macif", "Marne", 0.15, "49 rue Verso", "51000", "Chalons", "0325426512", "contact@macif.com"));
+        MutualInsuranceList.addInsuranceCompany(new MutualInsurance("Assurtou", "Marne", 0.3, "49 rue Rerso", "51540", "Balons", "0325426513", "contact@massurtou.com"));
 
-
-//        for(MutualInsurance mi : MutualInsuranceList.getMutualInsuranceList()){
-//            System.out.println(mi.toString());
-//
-//        }
     }
 
 

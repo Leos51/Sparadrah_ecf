@@ -2,23 +2,23 @@ package fr.sparadrah.ecf.view.consoleview.purchase;
 
 import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
+import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
 import fr.sparadrah.ecf.model.medicine.Medicine;
 import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.model.purchase.Purchase;
-import fr.sparadrah.ecf.model.purchase.PurchasedMedicine;
 import fr.sparadrah.ecf.utils.UserInput;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
 import fr.sparadrah.ecf.utils.exception.StockInsuffisantException;
 import fr.sparadrah.ecf.view.consoleview.MainMenu;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
-import static fr.sparadrah.ecf.controller.purchase.PurchaseController.purchaseMedicineInList;
 import static fr.sparadrah.ecf.utils.UserInput.exitApp;
 
 public class PurchaseMenu {
 
+    /**
+     * Affiche le menu d'achat
+     */
     public static void display() {
         String userChoice;
         while(true){
@@ -32,21 +32,20 @@ public class PurchaseMenu {
             switch (userChoice) {
                 case "1" -> createPurchase(false);
                 case "2" -> createPurchase(true);
-                case "0" -> MainMenu.displayMainMenu();
+                case "0" -> MainMenu.display();
                 case "Q" -> exitApp();
                 default -> System.err.println("Choix invalide");
             }
         }
     }
 
+    /**
+     * Enregistre un achat de medicament et liste celui-ci dans l'historique
+     * @param isPrescriptionBased  permet de modifier le label et d'enclencher une reduction
+     */
     private static void createPurchase(Boolean isPrescriptionBased){
-        System.out.println("Achat de medicaments");
-        System.out.println("-----------------------------");
-        String str = isPrescriptionBased ?
-                "Achat avec ordonnance":
-                "Achat sans ordonnance";
-        System.out.println(str);
-        System.out.println("-----------------------------");
+        displayPurchaseHeader(isPrescriptionBased); //Header de la zone d'achat
+
 
         // Saisie client
         String nir = UserInput.getStringValue("Numéro de sécurité sociale du client : ");
@@ -59,8 +58,41 @@ public class PurchaseMenu {
         Purchase p = new Purchase(customer , isPrescriptionBased);
 
         // Ajout de medicament
-        boolean addMed = false;
+        addMedicineToPurchase(p);
+//        printReceipt(p);
+
+//        if(customer.getMutualInsurance() != null && isPrescriptionBased){
+//            double reimbursementRate = customer.getMutualInsurance().getReimbursementRate();
+//            totalPrice -= totalPrice * reimbursementRate;
+//            System.out.println("total apres reduction : " + totalPrice);
+//        }
+
+
+
+
+        //Ajout de l'achat effectué dasn la liste dans l'historique des achats
+        PurchasesList.addPurchase(p);
+        System.out.println(" Achat enregistré !");
+    }
+
+    private static void displayPurchaseHeader(Boolean isPrescriptionBased) {
+        String label = isPrescriptionBased ?
+                "Achat avec ordonnance":
+                "Achat sans ordonnance";
+
+        System.out.println("-----------------------------");
+        System.out.println("Achat de medicaments - " + label);
+        System.out.println("-----------------------------");
+    }
+
+    /**
+     * Ajoute des medicaments en stock à la liste d'achat
+     * @param purchase Achat en cours
+     */
+    public static void addMedicineToPurchase(Purchase purchase){
+        boolean addMore = false;
         do{
+
             String medicineName = UserInput.getStringValue("Nom du medicament : ");
             Medicine medicine = MedicineList.findMedicineByName(medicineName);
             if(medicine == null){
@@ -69,83 +101,32 @@ public class PurchaseMenu {
             }
             int quantity = UserInput.getIntValue("Quantite de ce medicament :");
             try{
-                p.addMedicine(medicine, quantity);
+                purchase.addMedicine(medicine, quantity);
+
+
             }catch(StockInsuffisantException e){
                 System.err.println(e.getMessage());
             }
-            p.addMedicine(medicine, quantity);
-            String res;
+            String res = "";
             do{
-                res = UserInput.getStringValue("Ajouter un autre medicament? (o/n)").trim().toLowerCase();
-            }while(!res.equalsIgnoreCase("o")&&!res.equalsIgnoreCase("n") );
+                res = UserInput.getStringValue("Ajouter un autre medicament? (o/n)").trim();
+            }while(
+                    !res.equalsIgnoreCase("o") &&
+                            !res.equalsIgnoreCase("n") );
 
-            addMed = res.equalsIgnoreCase("o");
-        }while(addMed);
-        System.out.println(" Achat enregistré !");
-
-
-
-
-
-
-
-
-
+            addMore = res.equalsIgnoreCase("o");
+        }while(addMore);
     }
 
-
-    private void purchaseWhithoutPrescription() throws SaisieException {
-
-
-
-
-
-        System.out.println("Enregistrement des medicaments dans la liste d'achat :");
-
-        System.out.println("");
-
-
-
-
-
-
-
-
-        String medecineName = UserInput.getStringValue("Saisir le nom du medicament : ");
-        Medicine m = MedicineList.findMedicineByName(medecineName);
-        if(m == null){
-            System.err.println("Le medicament n'est pas inventorié");
-        }
+    public void calculateReimbursement(Boolean isPrescriptionBased){
+        System.out.println("sd");
     }
 
-    public void addMedToListMenu(){
-        System.out.println("Ajouter un medicament?");
-        System.out.println("1 - Ajouter un medicament");
-        System.out.println("2 - Clore la liste des medicaments et continuer");
-        System.out.println("0 - Annuler et retourner au menu principal");
-
-    }
-    public void choiceAddMedToListMenu() throws SaisieException {
-        int[] validChoices = {0,1,2};
-        boolean valid = false;
-        int userChoice;
-
-        do {
-            userChoice = UserInput.getIntValue("Votre Choix [1,2] ou [0] pour annuler : ");
-
-            for(int validChoice : validChoices){
-                if(validChoice == userChoice){
-                    valid = true;
-                    break;
-                }
-            }
-            switch (userChoice){
-                case 0 -> MainMenu.displayMainMenu();
-                case 1 -> purchaseMedicineInList();
-                case 2 -> {System.out.println("Liste Prete");
-                }
-            }
-        }while(!valid);
-
-    }
+//    public static void printReceipt(Purchase purchase){
+//        AtomicReference<Double> totalPrice = new AtomicReference<>((double) 0);
+//        purchase.getPurchasedMedicines().stream().forEach(System.out::println);
+//        purchase.getPurchasedMedicines()
+//                .forEach(item -> totalPrice.updateAndGet(v -> new Double((double) (v + item.getMedicine().getPrice() * item.getQuantity()))));
+//        System.out.println("total : " + totalPrice);
+//    }
 }

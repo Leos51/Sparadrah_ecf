@@ -40,6 +40,8 @@ public class Purchase {
 
     }
 
+
+
     public void setPrescription(Prescription prescription) {
         this.prescription = prescription;
     }
@@ -67,10 +69,6 @@ public class Purchase {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
-//    public List<PurchasedMedicine> getPurchasedMedicines() {
-//        return purchasedMedicines;
-//    }
 
 
 
@@ -104,7 +102,7 @@ public class Purchase {
 
 
     public void removePurchasedMedicine(MedicineList medicine) {
-        purchasedMedicines.remove(medicine);//A creer : une condition permettant de retirer une certaine quantité seulement
+        purchasedMedicines.remove(medicine);
     }
 
     public List<PurchasedMedicine> getPurchasedMedicines() {

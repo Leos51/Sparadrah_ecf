@@ -14,9 +14,18 @@ public class PurchasesList {
         return purchases;
     }
 
+    /**
+     * Ajoute un achat a la liste d'achat
+     * @param purchase Achat effectué
+     */
     public static void addPurchase(Purchase purchase){
         purchases.add(purchase);
     }
+
+    /**
+     * Supprime un achat de la liste
+     * @param purchase
+     */
     public void removePurchase(Purchase purchase){
         purchases.remove(purchase);
     }

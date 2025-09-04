@@ -21,9 +21,9 @@ public class DoctorList {
     public void deleteDoctor(Doctor doctor) {
         this.doctors.remove(doctor);
     }
-    public static Doctor findDoctorByCertifNum(String certificateNumber) {
+    public static Doctor findDoctorByLicenseNumber(String certificateNumber) {
         for (Doctor d : doctors) {
-            if(certificateNumber.equals(d.getCertificationNumber())){
+            if(certificateNumber.equals(d.getLicenseNumber())){
                 return d;
             };
         }

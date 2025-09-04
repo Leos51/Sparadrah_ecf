@@ -32,7 +32,7 @@ public class DateFormat {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             return LocalDate.parse(dateStr, formatter);
         } catch (DateTimeParseException e) {
-            System.out.println("Invalid date format. Please use dd/MM/yyyy.");
+            System.err.println("Format de date invalide. Utilisez \"dd/MM/yyyy\".\n" + e.getMessage());
         }
         return null;
     }

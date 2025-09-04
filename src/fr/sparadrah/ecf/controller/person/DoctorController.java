@@ -9,6 +9,7 @@ public class DoctorController {
 
     public static void seedDoctorData() throws SaisieException {
         DoctorList.addDoctor(new Doctor("Nimous", "Ano","Adress 1", "51000", "Sanru","0123456987","ano@nimous.fr","123456789"));
+        DoctorList.addDoctor(new Doctor("Doc", "Abi","10 Parru", "52000", "Parus","0123456997","ano@daim.fr","123456780"));
     }
 
     public static void displayDoctors(){

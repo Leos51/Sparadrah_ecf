@@ -22,7 +22,7 @@ public class MutualInsuranceList {
         getMutualInsuranceList().remove(mutualInsurance);
     }
 
-    public MutualInsurance findMutualInsuranceByName(String mutualInsuranceName) {
+    public static MutualInsurance findMutualInsuranceByName(String mutualInsuranceName) {
         for (MutualInsurance mutualInsurance : mutualinsuranceList) {
             if(mutualInsuranceName.equalsIgnoreCase(mutualInsurance.getCompagnyName())){
                 return mutualInsurance;

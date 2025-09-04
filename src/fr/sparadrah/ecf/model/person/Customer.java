@@ -17,7 +17,7 @@ public class Customer extends Person {
     private Doctor doctor;
 
 
-    public Customer(String lastName, String firstName, String address, String postCode, String city, String phone, String email, String nir , String birthDate, MutualInsurance mutualInsurance) throws SaisieException {
+    public Customer(String lastName, String firstName, String address, String postCode, String city, String phone, String email, String nir , String birthDate, MutualInsurance mutualInsurance, Doctor doctor) throws SaisieException {
         super(lastName, firstName, address, postCode, city, phone, email);
         this.setBirthDateFromString(birthDate);
         this.setMutualInsurance(mutualInsurance);
@@ -62,8 +62,9 @@ public class Customer extends Person {
     private void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
-    public void setDoctorByCertifNum(String str) throws SaisieException {
-        Doctor doctorTemp = DoctorList.findDoctorByCertifNum(str);
+
+    public void setDoctorByLicenseNumber(String str) throws SaisieException {
+        Doctor doctorTemp = DoctorList.findDoctorByLicenseNumber(str);
         if(doctorTemp == null){
             throw new SaisieException("Numéro d’agréement inconnu");
         }
@@ -78,6 +79,16 @@ public class Customer extends Person {
         details.append(this);
         details.append("\n------------------");
         details.append(super.showDetails());
+        details.append("\nMutuelle : ");
+        details.append(this.getMutualInsurance() != null?
+                this.getMutualInsurance():
+                "Pas de Mutuelle"
+                );
+        details.append("\nDoctor : ");
+        details.append(this.getDoctor() != null?
+                this.getDoctor():
+                "Pas de medecin réferent"
+        );
         return details.toString();
     }
 

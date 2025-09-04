@@ -22,12 +22,16 @@ public class CustomersList {
     }
 
     public static Customer findByNir(String nir) {
-        for (Customer c : customers) {
-            if (c.getNir().equals(nir)) {
-                return c;
-            }
-        }
-        return null;
+//        for (Customer c : customers) {
+//            if (c.getNir().equals(nir)) {
+//                return c;
+//            }
+//        }
+        return customers
+                .stream()
+                .filter(c -> c.getNir().equals(nir))
+                .findFirst()
+                .orElse(null);
     }
 
 

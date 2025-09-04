@@ -34,7 +34,7 @@ public class Main {
 
 
 
-        MainMenu.displayMainMenu();
+        MainMenu.display();
 
     }
 }

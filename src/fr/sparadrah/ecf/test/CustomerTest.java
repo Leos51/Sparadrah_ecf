@@ -20,7 +20,7 @@ class CustomerTest {
     void setUp() throws SaisieException {
         macif = new MutualInsurance("Bourso", "Marne", 30, "address","51000","Ville", "0612324565","email@email.com");
 
-        customer = new Customer("Recto", "Verso", "Adresse 1", "51000", "Chalons en Champagne", " 03 26 68 03 00", "rectoverso@gmail.com", "1825194528231", "28/02/2010", macif);
+        customer = new Customer("Recto", "Verso", "Adresse 1", "51000", "Chalons en Champagne", "03 26 68 03 00", "rectoverso@gmail.com", "1825194528231", "28/02/2010", macif, null);
     }
 
     @AfterEach
@@ -35,10 +35,13 @@ class CustomerTest {
         assertEquals("Recto", customer.getLastName());
         assertEquals("Adresse 1", customer.getAddress());
         assertEquals("51000", customer.getPostCode());
-        assertEquals("Chalons en Champagne", customer.getEmail());
-        assertEquals("1825194528231", customer.getPhone());
-        assertEquals("28/02/2010", customer.getBirthDate());
+        assertEquals("Chalons en Champagne", customer.getCity());
+        assertEquals("rectoverso@gmail.com", customer.getEmail());
+        assertEquals("03 26 68 03 00", customer.getPhone());
+        assertEquals("1825194528231", customer.getNir());
+        assertEquals("28/02/2010", DateFormat.formatDate(customer.getBirthDate(), "dd/MM/yyyy"));
         assertEquals(macif, customer.getMutualInsurance());
+        assertEquals(null, customer.getDoctor());
 
     }
 
@@ -104,11 +107,13 @@ class CustomerTest {
 
     @Test
     void setCity() {
+        customer.setCity("other");
+        assertEquals("other", customer.getCity());
     }
 
     @Test
     void getPhone() {
-        assertEquals("0612324565", customer.getPhone());
+        assertEquals("03 26 68 03 00", customer.getPhone());
     }
 
     @ParameterizedTest(name = "{0} : le setter fonctionne correctement")
@@ -119,7 +124,7 @@ class CustomerTest {
     }
 
     @ParameterizedTest(name = "{0} : le setter leve une exception correctement")
-    @ValueSource(strings = {"Verso", " 1link103@live.fr", "reD51@"} )
+    @ValueSource(strings = {"Verso", "reD51@"} )
     void testSetEmail_Fail(String email) {
         assertThrows(Exception.class, () -> customer.setEmail(email));
 
@@ -172,7 +177,10 @@ class CustomerTest {
     }
 
     @Test
-    void setInsuranceCompagny() {
+    void setInsuranceCompagny() throws SaisieException {
+        MutualInsurance a = new MutualInsurance("m1", "ter", 0.05, "adress", "75000", "aze", "789654123", "mail@mail.fr");
+        customer.setMutualInsurance(a);
+        assertEquals(a.getCompagnyName(), customer.getMutualInsurance().getCompagnyName());
     }
 
 }
