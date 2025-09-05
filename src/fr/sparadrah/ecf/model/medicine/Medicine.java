@@ -1,7 +1,9 @@
 package fr.sparadrah.ecf.model.medicine;
 
 import fr.sparadrah.ecf.utils.DateFormat;
+import fr.sparadrah.ecf.utils.exception.SaisieException;
 import fr.sparadrah.ecf.utils.exception.StockInsuffisantException;
+import fr.sparadrah.ecf.utils.validator.Validator;
 
 import java.time.LocalDate;
 
@@ -14,7 +16,7 @@ public class Medicine {
     private int threshold = 10;
 
 
-    public Medicine(double price, String releaseDate, int stockQuantity, Category categoryName, String medicineName) {
+    public Medicine(double price, String releaseDate, int stockQuantity, Category categoryName, String medicineName) throws SaisieException {
         this.setMedicineName(medicineName);
         this.setCategoryName(categoryName);
         this.setPrice(price);
@@ -25,31 +27,49 @@ public class Medicine {
     public String getMedicineName() {
         return medicineName;
     }
-    public void setMedicineName(String medicineName) {
+    public void setMedicineName(String medicineName) throws SaisieException {
+        if(medicineName == null || medicineName.isEmpty()){
+            throw new SaisieException("Le nom du médicament ne doit pas etre vide");
+        }
+        if (!Validator.isValidName(medicineName)) {
+            throw new SaisieException("Nom de medicament invalide");
+        }
         this.medicineName = medicineName;
     }
     public Category getCategoryName() {
         return categoryName;
     }
-    public void setCategoryName(Category categoryName) {
+    public void setCategoryName(Category categoryName) throws SaisieException {
+        if(categoryName == null){
+            throw new SaisieException("La categorie ne peut pas etre vide");
+        }
         this.categoryName = categoryName;
     }
     public double getPrice() {
         return price;
     }
-    public void setPrice(double price) {
+    public void setPrice(double price) throws SaisieException {
+        if(!(price > 0)){
+            throw new SaisieException("Prix invalide");
+        }
         this.price = price;
     }
     public LocalDate getReleaseDate() {
         return releaseDate;
     }
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(String releaseDate) throws SaisieException {
+        if(releaseDate == null || releaseDate.isEmpty()){
+            throw new SaisieException("La date de sortie ne peut pas etre vide");
+        }
         this.releaseDate = DateFormat.parseDateFromString(releaseDate);
     }
     public int getStock() {
         return stockQuantity;
     }
-    public void setStock(int quantity) {
+    public void setStock(int quantity) throws SaisieException {
+        if(!(quantity >= 0)){
+            throw new SaisieException("Saisie de la quantité de medicament invalide");
+        }
         this.stockQuantity = quantity;
     }
 
@@ -72,7 +92,11 @@ public class Medicine {
         }
     }
 
-    public void restock(int quantity){
+    public void restock(int quantity) throws SaisieException {
+        if (!(quantity > 0)) {
+            throw new SaisieException("Saisie de quantité invalide !");
+        }
+
         this.stockQuantity += quantity;
     }
 

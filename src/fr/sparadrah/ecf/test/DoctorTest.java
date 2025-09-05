@@ -13,7 +13,7 @@ class DoctorTest {
 
     @BeforeEach
     void setUp() throws SaisieException {
-        doctor = new Doctor("Doc", "Abi","10 Parru", "52000", "Parus","0123456997","ano@daim.fr","123456780");
+        doctor = new Doctor("Doc", "Abi","10 Parru", "52000", "Parus","0123456997","ano@daim.fr","12345678590");
     }
 
     @AfterEach
@@ -23,13 +23,13 @@ class DoctorTest {
 
     @Test
     void getLicenseNumber() {
-        assertEquals("123456780", doctor.getLicenseNumber());
+        assertEquals("12345678590", doctor.getLicenseNumber());
     }
 
     @Test
-    void setCertificationNumber() {
-        doctor.setlicenseNumber("12345678");
-        assertEquals("12345678", doctor.getLicenseNumber());
+    void setLicenseNumber() throws SaisieException {
+        doctor.setlicenseNumber("12345678698");
+        assertEquals("12345678698", doctor.getLicenseNumber());
     }
 
 }

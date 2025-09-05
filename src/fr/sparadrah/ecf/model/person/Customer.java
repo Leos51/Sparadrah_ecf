@@ -1,7 +1,6 @@
 package fr.sparadrah.ecf.model.person;
 
 
-import fr.sparadrah.ecf.model.lists.person.CustomersList;
 import fr.sparadrah.ecf.model.lists.person.DoctorList;
 import fr.sparadrah.ecf.utils.DateFormat;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
@@ -42,24 +41,44 @@ public class Customer extends Person {
         return birthDate;
     }
 
+    public void setBirthDate(LocalDate birthDate) throws SaisieException {
+        if(birthDate == null){
+            throw new SaisieException("Le date doit pas etre vide");
+        }
+        this.birthDate = birthDate;
+    }
+
     /**
      * transforme la date de naissance en LocalDate pour l'enregistrement
      * @param birthDate : String
      */
-    public void setBirthDateFromString(String birthDate) {
-        this.birthDate = DateFormat.parseDateFromString(birthDate);
+    public void setBirthDateFromString(String birthDate) throws SaisieException {
+        if (birthDate == null || birthDate.isEmpty()){
+            throw new SaisieException("La date de naissance ne doit pas etre vide");
+        }
+        if (birthDate.length() != 10){
+            throw new SaisieException("La date de format doit etre du type \"dd/MM/aaaa\"");
+        }
+//        this.setBirthDate(LocalDate.parse(birthDate));
+        this.setBirthDate(DateFormat.parseDateFromString(birthDate));
     }
     public MutualInsurance getMutualInsurance() {
         return mutualInsurance;
     }
-    public void setMutualInsurance(MutualInsurance mutualInsurance) {
+    public void setMutualInsurance(MutualInsurance mutualInsurance) throws SaisieException {
+        if(mutualInsurance == null){
+            throw new SaisieException("Le client n'a pas de mutuelle");
+        }
         this.mutualInsurance = mutualInsurance;
     }
 
     public Doctor getDoctor() {
         return doctor;
     }
-    private void setDoctor(Doctor doctor) {
+    private void setDoctor(Doctor doctor) throws SaisieException {
+        if(doctor == null){
+            throw new SaisieException("Le medecin n'est pas entré");
+        }
         this.doctor = doctor;
     }
 

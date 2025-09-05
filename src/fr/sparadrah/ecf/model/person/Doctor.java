@@ -1,6 +1,8 @@
 package fr.sparadrah.ecf.model.person;
 
+import fr.sparadrah.ecf.utils.RegexPatterns;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
+import fr.sparadrah.ecf.utils.validator.Validator;
 
 public class Doctor extends Person {
     private String licenseNumber;
@@ -16,7 +18,14 @@ public class Doctor extends Person {
         return licenseNumber;
     }
 
-    public void setlicenseNumber(String licenseNumber) {
+    public void setlicenseNumber(String licenseNumber) throws SaisieException {
+        if (licenseNumber == null) {
+            throw new SaisieException("Le numero d'agréement ne peut pas etre vide ou null");
+        }
+        if (!licenseNumber.matches(RegexPatterns.RPPS_REGEX)) {
+            throw new SaisieException("Numero d'agréement invalide");
+        }
+
         this.licenseNumber = licenseNumber;
     }
 

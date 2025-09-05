@@ -28,7 +28,11 @@ public class MutualInsurance {
     }
 
 
-    public void setCompagnyName(String compagnyName) {
+    public void setCompagnyName(String compagnyName) throws SaisieException {
+        if(compagnyName == null || compagnyName.isEmpty()){
+            throw new SaisieException("Le nom de la mutuelle ne doit pas etre vide");
+        }
+
         this.compagnyName = compagnyName;
     }
 
@@ -36,6 +40,9 @@ public class MutualInsurance {
         return address;
     }
     public void setAddress(String address) {
+        if(address.contains(" ")) {
+            this.address = address.substring(0, address.indexOf(" "));
+        }
         this.address = address;
     }
     public String getPostCode() {
@@ -50,14 +57,20 @@ public class MutualInsurance {
     public String getCity() {
         return city;
     }
-    public void setCity(String city)  {
+    public void setCity(String city) throws SaisieException {
+        if(city == null || city.isEmpty()){
+            throw new SaisieException("Ville non valide");
+        }
         this.city = city;
     }
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(String phone) throws SaisieException {
+        if(!Validator.isValidPhone(phone)){
+            throw new SaisieException("Numero de telephone invalide");
+        }
         this.phone = phone;
     }
     public String getEmail() {
@@ -70,10 +83,16 @@ public class MutualInsurance {
         this.email = email;
     }
 
-    public void setDepartementName(String departementName) {
+    public void setDepartementName(String departementName) throws SaisieException {
+        if(departementName == null || departementName.isEmpty()){
+            throw new SaisieException("Le departement ne doit pas etre vide !");
+        }
         this.departementName = departementName;
     }
-    public void setReimbursementRate(double reimbursementRate) {
+    public void setReimbursementRate(double reimbursementRate) throws SaisieException {
+        if(!(reimbursementRate >= 0 && reimbursementRate <= 1)){
+            throw new SaisieException("Taux de remboursement invalide");
+        }
         this.reimbursementRate = reimbursementRate;
     }
     public String getCompagnyName() {

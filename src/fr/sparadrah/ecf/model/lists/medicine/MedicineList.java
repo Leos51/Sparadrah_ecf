@@ -1,6 +1,7 @@
 package fr.sparadrah.ecf.model.lists.medicine;
 
 import fr.sparadrah.ecf.model.medicine.Medicine;
+import fr.sparadrah.ecf.utils.exception.SaisieException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,24 +47,20 @@ public class MedicineList {
      * @param medecineName nom du medicament
      * @param quantity  Quantité à ajouter au stock
      */
-    public void restock(String medecineName, int quantity) {
-        Medicine m = MedicineList.findMedicineByName( medecineName );
-        assert m != null;
-        m.restock(quantity);
+    public void restock(String medecineName, int quantity) throws SaisieException {
+        Medicine med = MedicineList.findMedicineByName( medecineName );
+        assert med != null;
+        med.restock(quantity);
 
     }
 
     /**
-     *
-     * @param m Nom du medicament
+     *Recherche le medicament dans l'inventaire avec son nom
+     * @param medName Nom du medicament
      * @return Medicament recherché
      */
-    public static Medicine findMedicineByName(String m){
-        for (Medicine medicine : medicines) {
-            if(m.equalsIgnoreCase(medicine.getMedicineName())){
-                return medicine;
-            }
-        }
-        return null;
+    public static Medicine findMedicineByName(String medName){
+        medicines.stream().filter(
+                med -> med.getMedicineName().equalsIgnoreCase(medName.trim())).findFirst().orElse(null);
     }
 }
