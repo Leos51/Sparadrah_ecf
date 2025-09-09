@@ -18,9 +18,6 @@ public class Category {
         if (categoryName == null || categoryName.isEmpty()){
             throw new SaisieException("Le nom de la categorie ne peut pas etre vide");
         }
-        if(Validator.isValidName(categoryName)){
-            throw new SaisieException("Nom de categorie invalide");
-        };
         this.categoryName = categoryName;
     }
 

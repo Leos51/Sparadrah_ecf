@@ -60,7 +60,7 @@ public class MedicineList {
      * @return Medicament recherché
      */
     public static Medicine findMedicineByName(String medName){
-        medicines.stream().filter(
+        return medicines.stream().filter(
                 med -> med.getMedicineName().equalsIgnoreCase(medName.trim())).findFirst().orElse(null);
     }
 }

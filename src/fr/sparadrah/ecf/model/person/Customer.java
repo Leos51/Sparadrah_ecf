@@ -65,10 +65,7 @@ public class Customer extends Person {
     public MutualInsurance getMutualInsurance() {
         return mutualInsurance;
     }
-    public void setMutualInsurance(MutualInsurance mutualInsurance) throws SaisieException {
-        if(mutualInsurance == null){
-            throw new SaisieException("Le client n'a pas de mutuelle");
-        }
+    public void setMutualInsurance(MutualInsurance mutualInsurance) {
         this.mutualInsurance = mutualInsurance;
     }
 
@@ -77,7 +74,7 @@ public class Customer extends Person {
     }
     private void setDoctor(Doctor doctor) throws SaisieException {
         if(doctor == null){
-            throw new SaisieException("Le medecin n'est pas entré");
+            System.out.println("Le medecin n'est pas entré");
         }
         this.doctor = doctor;
     }

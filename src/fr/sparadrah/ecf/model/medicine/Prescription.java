@@ -17,7 +17,7 @@ public class Prescription {
     private static List<Medicine> prescriptedMedicines = new ArrayList<>();
 
 
-    public Prescription(String prescriptingDate, Doctor doctor, Customer customer, List<Medicine> medicines) {
+    public Prescription(String prescriptingDate, Doctor doctor, Customer customer, List<Medicine> medicines) throws SaisieException {
         setPrescriptingDate(prescriptingDate);
         setDoctor(doctor);
         setCustomer(customer);
@@ -72,7 +72,7 @@ public class Prescription {
             System.err.println("Medicament deja present dans la liste");
 
         }
-        prescriptedMedicines.add(medicine);
+        getPrescriptedMedicines().add(medicine);
    }
 
     public static void removeMedicine(Medicine medicine) throws SaisieException {
@@ -80,7 +80,7 @@ public class Prescription {
             throw new IllegalArgumentException("Le medicament ne peut pas etre null");
         }
         if(!prescriptedMedicines.contains(medicine)){
-            throw new SaisieException("Le medicament n'est pas dans la liste")
+            throw new SaisieException("Le medicament n'est pas dans la liste");
         }
         prescriptedMedicines.remove(medicine);
     }

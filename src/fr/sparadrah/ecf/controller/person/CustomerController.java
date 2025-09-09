@@ -13,8 +13,10 @@ public class CustomerController {
 
     public static void seedCustomersData() throws SaisieException {
 
-        Doctor selectedDoctor1 = DoctorList.findDoctorByLicenseNumber("123456789");
-        Doctor selectedDoctor2 = DoctorList.findDoctorByLicenseNumber("123456780");
+        Doctor selectedDoctor1 = DoctorList.findDoctorByLicenseNumber("12345678913");
+        Doctor selectedDoctor2 = DoctorList.findDoctorByLicenseNumber("12345678076");
+
+
 
         MutualInsurance selectedMutual = MutualInsuranceList.getMutualInsuranceList().getFirst();
 

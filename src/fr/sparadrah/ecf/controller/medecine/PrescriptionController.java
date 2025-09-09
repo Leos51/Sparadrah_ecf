@@ -1,5 +1,6 @@
 package fr.sparadrah.ecf.controller.medecine;
 
+import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
 import fr.sparadrah.ecf.model.lists.person.DoctorList;
 import fr.sparadrah.ecf.model.lists.medicine.PrescriptionList;
@@ -10,8 +11,15 @@ public class PrescriptionController {
 
     public static void seedPrecriptionData(){
 
-        PrescriptionList.addPrescription(new Prescription(
-                "18/08/2025", DoctorList.getDoctors().getFirst(), CustomersList.getCustomers().getFirst(), Prescription.getPrescriptedMedicines() ));
+
+        try{
+
+
+
+        }catch(Exception e){
+            System.err.println("Erreur init medic" + e.getMessage());
+        }
+
 
     }
 
