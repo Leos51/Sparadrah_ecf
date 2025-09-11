@@ -67,6 +67,10 @@ public class DisplayList extends JPanel {
 
     }
 
+    public JTable getTable(){
+        return this.table;
+    }
+
 
 
 

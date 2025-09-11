@@ -6,8 +6,16 @@ import java.awt.*;
 
 public class MainPanel extends JPanel {
     public MainPanel() {
-        this.setLayout(new CardLayout());
-        this.setBackground(Color.cyan);
+        this.setLayout(new BorderLayout());
+        this.setBackground(Color.CYAN);
+
+    }
+
+    public void showView(JComponent component) {
+        this.removeAll();
+        this.add(component, BorderLayout.SOUTH);
+        this.revalidate();
+        this.repaint();
     }
 
 

@@ -17,7 +17,7 @@ public class CustomersList {
         getCustomers().add(customer);
     }
 
-    public void removeCustomer(Customer customer) {
+    public static void removeCustomer(Customer customer) {
         getCustomers().remove(customer);
     }
 

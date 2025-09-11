@@ -42,6 +42,10 @@ public class TableMod<T> extends AbstractTableModel {
         return columnClasses[columnIndex];
     }
 
+    public List<T> getData() {
+        return data;
+    }
+
 
 
 

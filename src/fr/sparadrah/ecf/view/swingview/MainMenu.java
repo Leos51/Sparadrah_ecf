@@ -31,7 +31,7 @@ public  class MainMenu extends JPanel {
         });
 
         customerManagerBtn.addActionListener(e -> {
-            showCustomersPanel();
+            mainPanel.showView(customersPanel);
 
 
         });
