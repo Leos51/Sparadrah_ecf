@@ -82,8 +82,7 @@ public class CustomerFormPanel extends  JFrame {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentCustomer.setFirstName(firstNameField.getText());
-                currentCustomer.setLastName(lastNameField.getText());
+                submitForm(currentCustomer);
 
             }
         });
