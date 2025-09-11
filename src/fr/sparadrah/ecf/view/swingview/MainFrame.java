@@ -20,30 +20,11 @@ public class MainFrame extends JFrame {
         this.setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout());
 
-    MainPanel mainPanel = new MainPanel();
-    MainMenu menuPanel = new MainMenu(mainPanel);
+        MainPanel mainPanel = new MainPanel();
+        MainMenu menuPanel = new MainMenu(mainPanel);
 
-
-    contentPane.add(menuPanel, BorderLayout.WEST);
-    contentPane.add(mainPanel, BorderLayout.CENTER);
-
-
-
-
-//        contentPane.remove(mainPanel);
-
-
-
-
-
-
-
-
-//
-
-
-
-
+        contentPane.add(menuPanel, BorderLayout.WEST);
+        contentPane.add(mainPanel, BorderLayout.CENTER);
 
     }
 

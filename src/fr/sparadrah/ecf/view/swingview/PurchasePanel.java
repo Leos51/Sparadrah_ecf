@@ -4,11 +4,17 @@ import javax.swing.*;
 
 public class PurchasePanel extends JPanel {
     private JLabel purchaseTitle;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JList list1;
+    private JTextField nirField;
+    private JTextField licenceField;
+    private JPanel purchasePanel;
+    private JLabel nirCustomerLabel;
+    private JLabel licenseDoctorLabel;
+    private JLabel medicineListLabel;
+    private JPanel ListContainer;
+    private JButton addMedicineButton;
+    private JComboBox comboBox1;
 
-    PurchasePanel(int type) {
+    public PurchasePanel(int type) {
 
         purchaseTitle.setText(
                 switch(type) {

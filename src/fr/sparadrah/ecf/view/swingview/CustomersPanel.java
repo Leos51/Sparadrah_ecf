@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class CustomersPanel extends JPanel {
     private JPanel customersPanel;
@@ -18,17 +17,29 @@ public class CustomersPanel extends JPanel {
     private JPanel bottomBar;
     private JPanel topPanel;
     private JLabel titleLabel;
-    private JPanel containerList;
+    private JPanel centerPanel;
+    private JTextField searchField;
+    private JButton searchButton;
+    private JTable customersTable;
+    private JButton showDetailsBtn;
+    private JPanel tableContainer;
+    private JScrollPane scrollPane1;
+    private JRadioButton parNomRadioButton;
+    private JRadioButton villeRadioButton;
+    private JRadioButton parPrenomRadioButton;
+    private JRadioButton nirRadioButton;
 
     public CustomersPanel(){
-        this.setLayout(new BorderLayout());
-    this.add(customersPanel);
-        DisplayList tablecontainer = new DisplayList(0);
-        JTable table = tablecontainer.getTable();
-         customersPanel.add(table, BorderLayout.CENTER);
 
-        table.getSelectionModel().addListSelectionListener(e -> {
-            boolean selected = table.getSelectedRow() != -1;
+        this.setLayout(new GridLayout(1,1));
+        this.add(customersPanel);
+        DisplayList tablecontainer = new DisplayList(0);
+        customersTable = tablecontainer.getTable();
+        customersPanel.add(customersTable);
+
+        customersTable.getSelectionModel().addListSelectionListener(e -> {
+            boolean selected = customersTable.getSelectedRow() != -1;
+            showDetailsBtn.setEnabled(selected);
             editButton.setEnabled(selected);
             deleteButton.setEnabled(selected);
         });
@@ -36,45 +47,66 @@ public class CustomersPanel extends JPanel {
 
 
 
-        editButton.addActionListener(new ActionListener() {
+
+        showDetailsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int row = customersTable.getSelectedRow();
+                TableMod<Customer> model = (TableMod<Customer>) customersTable.getModel();
+                Customer selectedCustomer = model.getData().get(row);
+                JOptionPane.showMessageDialog(customersPanel, selectedCustomer.showDetails());
 
             }
         });
-        deleteButton.addActionListener(e-> {
 
-                int row = table.getSelectedRow();
+
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = customersTable.getSelectedRow();
                 if (row != -1) {
-                    TableMod<Customer> model = (TableMod<Customer>) table.getModel();
+                    TableMod<Customer> model = (TableMod<Customer>) customersTable.getModel();
+                    Customer selectedCustomer = model.getData().get(row);
+                    CustomerFormPanel formPanel = new CustomerFormPanel(selectedCustomer);
+                    formPanel.setVisible(true);
+                    formPanel.pack();
+                }
+            }
+        });
+        deleteButton.addActionListener(e-> {
+                int row = customersTable.getSelectedRow();
+                if (row != -1) {
+                    TableMod<Customer> model = (TableMod<Customer>) customersTable.getModel();
                     Customer selectedCustomer = model.getData().get(row);
 
-                    AtomicInteger confirm = new AtomicInteger(JOptionPane.showConfirmDialog(
+                    int confirm = JOptionPane.showConfirmDialog(
                             this,
                             "Voulez-vous vraiment supprimer le client \"" + selectedCustomer.getFullName() + "\" ?",
                             "Confirmation de suppression",
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.WARNING_MESSAGE
-                    ));
+                    );
 
 
-                    if (confirm.get() == JOptionPane.YES_OPTION) {
+                    if (confirm == JOptionPane.YES_OPTION) {
                             CustomersList.removeCustomer(selectedCustomer);
-                            table.repaint();
-                            table.revalidate();
-
                     }
                 }
-
 
 
         });
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                CustomerFormPanel formPanel = new CustomerFormPanel(null);
+                formPanel.setVisible(true);
+                formPanel.pack();
+
 
             }
         });
+
+
 
 
 

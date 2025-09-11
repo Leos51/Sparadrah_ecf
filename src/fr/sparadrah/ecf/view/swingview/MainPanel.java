@@ -8,12 +8,11 @@ public class MainPanel extends JPanel {
     public MainPanel() {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.CYAN);
-
     }
 
     public void showView(JComponent component) {
         this.removeAll();
-        this.add(component, BorderLayout.SOUTH);
+        this.add(component, BorderLayout.CENTER);
         this.revalidate();
         this.repaint();
     }

@@ -28,7 +28,6 @@ public class DisplayList extends JPanel {
 
 
     public DisplayList(int type) {
-        this.setBackground(Color.red);
         this.setLayout(new BorderLayout());
         JLabel tableLabel = new JLabel();
         tableLabel.setForeground(Color.white);
@@ -43,7 +42,6 @@ public class DisplayList extends JPanel {
                 tableLabel.setText("Liste des Clients:");
                 configTable(CustomersList.getCustomers(),HEADER_CUSTOMERS,USER_COLUMN_CLASSES);
                 break;
-
             case 1:
                 tableLabel.setText("Liste des Medecins:");
                 configTable(DoctorList.getDoctors(),HEADER_DOCTORS,USER_COLUMN_CLASSES);
@@ -64,7 +62,6 @@ public class DisplayList extends JPanel {
         this.table.setModel(model);
         this.table.revalidate();
         this.table.repaint();
-
     }
 
     public JTable getTable(){

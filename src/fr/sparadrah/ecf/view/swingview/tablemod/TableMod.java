@@ -47,9 +47,6 @@ public class TableMod<T> extends AbstractTableModel {
     }
 
 
-
-
-
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         T item = data.get(rowIndex);
