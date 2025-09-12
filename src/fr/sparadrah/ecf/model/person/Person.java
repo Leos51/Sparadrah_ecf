@@ -14,6 +14,9 @@ public class Person {
     private String phone;
     private String email;
 
+    public Person() {
+
+    }
 
     public Person(String lastName, String firstName, String address, String postCode, String city, String phone, String email) throws SaisieException {
         this.setLastName(lastName);
@@ -25,6 +28,7 @@ public class Person {
         this.setEmail(email);
 
     }
+
 
     public String getFirstName() {
         return firstName;

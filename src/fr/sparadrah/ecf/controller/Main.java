@@ -24,8 +24,8 @@ public class Main {
 
         private void run(){
             initData();
-            askConsoleOrSwing();
-//startSwing();
+//            askConsoleOrSwing();
+startSwing();
 
 
 

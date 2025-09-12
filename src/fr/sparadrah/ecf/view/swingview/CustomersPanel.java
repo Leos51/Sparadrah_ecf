@@ -2,6 +2,7 @@ package fr.sparadrah.ecf.view.swingview;
 
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
 import fr.sparadrah.ecf.model.person.Customer;
+import fr.sparadrah.ecf.utils.exception.SaisieException;
 import fr.sparadrah.ecf.view.swingview.tablemod.TableMod;
 
 import javax.swing.*;
@@ -28,8 +29,13 @@ public class CustomersPanel extends JPanel {
     private JRadioButton villeRadioButton;
     private JRadioButton parPrenomRadioButton;
     private JRadioButton nirRadioButton;
+    public enum FormModes{
+        ADD,
+        EDIT
+    }
 
     public CustomersPanel(){
+
 
         this.setLayout(new GridLayout(1,1));
         this.add(customersPanel);
@@ -67,7 +73,7 @@ public class CustomersPanel extends JPanel {
                 if (row != -1) {
                     TableMod<Customer> model = (TableMod<Customer>) customersTable.getModel();
                     Customer selectedCustomer = model.getData().get(row);
-                    CustomerFormPanel formPanel = new CustomerFormPanel(selectedCustomer);
+                    CustomerFormPanel formPanel = new CustomerFormPanel(selectedCustomer, FormModes.EDIT);
                     formPanel.setVisible(true);
                     formPanel.pack();
                 }
@@ -98,7 +104,8 @@ public class CustomersPanel extends JPanel {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CustomerFormPanel formPanel = new CustomerFormPanel(null);
+                CustomerFormPanel formPanel = null;
+                formPanel = new CustomerFormPanel(new Customer(), FormModes.ADD);
                 formPanel.setVisible(true);
                 formPanel.pack();
 

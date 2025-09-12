@@ -10,8 +10,7 @@ public class MainPanel extends JPanel {
         this.setBackground(Color.CYAN);
     }
 
-    public void showView(JComponent component) {
-        this.removeAll();
+    public void showView(JComponent component) {        this.removeAll();
         this.add(component, BorderLayout.CENTER);
         this.revalidate();
         this.repaint();

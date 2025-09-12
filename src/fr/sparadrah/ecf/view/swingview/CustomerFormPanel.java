@@ -43,19 +43,12 @@ public class CustomerFormPanel extends  JFrame {
     private JTextField mutualField;
     private JTextField nirField;
     private JLabel nirLabel;
+    private Customer customer;
 
 
-    public CustomerFormPanel() {
-        this.setTitle("Nouveau client");
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(600, 600);
-        this.setVisible(true);
-        this.setLocationRelativeTo(null);
-        this.setContentPane(formPanel);
-    }
 
-    public CustomerFormPanel(Customer currentCustomer) {
-        this.setTitle("Ajout client");
+
+    public CustomerFormPanel(Customer currentCustomer, CustomersPanel.FormModes mode) {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(600, 600);
         this.setVisible(true);
@@ -64,15 +57,15 @@ public class CustomerFormPanel extends  JFrame {
         this.setContentPane(formPanel);
 
 
-        if(currentCustomer != null) {
+        if(mode == CustomersPanel.FormModes.EDIT && currentCustomer != null) {
             //remplissage du formulaire avec client selectionné
             this.setTitle("Modification du client");
-            populateForm(currentCustomer);
+            populateFields(currentCustomer);
         }
 
-
-
-
+        if(mode == CustomersPanel.FormModes.ADD) {
+            this.setTitle("Nouveau client");
+        }
 
 
         cancelButton.addActionListener( e ->{
@@ -82,84 +75,66 @@ public class CustomerFormPanel extends  JFrame {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                submitForm(currentCustomer);
+                try {
+                    submitForm(currentCustomer, mode);
+                } catch (SaisieException ex) {
+                    JOptionPane.showMessageDialog(CustomerFormPanel.this, ex.getMessage());
+                }
+
 
             }
         });
     }
 
-    private void submitForm(Customer currentCustomer) {
-        try{
-            String lastName = lastNameField.getText();
-            if(lastName.isEmpty()){
-                throw new SaisieException("Le nom est obligatoire");
-            }
-            String firstName = firstNameField.getText();
-            if(firstName.isEmpty()){
-                throw new SaisieException("Le prenom est obligatoire");
-            }
-            String address = addressField.getText();
-            if(address.isEmpty()){
-                throw new SaisieException("Le adresse est obligatoire");
-            }
-            String postCode = postCodeField.getText();
-            if(postCode.isEmpty()){
-                throw new SaisieException("Le postcode est obligatoire");
-            }
-            String city = cityField.getText();
-            if(city.isEmpty()){
-                throw new SaisieException("Saisir la ville est obligatoire");
-            }
-            String phone = phoneField.getText();
-            if(phone.isEmpty()){
-                throw new SaisieException("Le numero de telephone est obligatoire");
-            }
-            String email = emailField.getText();
-            if(email.isEmpty()){
-                throw new SaisieException("L'adresse email est obligatoire");
-            }
-            String birthDate = birthDateField.getText();
-            if(birthDate.isEmpty() && birthDate.length() != 10){
-                throw new SaisieException("Le client n'as pas de date de naissance ?");
+
+
+    private void submitForm(Customer customer ,CustomersPanel.FormModes mode) throws SaisieException {
+        String lastName = lastNameField.getText().trim();
+        String firstName = firstNameField.getText().trim();
+        String address = addressField.getText().trim();
+        String postCode = postCodeField.getText().trim();
+        String city = cityField.getText().trim();
+        String phone = phoneField.getText().trim();
+        String email = emailField.getText().trim();
+        String birthDate = birthDateField.getText().trim();
+        String nir = nirField.getText().trim();
+        String mutualInsuranceName = mutualField.getText().trim();
+        MutualInsurance mutualInsurance = MutualInsuranceList.findMutualInsuranceByName(mutualInsuranceName);
+        String doctorNir = doctorField.getText().trim();
+        Doctor doctor = DoctorList.findDoctorByLicenseNumber(doctorNir);
+
+            if (lastName.isEmpty() || firstName.isEmpty() || address.isEmpty() || postCode.isEmpty() || city.isEmpty() || phone.isEmpty() || email.isEmpty() || birthDate.isEmpty() || nir.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Champs obligatoires manquants.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                return;
             }
 
-            String nir = nirField.getText();
-            if(nir.isEmpty()){
-                throw new SaisieException("Le n° de décurité social est obligatoire");
-            }
-            String mutualInsuranceName = mutualField.getText();
-            MutualInsurance mutualInsurance = MutualInsuranceList.findMutualInsuranceByName(mutualInsuranceName);
-            String doctorNir = doctorField.getText();
-            Doctor doctor = DoctorList.findDoctorByLicenseNumber(doctorNir);
 
-            if (currentCustomer == null) {
-                Customer newCustomer = new Customer(lastName,firstName,address, postCode,city, phone, email, nir, birthDate, mutualInsurance, doctor);
-                CustomersList.addCustomer(newCustomer);
-                JOptionPane.showMessageDialog(this, "Client ajouté avec succès !");
+            if (mode == CustomersPanel.FormModes.ADD) {
+                customer = new Customer(lastName,firstName,address, postCode,city, phone, email, nir, birthDate, mutualInsurance, doctor);
+                CustomersList.addCustomer(customer);
+                JOptionPane.showMessageDialog(this, "Client ajouté !");
             } else {
-                currentCustomer.setLastName(lastName);
-                currentCustomer.setFirstName(firstName);
-                currentCustomer.setAddress(address);
-                currentCustomer.setPostCode(postCode);
-                currentCustomer.setCity(city);
-                currentCustomer.setPhone(phone);
-                currentCustomer.setEmail(email);
-                currentCustomer.setNir(nir);
-                currentCustomer.setBirthDate(DateFormat.parseDateFromString(birthDate));
-                currentCustomer.setDoctorByLicenseNumber( doctorNir);
-                currentCustomer.setMutualInsurance(mutualInsurance);
 
+                customer.setLastName(lastName);
+                customer.setFirstName(firstName);
+                customer.setAddress(address);
+                customer.setPostCode(postCode);
+                customer.setCity(city);
+                customer.setPhone(phone);
+                customer.setEmail(email);
+                customer.setNir(nir);
+                customer.setBirthDate(DateFormat.parseDateFromString(birthDate));
+                customer.setDoctorByLicenseNumber( doctorNir);
+                customer.setMutualInsurance(mutualInsurance);
                 JOptionPane.showMessageDialog(this, "Client mis à jour !");
             }
 
 
-
-        }catch (SaisieException e){
-            JOptionPane.showMessageDialog(this,e.getMessage());
-        }
-
     }
-    private void populateForm(Customer c){
+
+
+
+    private void populateFields(Customer c){
         titleLabel.setText("Modifier le client");
         submitButton.setText("Valider la modification");
 
@@ -171,9 +146,13 @@ public class CustomerFormPanel extends  JFrame {
         phoneField.setText(c.getPhone());
         emailField.setText(c.getEmail());
         birthDateField.setText(DateFormat.formatDate(c.getBirthDate(),  "dd/MM/yyyy"));
-        mutualField.setText(c.getMutualInsurance().getCompagnyName());
-        doctorField.setText(c.getDoctor().getLicenseNumber());
         nirField.setText(c.getNir());
+        if (c.getMutualInsurance() != null) {
+            mutualField.setText(c.getMutualInsurance().getCompagnyName());
+        }
+        if (c.getDoctor() != null) {
+            doctorField.setText(c.getDoctor().getLicenseNumber());
+        }
     }
 
 }

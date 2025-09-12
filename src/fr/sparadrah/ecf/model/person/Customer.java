@@ -15,6 +15,9 @@ public class Customer extends Person {
     private MutualInsurance mutualInsurance;
     private Doctor doctor;
 
+    public Customer(){
+        super();
+    }
 
     public Customer(String lastName, String firstName, String address, String postCode, String city, String phone, String email, String nir , String birthDate, MutualInsurance mutualInsurance, Doctor doctor) throws SaisieException {
         super(lastName, firstName, address, postCode, city, phone, email);
