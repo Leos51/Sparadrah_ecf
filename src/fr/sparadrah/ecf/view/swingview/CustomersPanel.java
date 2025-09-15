@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static fr.sparadrah.ecf.view.swingview.DisplayList.getSelectedItem;
+
 public class CustomersPanel extends JPanel {
     private JPanel customersPanel;
     private JButton addButton;
@@ -40,11 +42,11 @@ public class CustomersPanel extends JPanel {
         this.setLayout(new GridLayout(1,1));
         this.add(customersPanel);
         DisplayList tablecontainer = new DisplayList(0);
-        customersTable = tablecontainer.getTable();
-        customersPanel.add(customersTable);
+        //customersTable = tablecontainer.getTable();
+        customersPanel.add(tablecontainer);
 
-        customersTable.getSelectionModel().addListSelectionListener(e -> {
-            boolean selected = customersTable.getSelectedRow() != -1;
+        tablecontainer.getTable().getSelectionModel().addListSelectionListener(e -> {
+            boolean selected = tablecontainer.getTable().getSelectedRow() != -1;
             showDetailsBtn.setEnabled(selected);
             editButton.setEnabled(selected);
             deleteButton.setEnabled(selected);
@@ -57,8 +59,8 @@ public class CustomersPanel extends JPanel {
         showDetailsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = customersTable.getSelectedRow();
-                TableMod<Customer> model = (TableMod<Customer>) customersTable.getModel();
+                int row = tablecontainer.getTable().getSelectedRow();
+                TableMod<Customer> model = (TableMod<Customer>) tablecontainer.getTable().getModel();
                 Customer selectedCustomer = model.getData().get(row);
                 JOptionPane.showMessageDialog(customersPanel, selectedCustomer.showDetails());
 
@@ -69,20 +71,18 @@ public class CustomersPanel extends JPanel {
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = customersTable.getSelectedRow();
-                if (row != -1) {
-                    TableMod<Customer> model = (TableMod<Customer>) customersTable.getModel();
-                    Customer selectedCustomer = model.getData().get(row);
+                Customer selectedCustomer = getSelectedItem(tablecontainer.getTable(), (TableMod<Customer>) tablecontainer.getTable().getModel());
+
                     CustomerFormPanel formPanel = new CustomerFormPanel(selectedCustomer, FormModes.EDIT);
                     formPanel.setVisible(true);
                     formPanel.pack();
-                }
+
             }
         });
         deleteButton.addActionListener(e-> {
-                int row = customersTable.getSelectedRow();
+                int row = tablecontainer.getTable().getSelectedRow();
                 if (row != -1) {
-                    TableMod<Customer> model = (TableMod<Customer>) customersTable.getModel();
+                    TableMod<Customer> model = (TableMod<Customer>) tablecontainer.getTable().getModel();
                     Customer selectedCustomer = model.getData().get(row);
 
                     int confirm = JOptionPane.showConfirmDialog(

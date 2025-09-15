@@ -14,7 +14,7 @@ public class Prescription {
     private static LocalDate prescriptingDate;
     private static Doctor doctor;
     private static Customer customer;
-    private static List<Medicine> prescriptedMedicines = new ArrayList<>();
+    private static List<Medicine> prescriptedMedicines ;
 
 
     public Prescription(String prescriptingDate, Doctor doctor, Customer customer, List<Medicine> medicines) throws SaisieException {

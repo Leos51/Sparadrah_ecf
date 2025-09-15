@@ -19,7 +19,19 @@ public class CustomerController {
 
 
         MutualInsurance selectedMutual = MutualInsuranceList.getMutualInsuranceList().getFirst();
+        Customer Customer1 = new Customer("Martin", "Jean", "123 rue de la Paix",
+                "75001", "Paris", "0123456789",
+                "jean.martin@email.com", "1234567890123",
+                "14/05/1980", selectedMutual, selectedDoctor2);
 
+        Customer Customer2 = new Customer("Durand", "Marie", "456 avenue des Champs",
+                "75008", "Paris", "0987654321",
+                "marie.durand@email.com", "2167267890123",
+                    "22/05/1991", selectedMutual, selectedDoctor1);
+
+
+        CustomersList.addCustomer(Customer1);
+        CustomersList.addCustomer(Customer2);
         CustomersList.addCustomer(new Customer("Recto", "Verso", "3 rue Maurice de Broglie", "51000", "Chalons en Champagne", " 03 26 68 03 00", "rectoverso@gmail.com", "1885621486527", "18/01/1988" , selectedMutual, selectedDoctor1));
         CustomersList.addCustomer(new Customer("Lunch", "Happy", "10 rue des hauts", "51510", "Soudail", " 03 26 68 02 00", "happylunch@gmail.com", "1885621486522", "18/01/1782" , selectedMutual, selectedDoctor2 ));
     }

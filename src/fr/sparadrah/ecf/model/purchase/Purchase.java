@@ -14,15 +14,20 @@ public class Purchase {
     private Customer customer;
     private boolean isPrescriptionBased;
     private Prescription prescription;
-    private List<PurchasedMedicine> purchasedMedicines = new ArrayList<PurchasedMedicine>();
+    private static List<CartItem> purchasedMedicines;
 
+
+    public Purchase() {
+        this.setPurchaseDate(LocalDate.now());
+        this.customer = new Customer();
+        this.setPrescriptionBased(false);
+
+        this.purchasedMedicines = new ArrayList<>();
+    }
 
     public Purchase(Customer customer) {
 
-        this.setCustomer(customer);
-        this.setPurchaseDate(LocalDate.now());
-        this.setPrescriptionBased(false);
-        this.purchasedMedicines = new ArrayList<>();
+
     }
     public Purchase(Customer customer, boolean isPrescriptionBased) {
 
@@ -39,6 +44,7 @@ public class Purchase {
         this.purchasedMedicines = new ArrayList<>();
 
     }
+
 
 
 
@@ -72,8 +78,12 @@ public class Purchase {
 
 
 
-    public void setPurchasedMedicines(List<PurchasedMedicine> medicines) {
+    public void  setPurchasedMedicines(List<CartItem> medicines) {
         purchasedMedicines = medicines;
+    }
+
+    public  List<CartItem> getMedicines() {
+        return purchasedMedicines;
     }
 
     public boolean isPrescriptionBased() {
@@ -84,6 +94,14 @@ public class Purchase {
         this.isPrescriptionBased = isPrescriptionBased;
     }
 
+    public double getTotal(){
+        double total = 0;
+        for(CartItem medicine : this.getMedicines()) {
+            total += medicine.getTotalPrice();
+        }
+        return total;
+    }
+
 
     /**
      * Ajoute un medicament et sa quantité dans la liste d'achat
@@ -92,7 +110,7 @@ public class Purchase {
      */
     public void addMedicine(Medicine medicine, int quantity) {
 
-        this.purchasedMedicines.add(new PurchasedMedicine(medicine,  quantity));
+        this.purchasedMedicines.add(new CartItem(medicine,  quantity));
         medicine.reduceStock(quantity);
     }
 
@@ -105,15 +123,15 @@ public class Purchase {
         purchasedMedicines.remove(medicine);
     }
 
-    public List<PurchasedMedicine> getPurchasedMedicines() {
-        return new ArrayList<>(this.purchasedMedicines);
+    public static List<CartItem> getPurchasedMedicines() {
+        return new ArrayList<>(purchasedMedicines);
     }
 
 
     public String showDetails() {
         StringBuilder details = new StringBuilder();
         details.append(this);
-        for(PurchasedMedicine p : this.purchasedMedicines) {
+        for(CartItem p : this.purchasedMedicines) {
             details.append(p.toString());
         }
         details.append("\n");

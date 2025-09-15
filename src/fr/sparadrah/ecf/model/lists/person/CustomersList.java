@@ -34,5 +34,17 @@ public class CustomersList {
                 .orElse(null);
     }
 
+    public static List<Customer> searchCustomer(String search) {
+        List<Customer> filteredCustomers = getCustomers().stream()
+                .filter(customer ->
+                                customer.getFullName().contains(search) ||
+                                        customer.getNir().contains(search) ||
+                                        customer.getEmail().contains(search) ||
+                                        customer.getCity().contains(search)
+
+                        ).toList();
+        return filteredCustomers;
+    };
+
 
 }

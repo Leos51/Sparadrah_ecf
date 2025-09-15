@@ -9,18 +9,34 @@ import fr.sparadrah.ecf.utils.exception.SaisieException;
 public class MedicationController {
     public static void seedMedicationData() {
         try{
-            Category c = CategoriesList.findCategoryByName("Analgésiques");
+           /*
+            "Analgésiques"
+            "Antiviraux"
+            "Antibiotiques"
+            "Analgésiques"
+            */
 
-            Medicine doliprane = new Medicine(8,"18/10/1982",20, c,"Doliprane");
-            Medicine ibuprofen = new Medicine(9,"02/03/2022",5, c, "Ibuprofen");
-            MedicineList.addMedicine(new Medicine(1, "01/01/2020", 20, c ,"Advil"));
-            MedicineList.addMedicine(new Medicine(3, "10/07/2019", 30, c, "Clamoxyl"));
-            MedicineList.addMedicine(new Medicine(4, "25/12/2022", 15, c, "Pfizer"));
-            MedicineList.addMedicine(new Medicine(5, "18/12/1995",10, c, "NoName"));
-            MedicineList.addMedicine(new Medicine(6, "05/05/2023", 50, c, "ZymaD"));
-            MedicineList.addMedicine(new Medicine(7, "30/08/2025", 100, c, "Aerius"));
+            Category analgesique = CategoriesList.findCategoryByName("Analgésiques");
+            Category ai =  CategoriesList.findCategoryByName("anti-inflammatoires");
+
+
+            // Médicaments fictifs
+            Medicine medicine1 = new Medicine("Paracétamol", analgesique, 5.50,
+                    "01/01/2020", 100);
+
+            Medicine doliprane = new Medicine("Doliprane", analgesique,2.3,"18/10/1982", 200);
+            Medicine ibuprofen = new Medicine("Ibuprofen",analgesique,1.9, "03/06/1990", 50);
+            Medicine advil = new Medicine("Advil", analgesique,2.3,"18/10/1982", 200);
+            Medicine clamoxyl = new Medicine("Clamoxyl", analgesique,2.3,"18/10/1982", 150);
+            Medicine pfizer = new Medicine("Pfizer", analgesique,2.3,"18/10/1982", 200);
+
+            MedicineList.addMedicine(medicine1);
             MedicineList.addMedicine(doliprane);
             MedicineList.addMedicine(ibuprofen);
+            MedicineList.addMedicine(advil);
+            MedicineList.addMedicine(clamoxyl);
+            MedicineList.addMedicine(pfizer);
+
         }catch(SaisieException e){
            System.err.println("Erreur initialisation Medicaments : " + e.getMessage());
         }

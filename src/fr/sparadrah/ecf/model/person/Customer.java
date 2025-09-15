@@ -36,7 +36,7 @@ public class Customer extends Person {
     }
     public void setNir(String nir) throws SaisieException {
         if(!Validator.isValidNIR(nir)){
-            throw new SaisieException("Erreur Saisie NIR :"+ nir.length());
+            throw new SaisieException("Erreur Saisie NIR : "+ nir);
         }
         this.nir = nir;
     }

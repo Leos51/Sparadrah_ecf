@@ -2,12 +2,12 @@ package fr.sparadrah.ecf.model.purchase;
 
 import fr.sparadrah.ecf.model.medicine.Medicine;
 
-public class PurchasedMedicine {
+public class CartItem {
     private Medicine medicine;
     private int quantity;
 
 
-    public PurchasedMedicine(Medicine medicine, int quantity) {
+    public CartItem(Medicine medicine, int quantity) {
         this.setMedicine(medicine);
         this.setQuantity(quantity);
     }
@@ -26,6 +26,15 @@ public class PurchasedMedicine {
     }
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return medicine.getPrice();
+    }
+
+
+    public double getTotalPrice() {
+        return this.getPrice() * this.getQuantity();
     }
 
 

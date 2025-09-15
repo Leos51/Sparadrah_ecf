@@ -5,7 +5,6 @@ import fr.sparadrah.ecf.model.purchase.Purchase;
 import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
 import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.model.purchase.PurchasedMedicine;
 import fr.sparadrah.ecf.view.consoleview.purchase.PurchaseHistoryMenu;
 
 
@@ -16,6 +15,7 @@ public class PurchaseController {
      * Initialisation d'achats
      */
     public static void seedPurchaseData() {
+
         Customer c = CustomersList.findByNir("1885621486527");
         Purchase p1 = new Purchase(c, true);
         Purchase p2 = new Purchase(null, false);

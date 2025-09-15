@@ -1,8 +1,11 @@
 package fr.sparadrah.ecf.view.swingview.tablemod;
 
+import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
 import fr.sparadrah.ecf.model.medicine.Medicine;
 import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.model.person.Doctor;
+import fr.sparadrah.ecf.model.purchase.CartItem;
+import fr.sparadrah.ecf.model.purchase.Purchase;
 import fr.sparadrah.ecf.utils.DateFormat;
 
 import javax.swing.table.AbstractTableModel;
@@ -79,6 +82,22 @@ public class TableMod<T> extends AbstractTableModel {
                 case 4 -> DateFormat.formatDate(medicine.getReleaseDate(), "dd/MM/yyyy");
                 default -> null;
 
+            };
+        }else if (item instanceof CartItem pm) {
+            return switch (columnIndex) {
+                case 0 -> pm.getMedicine().getMedicineName(); // Nom du médicament
+                case 1 -> pm.getQuantity();                   // Quantité achetée
+                case 2 -> pm.getPrice();        // Prix unitaire
+                case 3 -> pm.getTotalPrice(); // Prix total
+                default -> null;
+            };
+        }else if (item instanceof Purchase purchase) {
+            return switch (columnIndex) {
+                case 0 -> DateFormat.formatDate(purchase.getPurchaseDate(), "dd/MM/yyyy");
+                case 1 -> purchase.getCustomer();
+                case 2 -> purchase.isPrescriptionBased()? "Direct" : "Avec ordonnance";
+                case 3 -> purchase.getTotal();
+                default -> null;
             };
         }
         return null;

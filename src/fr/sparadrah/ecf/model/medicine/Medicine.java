@@ -16,7 +16,7 @@ public class Medicine {
     private int threshold = 10;
 
 
-    public Medicine(double price, String releaseDate, int stockQuantity, Category categoryName, String medicineName) throws SaisieException {
+    public Medicine(String medicineName, Category categoryName, double price, String releaseDate, int stockQuantity) throws SaisieException {
         this.setMedicineName(medicineName);
         this.setCategoryName(categoryName);
         this.setPrice(price);

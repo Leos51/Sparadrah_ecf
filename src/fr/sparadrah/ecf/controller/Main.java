@@ -50,7 +50,6 @@ startSwing();
 
     }
 
-
     private void startConsole(){
         MainMenu.display();
     }

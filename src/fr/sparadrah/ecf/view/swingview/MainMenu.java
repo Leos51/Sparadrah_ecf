@@ -10,39 +10,54 @@ import java.awt.event.ActionListener;
 public  class MainMenu extends JPanel {
     private MainPanel mainPanel;
     private CustomersPanel customersPanel = new CustomersPanel();
+    private PurchaseHistoryPanel purchaseHistoryPanel = new PurchaseHistoryPanel();
 
 
 
 
 
-    private JPanel menu;
+    private JPanel containerMenu;
     private JButton directPurchaseBtn;
     private JButton customerManagerBtn;
     private JButton presciptedPurchaseBtn;
     private JButton doctorsManagerBtn;
     private JButton medicineManagerBtn;
     private JButton exitButton;
+    private JLabel purchaseLabel;
+    private JPanel menu;
+    private JButton purchaseHistoryBtn;
+    private Boolean hasPrescription = false;
 
 
     public MainMenu(MainPanel mainPanel) {
 
         this.setBackground(Color.lightGray);
         this.mainPanel = mainPanel;
-        this.add(menu);
+        this.add(containerMenu);
 
 
         directPurchaseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PurchasePanel purchasePanel = new PurchasePanel(1);
+                hasPrescription = false;
+                PurchaseManagementPanel purchasePanel = new PurchaseManagementPanel(hasPrescription);
                 mainPanel.showView(purchasePanel);
             }
         });
         presciptedPurchaseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PurchasePanel purchasePanel = new PurchasePanel(2);
+                hasPrescription = true;
+                PurchaseManagementPanel purchasePanel = new PurchaseManagementPanel(hasPrescription);
                 mainPanel.showView(purchasePanel);
+
+            }
+        });
+
+        purchaseHistoryBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainPanel.showView(purchaseHistoryPanel);
 
             }
         });
@@ -58,6 +73,7 @@ public  class MainMenu extends JPanel {
                 System.exit(0);
             }
         });
+
     }
     private void showCustomersPanel() {
         mainPanel.removeAll();
