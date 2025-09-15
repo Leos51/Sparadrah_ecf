@@ -1,6 +1,7 @@
 package fr.sparadrah.ecf.view.swingview;
 
 import fr.sparadrah.ecf.model.lists.medicine.CategoriesList;
+import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
 import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
 import fr.sparadrah.ecf.model.medicine.Category;
@@ -12,14 +13,15 @@ import fr.sparadrah.ecf.utils.exception.SaisieException;
 import fr.sparadrah.ecf.view.swingview.tablemod.TableMod;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static fr.sparadrah.ecf.view.swingview.DisplayList.getSelectedItem;
+import static fr.sparadrah.ecf.view.swingview.DisplayList.*;
 
 public class PurchaseManagementPanel extends  JPanel {
     private static List<CartItem> cart = new ArrayList<>();
@@ -66,6 +68,8 @@ public class PurchaseManagementPanel extends  JPanel {
     private JButton addToCartBtn;
     private JButton searchMedicineBtn;
     private JButton searchCustomerBtn;
+    private JButton prescriptionScanBtn;
+    private JTextField medicineSearchField;
 
 
     // Panneaux avec DisplayList
@@ -134,6 +138,29 @@ try{
                 validatePurchase();
             }
         });
+        customerSearchField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        searchCustomerBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                searchCustomers();
+            }
+        });
+        searchMedicineBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //searchMedicines();
+                List<Medicine> tempList = searchMedicinesByCategory();
+                searchMedicinesWithCategoryFilter(tempList);
+
+            }
+        });
     }
 
     public static List<CartItem> getCart() {
@@ -155,7 +182,6 @@ try{
 
         // Utilisation de DisplayList pour les clients (type 0)
         customerDisplayList = new DisplayList(0);
-
 
         customerTablePanel.add(customerDisplayList);
         // Utilisation de DisplayList pour les médicaments (type 2)
@@ -259,20 +285,27 @@ try{
     }
 
     private void removeFromCart() {
+        if(cart.isEmpty()){
+            JOptionPane.showMessageDialog(this,"Le Panier est deja vide!");
+            return;
+        }
         CartItem selectedItem = getSelectedItem(cartTable, (TableMod<CartItem>) cartTable.getModel());
         int selectedRow = cartTable.getSelectedRow();
         if (selectedRow != -1) {
             CartItem removed = cart.remove(selectedRow);
             updateTotal();
+            cartTable.repaint();
+            cartTable.revalidate();
 
             JOptionPane.showMessageDialog(this,
                     removed.getMedicine().getMedicineName() + " retiré du panier!",
                     "Suppression réussie", JOptionPane.INFORMATION_MESSAGE);
+
         }
     }
 
     private double calculateTotal(){
-        return cart.stream().mapToDouble(CartItem::getTotalPrice).sum();
+        return cart.stream().mapToDouble(CartItem::getLinePrice).sum();
     }
 
     private void updateTotal() {
@@ -306,14 +339,14 @@ try{
         StringBuilder summary = new StringBuilder();
         summary.append("=== RÉSUMÉ DE L'ACHAT ===\n\n");
         summary.append("Client: ").append(selectedCustomer.getFullName()).append("\n");
-        summary.append("Type d'achat: ").append(titleLabel).append("\n\n");
+        summary.append("Type d'achat: ").append(titleLabel.getText()).append("\n\n");
 
         summary.append("Détail des articles:\n");
         for (CartItem item : cart) {
             summary.append(String.format("• %s x%d = %s\n",
                     item.getMedicine().getMedicineName(),
                     item.getQuantity(),
-                    item.getTotalPrice()));
+                    item.getLinePrice()));
         }
         summary.append("\n");
         summary.append("Sous-total: ").append(total).append("\n");
@@ -333,10 +366,7 @@ try{
         if (result == JOptionPane.YES_OPTION) {
             processPurchase();
         }
-
-
     }
-
 
     private void processPurchase(){
         // Ajouter les médicaments à l'achat et réduire les stocks
@@ -346,11 +376,8 @@ try{
         // Ajouter l'achat à la liste des achats
         PurchasesList.addPurchase(currentPurchase);
         JOptionPane.showMessageDialog(this, "Achat validé avec succès!", "Succès", JOptionPane.INFORMATION_MESSAGE);
-        resetForm();
-
+//        resetForm();
     }
-
-
 
     private void cancelPurchase() {
         if (!cart.isEmpty() || selectedCustomer != null) {
@@ -373,8 +400,8 @@ try{
         customerSelectedLabel.setText("Aucun client sélectionné");
         customerSelectedLabel.setForeground(Color.RED);
         updateTotal();
-        customerTable.clearSelection();
-        medicineTable.clearSelection();
+        //customerTable.clearSelection();
+        //medicineTable.clearSelection();
         quantitySpinner.setValue(1);
 
         // Reset info area
@@ -385,18 +412,57 @@ try{
 
     private void searchCustomers() {
         String search = customerSearchField.getText().trim();
-        List<Customer> filteredList = CustomersList.searchCustomer(search);
+        List<Customer> filteredList = CustomersList.filterCustomers(search);
+        customerDisplayList.configTable(filteredList,HEADER_CUSTOMERS, USER_COLUMN_CLASSES);
+    }
+
+    private void searchMedicines() {
+        String search = medicineSearchField.getText().trim();
+        List<Medicine> filteredList = MedicineList.filterMedicines(search);
+        medicineDisplayList.configTable(filteredList,HEADER_MEDICINE, MEDICINE_COLUMN_CLASSES);
+    }
 
 
+
+    private List<Medicine> searchMedicinesByCategory() {
+
+        String selectedCategory = categoryComboBox.getSelectedItem().toString().toLowerCase();
+        List<Medicine> filteredList;
+        if (selectedCategory.equals("catégorie : toutes")) {
+            filteredList = MedicineList.getMedicines();
+        } else {
+            filteredList = MedicineList.getMedicines().stream()
+                    .filter(item -> item
+                            .getCategory()
+                            .getCategoryName().toLowerCase()
+                            .equals(selectedCategory))
+                    .collect(Collectors.toList());
+        }
+
+            return filteredList;
+
+        //medicineDisplayList.configTable(filteredList,HEADER_MEDICINE, MEDICINE_COLUMN_CLASSES);
+
+    }
+
+    private void searchMedicinesWithCategoryFilter(List<Medicine> filteredCategoryList) {
+        String search = medicineSearchField.getText().trim();
+        List<Medicine> filteredList = filteredCategoryList.stream().filter(item -> item.getMedicineName().toLowerCase().contains(search)).toList() ;
+        medicineDisplayList.configTable(filteredList,HEADER_MEDICINE, MEDICINE_COLUMN_CLASSES);
     }
 
     private void updateButtonStates() {
         boolean hasCustomer = selectedCustomer != null;
+        boolean hasPrescription = this.hasPrescription;
         boolean hasItemsInCart = !cart.isEmpty();
 
         addToCartBtn.setEnabled(hasCustomer);
         validatePurchaseBtn.setEnabled(hasCustomer && hasItemsInCart);
+        prescriptionScanBtn.setVisible(hasPrescription);
+        prescriptionScanBtn.setEnabled(hasCustomer);
     }
+
+
 
 
 

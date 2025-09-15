@@ -9,16 +9,16 @@ import java.time.LocalDate;
 
 public class Medicine {
     private String medicineName;
-    private Category categoryName;
+    private Category category;
     private double price;
     private LocalDate releaseDate;
     private int stockQuantity;
     private int threshold = 10;
 
 
-    public Medicine(String medicineName, Category categoryName, double price, String releaseDate, int stockQuantity) throws SaisieException {
+    public Medicine(String medicineName, Category category, double price, String releaseDate, int stockQuantity) throws SaisieException {
         this.setMedicineName(medicineName);
-        this.setCategoryName(categoryName);
+        this.setCategory(category);
         this.setPrice(price);
         this.setReleaseDate(releaseDate);
         this.setStock(stockQuantity);
@@ -36,14 +36,14 @@ public class Medicine {
         }
         this.medicineName = medicineName;
     }
-    public Category getCategoryName() {
-        return categoryName;
+    public Category getCategory() {
+        return category;
     }
-    public void setCategoryName(Category categoryName) throws SaisieException {
-        if(categoryName == null){
+    public void setCategory(Category category) throws SaisieException {
+        if(category == null){
             throw new SaisieException("La categorie ne peut pas etre vide");
         }
-        this.categoryName = categoryName;
+        this.category = category;
     }
     public double getPrice() {
         return price;

@@ -5,8 +5,10 @@ import fr.sparadrah.ecf.model.purchase.Purchase;
 import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
 import fr.sparadrah.ecf.model.person.Customer;
+import fr.sparadrah.ecf.utils.DateFormat;
 import fr.sparadrah.ecf.view.consoleview.purchase.PurchaseHistoryMenu;
 
+import java.time.LocalDate;
 
 
 public class PurchaseController {
@@ -18,13 +20,13 @@ public class PurchaseController {
 
         Customer c = CustomersList.findByNir("1885621486527");
         Purchase p1 = new Purchase(c, true);
-        Purchase p2 = new Purchase(null, false);
+        Purchase p2 = new Purchase(DateFormat.parseDateFromString("18/10/2022"),c, false);
         p1.setCustomer(c);
         p2.setCustomer(c);
-        p1.addMedicine(MedicineList.findMedicineByName("Advil"), 2);
-        p1.addMedicine(MedicineList.findMedicineByName("Doliprane"), 2);
+        p1.addMedicine(MedicineList.findMedicineByName("Advil"), 20);
+        p1.addMedicine(MedicineList.findMedicineByName("Doliprane"), 5);
         p1.addMedicine(MedicineList.findMedicineByName("Ibuprofen"), 2);
-        p2.addMedicine(MedicineList.findMedicineByName("Doliprane"), 2);
+        p2.addMedicine(MedicineList.findMedicineByName("Doliprane"), 1);
         PurchasesList.addPurchase(p1);
         PurchasesList.addPurchase(p2);
     }
@@ -57,7 +59,7 @@ public class PurchaseController {
     }
 
     public static double calculateTotal(Purchase p){
-        double total = p.getPurchasedMedicines().stream().mapToDouble(item -> {
+        double total = p.getMedicines().stream().mapToDouble(item -> {
            double medPrice =  item.getMedicine().getPrice();
            int quantity = item.getQuantity();
            return medPrice * quantity;
@@ -67,7 +69,7 @@ public class PurchaseController {
     };
 
     public static void printLineReceipt(Purchase p){
-        p.getPurchasedMedicines().forEach(item -> {
+        p.getMedicines().forEach(item -> {
             String medName = item.getMedicine().getMedicineName();
             double medPrice = item.getMedicine().getPrice();
             int quantity = item.getQuantity();

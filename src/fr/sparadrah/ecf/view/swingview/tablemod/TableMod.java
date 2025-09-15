@@ -76,7 +76,7 @@ public class TableMod<T> extends AbstractTableModel {
         } else if (item instanceof Medicine medicine) {
             return switch (columnIndex) {
                 case 0 -> medicine.getMedicineName();
-                case 1 -> medicine.getCategoryName();
+                case 1 -> medicine.getCategory();
                 case 2 -> medicine.getPrice();
                 case 3 -> medicine.getStock();
                 case 4 -> DateFormat.formatDate(medicine.getReleaseDate(), "dd/MM/yyyy");
@@ -88,14 +88,14 @@ public class TableMod<T> extends AbstractTableModel {
                 case 0 -> pm.getMedicine().getMedicineName(); // Nom du médicament
                 case 1 -> pm.getQuantity();                   // Quantité achetée
                 case 2 -> pm.getPrice();        // Prix unitaire
-                case 3 -> pm.getTotalPrice(); // Prix total
+                case 3 -> pm.getLinePrice(); // Prix total
                 default -> null;
             };
         }else if (item instanceof Purchase purchase) {
             return switch (columnIndex) {
                 case 0 -> DateFormat.formatDate(purchase.getPurchaseDate(), "dd/MM/yyyy");
-                case 1 -> purchase.getCustomer();
-                case 2 -> purchase.isPrescriptionBased()? "Direct" : "Avec ordonnance";
+                case 1 -> purchase.getCustomer().getFullName();
+                case 2 -> purchase.isPrescriptionBased()? "Avec ordonnance" : "Direct";
                 case 3 -> purchase.getTotal();
                 default -> null;
             };

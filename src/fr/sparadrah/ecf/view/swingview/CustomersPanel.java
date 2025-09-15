@@ -54,8 +54,6 @@ public class CustomersPanel extends JPanel {
 
 
 
-
-
         showDetailsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,7 +61,6 @@ public class CustomersPanel extends JPanel {
                 TableMod<Customer> model = (TableMod<Customer>) tablecontainer.getTable().getModel();
                 Customer selectedCustomer = model.getData().get(row);
                 JOptionPane.showMessageDialog(customersPanel, selectedCustomer.showDetails());
-
             }
         });
 

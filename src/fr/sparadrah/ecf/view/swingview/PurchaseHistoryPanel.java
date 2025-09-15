@@ -1,5 +1,6 @@
 package fr.sparadrah.ecf.view.swingview;
 
+import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
 import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.model.purchase.CartItem;
 import fr.sparadrah.ecf.model.purchase.Purchase;
@@ -9,8 +10,10 @@ import fr.sparadrah.ecf.view.swingview.tablemod.TableMod;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.List;
 
-import static fr.sparadrah.ecf.view.swingview.DisplayList.getSelectedItem;
+import static fr.sparadrah.ecf.view.swingview.DisplayList.*;
 
 public class PurchaseHistoryPanel extends JPanel {
     private JPanel contentPane;
@@ -43,6 +46,9 @@ public class PurchaseHistoryPanel extends JPanel {
     private JLabel doctorDetail;
     private JLabel totatAmountDetail;
     private JTextArea detailMedicinesArea;
+    private JTextField dateField;
+    private JTextField periodStartField;
+    private JTextField periodEndField;
     DisplayList purchases;
 
     JTable purchasesTable;
@@ -51,6 +57,7 @@ public class PurchaseHistoryPanel extends JPanel {
         this.add(contentPane);
 
         purchases = new DisplayList(4);
+        purchasesTable = purchases.getTable();
         tablePanel.add(purchases);
 
 
@@ -58,27 +65,47 @@ public class PurchaseHistoryPanel extends JPanel {
         //purchasesHistoryTitleLabel.setText("Historique des Achats (" + purchasesTable.getRowCount() + " achats)");
 
 
-
-
-        // ComboBox pour la période
-        String[] periodes = {
-                "Aujourd'hui",
-                "Cette semaine",
-                "Ce mois",
-                "Période personnalisée"
-        };
-        for(String periode : periodes){
-            periodComboBox.addItem(periode);
-        }
-
         detailsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //displayPurchaseDetails();
+                displayPurchaseDetails();
             }
         });
+        periodComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selected = (String) periodComboBox.getSelectedItem();
+                dateField.setVisible(selected.equalsIgnoreCase("Date personnalisée"));
+                periodStartField.setVisible(selected.equalsIgnoreCase("Période personnalisée"));
+                periodEndField.setVisible(selected.equalsIgnoreCase("Période personnalisée"));
+                revalidate();
+                repaint();
+            }
+        });
+        filterBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<Purchase> filteredPurchases;
+                switch (periodComboBox.getSelectedItem().toString()) {
+                    case "Aujourd'hui":
+                        filteredPurchases = PurchasesList.findPurchaseOfDay();
+                        System.out.println(filteredPurchases);
+                        break;
+                    case "Date personnalisée":
+                        filteredPurchases = PurchasesList.findPurchaseByDate(dateField.getText());
+                        break;
+                    case "Periode personnalisée":
+                        filteredPurchases = PurchasesList.findPurchasebyPeriod(periodStartField.getText(), periodEndField.getText());
+                        break;
+                    default:
+                            filteredPurchases = PurchasesList.getPurchases();
+                            System.out.println("Aucun filtre appliqué");
+                            break;
+                }
+                purchases.configTable(filteredPurchases, HEADER_PURCHASES, PURCHASE_COLUMN_CLASSES );
 
-
+            }
+        });
     }
 
 
@@ -93,6 +120,7 @@ public class PurchaseHistoryPanel extends JPanel {
     private void displayPurchaseDetails() {
 
         if(selectPurchase()!=null){
+            detailsPanel.setVisible(true);
             Purchase selectedPurchase = selectPurchase();
             Customer customer = selectedPurchase.getCustomer();
 
@@ -110,13 +138,15 @@ public class PurchaseHistoryPanel extends JPanel {
             StringBuilder medicinesList = new StringBuilder();
             for (CartItem med : selectedPurchase.getMedicines()) {
                 medicinesList.append("• ").append(med.getMedicine().getMedicineName())
-                        .append(" (").append(med.getMedicine().getCategoryName()).append(")")
-                        .append("\n  Prix : ").append((med.getMedicine().getPrice()))
-                        .append("\n  Quantité disponible : ").append(med.getMedicine().getStock())
+                        .append(" (").append(med.getMedicine().getCategory()).append(")")
+                        .append("\n  Prix : ").append((med.getPrice()))
+                        .append("\n  Quantité : ").append(med.getQuantity())
                         .append("\n\n");
             }
             detailMedicinesArea.setText(medicinesList.toString());
 
+        }else{
+            detailsPanel.setVisible(false);
         }
     }
 

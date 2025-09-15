@@ -4,7 +4,9 @@
     <constraints>
       <xy x="20" y="20" width="634" height="481"/>
     </constraints>
-    <properties/>
+    <properties>
+      <preferredSize width="1000" height="700"/>
+    </properties>
     <border type="none"/>
     <children>
       <grid id="a6638" binding="topPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
@@ -34,12 +36,41 @@
               <component id="34e69" class="javax.swing.JLabel">
                 <constraints/>
                 <properties>
-                  <text value="Periode: "/>
+                  <text value="Filtre"/>
                 </properties>
               </component>
               <component id="e79f2" class="javax.swing.JComboBox" binding="periodComboBox">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <model>
+                    <item value="Aucun filtre"/>
+                    <item value="Aujourd'hui"/>
+                    <item value="Date personnalisée"/>
+                    <item value="Période personnalisée"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="7108" class="javax.swing.JTextField" binding="dateField">
+                <constraints/>
+                <properties>
+                  <preferredSize width="100" height="36"/>
+                  <text value=""/>
+                  <visible value="false"/>
+                </properties>
+              </component>
+              <component id="2cfd5" class="javax.swing.JTextField" binding="periodStartField">
+                <constraints/>
+                <properties>
+                  <preferredSize width="100" height="36"/>
+                  <visible value="false"/>
+                </properties>
+              </component>
+              <component id="3f089" class="javax.swing.JTextField" binding="periodEndField">
+                <constraints/>
+                <properties>
+                  <preferredSize width="100" height="36"/>
+                  <visible value="false"/>
+                </properties>
               </component>
               <component id="9afb8" class="javax.swing.JButton" binding="filterBtn">
                 <constraints/>
@@ -85,7 +116,9 @@
                 <constraints>
                   <splitpane position="right"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <visible value="true"/>
+                </properties>
                 <border type="none"/>
                 <children>
                   <grid id="60048" binding="detailsTitlePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
@@ -96,6 +129,7 @@
                       <component id="5b300" class="javax.swing.JLabel" binding="detailsTitle">
                         <constraints border-constraint="Center"/>
                         <properties>
+                          <horizontalAlignment value="0"/>
                           <text value="Sélectionnez un achat dans la liste"/>
                         </properties>
                       </component>
@@ -104,7 +138,9 @@
                   <grid id="e1eab" binding="detailsPanel" layout-manager="GridLayoutManager" row-count="7" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints border-constraint="Center"/>
-                    <properties/>
+                    <properties>
+                      <visible value="false"/>
+                    </properties>
                     <border type="none"/>
                     <children>
                       <component id="16acc" class="javax.swing.JLabel" binding="dateLabel">

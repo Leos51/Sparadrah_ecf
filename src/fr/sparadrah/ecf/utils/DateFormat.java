@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class DateFormat {
+    private static final DateTimeFormatter FORMATTER_DATE_FRENCH = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     /**
      *  transforme une date Localdate en type String pour l'affichage suivant le pattern
@@ -29,8 +30,8 @@ public class DateFormat {
      */
     public static LocalDate parseDateFromString(String dateStr) {
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            return LocalDate.parse(dateStr, formatter);
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            return LocalDate.parse(dateStr, FORMATTER_DATE_FRENCH);
         } catch (DateTimeParseException e) {
             System.err.println("Format de date invalide. Utilisez \"dd/MM/yyyy\".\n" + e.getMessage());
         }

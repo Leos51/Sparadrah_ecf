@@ -24,7 +24,7 @@ public class CategoriesList {
 
     public static Category findCategoryByName(String name){
         for (Category category : categories) {
-            if(name.equals(category.getCategoryName())){
+            if(name.equalsIgnoreCase(category.getCategoryName())){
                 return category;
             }
         }

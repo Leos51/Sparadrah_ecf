@@ -1,10 +1,12 @@
 package fr.sparadrah.ecf.model.lists.medicine;
 
+import fr.sparadrah.ecf.model.medicine.Category;
 import fr.sparadrah.ecf.model.medicine.Medicine;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MedicineList {
     private static List<Medicine> medicines = new ArrayList<Medicine>();
@@ -62,5 +64,18 @@ public class MedicineList {
     public static Medicine findMedicineByName(String medName){
         return medicines.stream().filter(
                 med -> med.getMedicineName().equalsIgnoreCase(medName.trim())).findFirst().orElse(null);
+    }
+
+
+    public static List<Medicine> filterMedicines(String medName){
+        String search = medName.toLowerCase().trim();
+        List<Medicine> filteredList = getMedicines().stream().filter(item -> item.getMedicineName().toLowerCase().contains(search)).toList() ;
+        return filteredList;
+    }
+
+    public static List<Medicine> filterMedicinesByCategory(Category category){
+
+        List<Medicine> filteredList = getMedicines().stream().filter(item -> item.getCategory().equals(category.getCategoryName())).toList();
+        return filteredList;
     }
 }

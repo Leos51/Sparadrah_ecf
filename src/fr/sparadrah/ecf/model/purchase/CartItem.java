@@ -33,7 +33,7 @@ public class CartItem {
     }
 
 
-    public double getTotalPrice() {
+    public double getLinePrice() {
         return this.getPrice() * this.getQuantity();
     }
 

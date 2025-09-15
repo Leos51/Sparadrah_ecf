@@ -14,7 +14,7 @@ public class Purchase {
     private Customer customer;
     private boolean isPrescriptionBased;
     private Prescription prescription;
-    private static List<CartItem> purchasedMedicines;
+    private List<CartItem> purchasedMedicines;
 
 
     public Purchase() {
@@ -96,8 +96,8 @@ public class Purchase {
 
     public double getTotal(){
         double total = 0;
-        for(CartItem medicine : this.getMedicines()) {
-            total += medicine.getTotalPrice();
+        if(!this.getMedicines().isEmpty()){
+            total = this.getMedicines().stream().mapToDouble(CartItem::getLinePrice).sum();
         }
         return total;
     }
@@ -123,9 +123,6 @@ public class Purchase {
         purchasedMedicines.remove(medicine);
     }
 
-    public static List<CartItem> getPurchasedMedicines() {
-        return new ArrayList<>(purchasedMedicines);
-    }
 
 
     public String showDetails() {
