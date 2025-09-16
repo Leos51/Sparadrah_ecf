@@ -47,5 +47,15 @@ public class CustomersList {
         return filteredCustomers;
     };
 
+    public static Customer findByFullName(String fullName) {
+        String search = fullName.toLowerCase().trim();
+        for(Customer customer : getCustomers()) {
+            if(customer.getFullName().toLowerCase().equalsIgnoreCase(search)) {
+                return customer;
+            }
+        }
+        return null;
+    };
+
 
 }

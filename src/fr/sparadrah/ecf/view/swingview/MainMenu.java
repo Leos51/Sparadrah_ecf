@@ -1,7 +1,5 @@
 package fr.sparadrah.ecf.view.swingview;
 
-import fr.sparadrah.ecf.view.swingview.customerpanel.CustomerPanel;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +9,7 @@ public  class MainMenu extends JPanel {
     private MainPanel mainPanel;
     private CustomersPanel customersPanel = new CustomersPanel();
     private PurchaseHistoryPanel purchaseHistoryPanel = new PurchaseHistoryPanel();
+    private HomePanel homePanel = new HomePanel();
 
 
 
@@ -26,6 +25,7 @@ public  class MainMenu extends JPanel {
     private JLabel purchaseLabel;
     private JPanel menu;
     private JButton purchaseHistoryBtn;
+    private JButton homeBtn;
     private Boolean hasPrescription = false;
 
 
@@ -42,6 +42,8 @@ public  class MainMenu extends JPanel {
                 hasPrescription = false;
                 PurchaseManagementPanel purchasePanel = new PurchaseManagementPanel(hasPrescription);
                 mainPanel.showView(purchasePanel);
+                resetBtnMenu();
+                directPurchaseBtn.setEnabled(false);
             }
         });
         presciptedPurchaseBtn.addActionListener(new ActionListener() {
@@ -50,6 +52,8 @@ public  class MainMenu extends JPanel {
                 hasPrescription = true;
                 PurchaseManagementPanel purchasePanel = new PurchaseManagementPanel(hasPrescription);
                 mainPanel.showView(purchasePanel);
+                resetBtnMenu();
+                presciptedPurchaseBtn.setEnabled(false);
 
             }
         });
@@ -58,12 +62,17 @@ public  class MainMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainPanel.showView(purchaseHistoryPanel);
+                resetBtnMenu();
+                purchaseHistoryBtn.setEnabled(false);
 
             }
         });
 
         customerManagerBtn.addActionListener(e -> {
             mainPanel.showView(customersPanel);
+            resetBtnMenu();
+            customerManagerBtn.setEnabled(false);
+
         });
 
 
@@ -74,19 +83,29 @@ public  class MainMenu extends JPanel {
             }
         });
 
-    }
-    private void showCustomersPanel() {
-        mainPanel.removeAll();
-        mainPanel.add(new CustomerPanel());
-        mainPanel.revalidate();
-        mainPanel.repaint();
+        homeBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainPanel.showView(homePanel);
+                resetBtnMenu();
+                homeBtn.setEnabled(false);
+
+            }
+        });
     }
 
-    private void showDoctorPanel() {
-        mainPanel.removeAll();
-        mainPanel.add(new JLabel("Gestion medecins"));
-        mainPanel.revalidate();
-        mainPanel.repaint();
+    private void resetBtnMenu() {
+        homeBtn.setEnabled(true);
+        directPurchaseBtn.setEnabled(true);
+        presciptedPurchaseBtn.setEnabled(true);
+
+        purchaseHistoryBtn.setEnabled(true);
+
+        customerManagerBtn.setEnabled(true);
+        doctorsManagerBtn.setEnabled(true);
+        medicineManagerBtn.setEnabled(true);
+
+
     }
 
 }

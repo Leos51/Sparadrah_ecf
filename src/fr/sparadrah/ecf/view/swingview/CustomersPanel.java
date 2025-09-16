@@ -2,15 +2,15 @@ package fr.sparadrah.ecf.view.swingview;
 
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
 import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
-import fr.sparadrah.ecf.view.swingview.tablemod.TableMod;
+import fr.sparadrah.ecf.view.swingview.tablemodele.TableModele;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
-import static fr.sparadrah.ecf.view.swingview.DisplayList.getSelectedItem;
+import static fr.sparadrah.ecf.view.swingview.DisplayList.*;
 
 public class CustomersPanel extends JPanel {
     private JPanel customersPanel;
@@ -27,10 +27,8 @@ public class CustomersPanel extends JPanel {
     private JButton showDetailsBtn;
     private JPanel tableContainer;
     private JScrollPane scrollPane1;
-    private JRadioButton parNomRadioButton;
-    private JRadioButton villeRadioButton;
-    private JRadioButton parPrenomRadioButton;
-    private JRadioButton nirRadioButton;
+
+    DisplayList tablecontainer;
     public enum FormModes{
         ADD,
         EDIT
@@ -41,8 +39,7 @@ public class CustomersPanel extends JPanel {
 
         this.setLayout(new GridLayout(1,1));
         this.add(customersPanel);
-        DisplayList tablecontainer = new DisplayList(0);
-        //customersTable = tablecontainer.getTable();
+        tablecontainer = new DisplayList(0);
         customersPanel.add(tablecontainer);
 
         tablecontainer.getTable().getSelectionModel().addListSelectionListener(e -> {
@@ -54,11 +51,12 @@ public class CustomersPanel extends JPanel {
 
 
 
+
         showDetailsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = tablecontainer.getTable().getSelectedRow();
-                TableMod<Customer> model = (TableMod<Customer>) tablecontainer.getTable().getModel();
+                TableModele<Customer> model = (TableModele<Customer>) tablecontainer.getTable().getModel();
                 Customer selectedCustomer = model.getData().get(row);
                 JOptionPane.showMessageDialog(customersPanel, selectedCustomer.showDetails());
             }
@@ -68,7 +66,7 @@ public class CustomersPanel extends JPanel {
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Customer selectedCustomer = getSelectedItem(tablecontainer.getTable(), (TableMod<Customer>) tablecontainer.getTable().getModel());
+                Customer selectedCustomer = getSelectedItem(tablecontainer.getTable(), (TableModele<Customer>) tablecontainer.getTable().getModel());
 
                     CustomerFormPanel formPanel = new CustomerFormPanel(selectedCustomer, FormModes.EDIT);
                     formPanel.setVisible(true);
@@ -79,7 +77,7 @@ public class CustomersPanel extends JPanel {
         deleteButton.addActionListener(e-> {
                 int row = tablecontainer.getTable().getSelectedRow();
                 if (row != -1) {
-                    TableMod<Customer> model = (TableMod<Customer>) tablecontainer.getTable().getModel();
+                    TableModele<Customer> model = (TableModele<Customer>) tablecontainer.getTable().getModel();
                     Customer selectedCustomer = model.getData().get(row);
 
                     int confirm = JOptionPane.showConfirmDialog(
@@ -89,34 +87,54 @@ public class CustomersPanel extends JPanel {
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.WARNING_MESSAGE
                     );
-
-
                     if (confirm == JOptionPane.YES_OPTION) {
                             CustomersList.removeCustomer(selectedCustomer);
+                            repaint();
+                            revalidate();
+                            updateButtonsState();
                     }
                 }
 
 
         });
-        addButton.addActionListener(new ActionListener() {
+
+
+
+        searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CustomerFormPanel formPanel = null;
-                formPanel = new CustomerFormPanel(new Customer(), FormModes.ADD);
-                formPanel.setVisible(true);
-                formPanel.pack();
-
-
+                searchCustomers();
             }
         });
 
 
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CustomerFormPanel c = new CustomerFormPanel(new Customer(), FormModes.ADD);
 
+                repaint();
+                revalidate();
 
+                updateButtonsState();
+            }
+        });
+    }
 
+    private void searchCustomers() {
+        String search = searchField.getText().trim();
+        List<Customer> filteredList = CustomersList.filterCustomers(search);
+        tablecontainer.configTable(filteredList,HEADER_CUSTOMERS, USER_COLUMN_CLASSES);
     }
 
 
+    private void updateButtonsState() {
+        boolean hasCustomers = !CustomersList.getCustomers().isEmpty();
+        showDetailsBtn.setEnabled(hasCustomers);
+        deleteButton.setEnabled(hasCustomers);
+        editButton.setEnabled(hasCustomers);
+        addButton.setEnabled(true);
+    }
 
 
 

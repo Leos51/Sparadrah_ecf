@@ -1,6 +1,5 @@
-package fr.sparadrah.ecf.view.swingview.tablemod;
+package fr.sparadrah.ecf.view.swingview.tablemodele;
 
-import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
 import fr.sparadrah.ecf.model.medicine.Medicine;
 import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.model.person.Doctor;
@@ -12,13 +11,13 @@ import javax.swing.table.AbstractTableModel;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class TableMod<T> extends AbstractTableModel {
+public class TableModele<T> extends AbstractTableModel {
     private final List<T> data;
     private final String[] columnNames;
     private final Class<?>[] columnClasses;
     private final DateTimeFormatter FORMATTER_DATE_FRENCH = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    public TableMod(List<T> data, String[] columnNames, Class<?>[] columnClasses) {
+    public TableModele(List<T> data, String[] columnNames, Class<?>[] columnClasses) {
         this.data = data;
         this.columnNames = columnNames;
         this.columnClasses = columnClasses;

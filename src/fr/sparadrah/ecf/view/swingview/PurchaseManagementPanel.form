@@ -150,8 +150,8 @@
                               <component id="af8b6" class="javax.swing.JTextField" binding="medicineSearchField">
                                 <constraints/>
                                 <properties>
-                                  <minimumSize width="100" height="34"/>
-                                  <preferredSize width="100" height="36"/>
+                                  <minimumSize width="100" height="25"/>
+                                  <preferredSize width="100" height="25"/>
                                 </properties>
                               </component>
                               <component id="89421" class="javax.swing.JButton" binding="searchMedicineBtn">
@@ -206,7 +206,7 @@
                               <component id="8c407" class="javax.swing.JTextField" binding="customerSearchField">
                                 <constraints/>
                                 <properties>
-                                  <preferredSize width="100" height="36"/>
+                                  <preferredSize width="100" height="25"/>
                                   <text value=""/>
                                 </properties>
                               </component>

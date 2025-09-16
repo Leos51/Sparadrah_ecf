@@ -5,6 +5,7 @@ import fr.sparadrah.ecf.utils.DateFormat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class PurchasesList {
@@ -91,12 +92,17 @@ public class PurchasesList {
         List<Purchase> customerPurchases = new ArrayList<>();
         for (Purchase purchase : purchases) {
             if(
-                    formatedStartDate.isBefore(purchase.getPurchaseDate())
-                    && formatedEndDate.isAfter(purchase.getPurchaseDate())
+                    formatedStartDate.minusDays(1).isBefore(purchase.getPurchaseDate())
+                    && formatedEndDate.plusDays(1).isAfter(purchase.getPurchaseDate())
             ){
                 customerPurchases.add(purchase);
             }
         }
         return  customerPurchases;
+    }
+
+    public static LocalDate getOldestPurchaseDate() {
+        return purchases.stream()
+                .map(Purchase::getPurchaseDate).min(Comparator.naturalOrder()).get();
     }
 }

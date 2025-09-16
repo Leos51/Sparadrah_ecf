@@ -25,4 +25,8 @@ public class Validator {
     public static boolean isValidNIR(String nir) {
         return nir.matches(RegexPatterns.NIR_REGEX);
     }
+
+    public static boolean isValidDate(String date) {
+        return date.matches(RegexPatterns.DATE_PATTERN);
+    }
 }

@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="fr.sparadrah.ecf.view.swingview.CustomersPanel">
   <grid id="27dc6" binding="customersPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="911" height="598"/>
+      <xy x="20" y="20" width="911" height="645"/>
     </constraints>
     <properties>
       <background color="-1769250"/>
@@ -42,94 +42,65 @@
           </component>
         </children>
       </grid>
-      <grid id="41af0" binding="topPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="41af0" binding="topPanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="10" left="10" bottom="10" right="10"/>
         <constraints border-constraint="North"/>
         <properties/>
         <border type="line"/>
         <children>
-          <component id="d0f91" class="javax.swing.JLabel" binding="titleLabel">
+          <grid id="c0d50" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties>
-              <text value="Gestion Clients"/>
-            </properties>
-          </component>
-          <grid id="7c131" layout-manager="GridLayoutManager" row-count="4" column-count="12" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="9ec8" class="javax.swing.JTextField" binding="searchField">
+                <constraints/>
+                <properties>
+                  <columns value="20"/>
+                  <minimumSize width="50" height="25"/>
+                  <preferredSize width="220" height="25"/>
+                  <toolTipText value="votre recherche"/>
+                </properties>
+              </component>
+              <component id="77db2" class="javax.swing.JButton" binding="searchButton">
+                <constraints/>
+                <properties>
+                  <icon value="fr/sparadrah/ecf/view/swingview/ressources/recherche.png"/>
+                  <text value=""/>
+                  <toolTipText value="Rechercher"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="475bf" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
               <component id="7210e" class="javax.swing.JButton" binding="addButton">
-                <constraints>
-                  <grid row="0" column="11" row-span="4" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                </constraints>
+                <constraints/>
                 <properties>
-                  <background color="-16738780"/>
+                  <background color="-12020664"/>
                   <foreground color="-328193"/>
-                  <icon value="fr/sparadrah/ecf/view/swingview/ressources/ajouter-un-utilisateur.png"/>
+                  <icon value="fr/sparadrah/ecf/view/swingview/ressources/ajouter.png"/>
                   <text value=""/>
-                  <toolTipText value="Ajouter un utilisateur"/>
-                </properties>
-              </component>
-              <component id="77db2" class="javax.swing.JButton" binding="searchButton">
-                <constraints>
-                  <grid row="0" column="10" row-span="4" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <icon value="fr/sparadrah/ecf/view/swingview/ressources/recherche-a-la-loupe.png"/>
-                  <text value=""/>
-                  <toolTipText value="Rechercher"/>
-                </properties>
-              </component>
-              <component id="a149a" class="javax.swing.JRadioButton" binding="parNomRadioButton" default-binding="true">
-                <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="par nom"/>
-                </properties>
-              </component>
-              <component id="334bf" class="javax.swing.JRadioButton" binding="villeRadioButton" default-binding="true">
-                <constraints>
-                  <grid row="3" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="ville"/>
-                </properties>
-              </component>
-              <component id="3b293" class="javax.swing.JRadioButton" binding="parPrenomRadioButton" default-binding="true">
-                <constraints>
-                  <grid row="3" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="par prenom"/>
-                </properties>
-              </component>
-              <component id="72423" class="javax.swing.JRadioButton" binding="nirRadioButton" default-binding="true">
-                <constraints>
-                  <grid row="3" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="nir"/>
-                </properties>
-              </component>
-              <component id="9ec8" class="javax.swing.JTextField" binding="searchField">
-                <constraints>
-                  <grid row="1" column="1" row-span="3" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <toolTipText value="votre recherche"/>
+                  <toolTipText value="Nouveau client"/>
                 </properties>
               </component>
             </children>
           </grid>
+          <component id="d0f91" class="javax.swing.JLabel" binding="titleLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Gestion Clients"/>
+            </properties>
+          </component>
         </children>
       </grid>
       <grid id="fa0bd" binding="centerPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

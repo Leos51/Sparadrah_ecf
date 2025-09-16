@@ -10,10 +10,9 @@ import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.model.purchase.Purchase;
 import fr.sparadrah.ecf.model.purchase.CartItem;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
-import fr.sparadrah.ecf.view.swingview.tablemod.TableMod;
+import fr.sparadrah.ecf.view.swingview.tablemodele.TableModele;
 
 import javax.swing.*;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -231,7 +230,7 @@ try{
     }
 
     private void selectCustomer(){
-            selectedCustomer = getSelectedItem(customerTable, (TableMod<Customer>) customerTable.getModel());
+            selectedCustomer = getSelectedItem(customerTable, (TableModele<Customer>) customerTable.getModel());
             if(selectedCustomer != null){
                 customerSelectedLabel.setText("Client: " + selectedCustomer);
                 customerSelectedLabel.setForeground(new Color(0, 128, 0));
@@ -244,7 +243,7 @@ try{
     }
 
     private void addToCart(){
-        selectedMedicine = getSelectedItem(medicineDisplayList.getTable(), (TableMod<Medicine>) medicineDisplayList.getTable().getModel());
+        selectedMedicine = getSelectedItem(medicineDisplayList.getTable(), (TableModele<Medicine>) medicineDisplayList.getTable().getModel());
         int quantity = (Integer) quantitySpinner.getValue();
 
         // Vérifier le stock
@@ -289,7 +288,7 @@ try{
             JOptionPane.showMessageDialog(this,"Le Panier est deja vide!");
             return;
         }
-        CartItem selectedItem = getSelectedItem(cartTable, (TableMod<CartItem>) cartTable.getModel());
+        CartItem selectedItem = getSelectedItem(cartTable, (TableModele<CartItem>) cartTable.getModel());
         int selectedRow = cartTable.getSelectedRow();
         if (selectedRow != -1) {
             CartItem removed = cart.remove(selectedRow);
@@ -400,8 +399,7 @@ try{
         customerSelectedLabel.setText("Aucun client sélectionné");
         customerSelectedLabel.setForeground(Color.RED);
         updateTotal();
-        //customerTable.clearSelection();
-        //medicineTable.clearSelection();
+
         quantitySpinner.setValue(1);
 
         // Reset info area
@@ -410,12 +408,19 @@ try{
         }
     }
 
+    /**
+     * Creer une nouvelle liste client filtré
+     */
     private void searchCustomers() {
         String search = customerSearchField.getText().trim();
         List<Customer> filteredList = CustomersList.filterCustomers(search);
         customerDisplayList.configTable(filteredList,HEADER_CUSTOMERS, USER_COLUMN_CLASSES);
     }
 
+
+    /**
+     * Crée une nouvelle liste de medicament fitlré
+     */
     private void searchMedicines() {
         String search = medicineSearchField.getText().trim();
         List<Medicine> filteredList = MedicineList.filterMedicines(search);

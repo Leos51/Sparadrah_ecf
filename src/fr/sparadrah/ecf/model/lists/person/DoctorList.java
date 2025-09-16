@@ -1,5 +1,6 @@
 package fr.sparadrah.ecf.model.lists.person;
 
+import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.model.person.Doctor;
 
 import java.util.ArrayList;
@@ -29,6 +30,15 @@ public class DoctorList {
         }
         return null;
     }
+    public static Doctor findByFullName(String fullName) {
+        String search = fullName.toLowerCase().trim();
+        for(Doctor doctor : getDoctors()) {
+            if(doctor.getFullName().toLowerCase().equalsIgnoreCase(search)) {
+                return doctor;
+            }
+        }
+        return null;
+    };
 
 
 }

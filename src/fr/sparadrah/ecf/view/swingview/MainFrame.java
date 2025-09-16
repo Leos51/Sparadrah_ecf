@@ -1,8 +1,5 @@
 package fr.sparadrah.ecf.view.swingview;
 
-import fr.sparadrah.ecf.view.swingview.customerpanel.DisplayTable;
-import fr.sparadrah.ecf.view.swingview.customerpanel.CustomerPanel;
-
 import javax.swing.*;
 import java.awt.*;
 

@@ -4,8 +4,7 @@ import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
 import fr.sparadrah.ecf.model.lists.person.DoctorList;
 import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.view.swingview.tablemod.TableMod;
+import fr.sparadrah.ecf.view.swingview.tablemodele.TableModele;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -68,39 +67,16 @@ public class DisplayList extends JPanel {
         }
     }
 
-    public void DisplayCustomer(int type, List<?> filteredList){
-
-        this.setLayout(new BorderLayout());
-        JLabel tableLabel = new JLabel();
-        tableLabel.setForeground(Color.white);
-        this.add(tableLabel, BorderLayout.NORTH);
-        this.add(scrollPane, BorderLayout.CENTER);
-        scrollPane.setViewportView(table);
-        switch (type) {
-            case 0:
-                tableLabel.setText("Liste des Clients:");
-                configTable(filteredList,HEADER_CUSTOMERS,USER_COLUMN_CLASSES);
-                break;
-                case 1:
-                    tableLabel.setText("Liste des Medecins:");
-                    configTable(filteredList,HEADER_MEDICINE,MEDICINE_COLUMN_CLASSES);
-                    break;
-
-            default:
-                break;
-        }
-    }
-
 
     public <T> void configTable(List<T> list, String[] headers, Class<?>[] columnClasses) {
-        TableModel model = new TableMod<>(list, headers, columnClasses);
+        TableModel model = new TableModele<>(list, headers, columnClasses);
         this.table.setModel(model);
         this.table.revalidate();
         this.table.repaint();
     }
 
     public <T> void updateTable(List<T> filteredList, String[] headers, Class<?>[] columnClasses) {
-        TableModel model = new TableMod<>(filteredList, headers, columnClasses);
+        TableModel model = new TableModele<>(filteredList, headers, columnClasses);
         this.table.setModel(model);
         this.table.revalidate();
         this.table.repaint();
@@ -110,7 +86,7 @@ public class DisplayList extends JPanel {
         return this.table;
     }
 
-    public static <T> T getSelectedItem(JTable table, TableMod<T> model) {
+    public static <T> T getSelectedItem(JTable table, TableModele<T> model) {
         int row = table.getSelectedRow();
         if (row != -1) {
             return model.getData().get(row);

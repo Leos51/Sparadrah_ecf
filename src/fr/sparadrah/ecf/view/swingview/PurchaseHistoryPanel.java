@@ -5,7 +5,8 @@ import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.model.purchase.CartItem;
 import fr.sparadrah.ecf.model.purchase.Purchase;
 import fr.sparadrah.ecf.utils.DateFormat;
-import fr.sparadrah.ecf.view.swingview.tablemod.TableMod;
+import fr.sparadrah.ecf.utils.exception.SaisieException;
+import fr.sparadrah.ecf.view.swingview.tablemodele.TableModele;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.List;
 
+import static fr.sparadrah.ecf.model.lists.purchase.PurchasesList.getOldestPurchaseDate;
 import static fr.sparadrah.ecf.view.swingview.DisplayList.*;
 
 public class PurchaseHistoryPanel extends JPanel {
@@ -85,24 +87,42 @@ public class PurchaseHistoryPanel extends JPanel {
         filterBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                List<Purchase> filteredPurchases;
-                switch (periodComboBox.getSelectedItem().toString()) {
-                    case "Aujourd'hui":
-                        filteredPurchases = PurchasesList.findPurchaseOfDay();
-                        System.out.println(filteredPurchases);
-                        break;
-                    case "Date personnalisée":
-                        filteredPurchases = PurchasesList.findPurchaseByDate(dateField.getText());
-                        break;
-                    case "Periode personnalisée":
-                        filteredPurchases = PurchasesList.findPurchasebyPeriod(periodStartField.getText(), periodEndField.getText());
-                        break;
-                    default:
+                try{
+                    List<Purchase> filteredPurchases;
+                    switch (periodComboBox.getSelectedItem().toString()) {
+                        case "Aujourd'hui":
+                            filteredPurchases = PurchasesList.findPurchaseOfDay();
+                            System.out.println(filteredPurchases);
+                            break;
+                        case "Date personnalisée":
+                            if (dateField.getText().trim().equals("")) {
+                                    throw new SaisieException("Remplir le champ date avant de filtrer les achats");
+                            }
+                            filteredPurchases = PurchasesList.findPurchaseByDate(dateField.getText());
+                            break;
+                        case "Période personnalisée":
+                            if (periodStartField.getText().trim().equals("") && periodEndField.getText().trim().equals("")) {
+                                throw new SaisieException("Remplir les champs date avant de filtrer les achats");
+                            }
+                            if(periodEndField.getText().trim().equals("")){
+                                periodEndField.setText(DateFormat.formatDate(LocalDate.now(), "dd/MM/yyyy"));
+                            }
+                            if(periodStartField.getText().trim().equals("")){
+                                periodStartField.setText(DateFormat.formatDate(getOldestPurchaseDate(), "dd/MM/yyyy"));
+                            }
+                            filteredPurchases = PurchasesList.findPurchasebyPeriod(periodStartField.getText(), periodEndField.getText());
+                            break;
+                        default:
                             filteredPurchases = PurchasesList.getPurchases();
                             System.out.println("Aucun filtre appliqué");
                             break;
+                    }
+                    purchases.configTable(filteredPurchases, HEADER_PURCHASES, PURCHASE_COLUMN_CLASSES );
+                }catch (SaisieException ex){
+                    JOptionPane.showMessageDialog(null,"Erreur de saisie : " + ex.getMessage(),"Erreur",JOptionPane.ERROR_MESSAGE);
                 }
-                purchases.configTable(filteredPurchases, HEADER_PURCHASES, PURCHASE_COLUMN_CLASSES );
+
+
 
             }
         });
@@ -110,7 +130,7 @@ public class PurchaseHistoryPanel extends JPanel {
 
 
     private Purchase  selectPurchase(){
-        Purchase selectedPurchase = getSelectedItem(purchasesTable, (TableMod<Purchase>) purchasesTable.getModel());
+        Purchase selectedPurchase = getSelectedItem(purchasesTable, (TableModele<Purchase>) purchasesTable.getModel());
         return selectedPurchase;
     };
 
