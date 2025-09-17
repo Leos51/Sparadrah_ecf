@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="fr.sparadrah.ecf.view.swingview.MainMenu">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="fr.sparadrah.ecf.view.swingview.menu.MainMenu">
   <grid id="27dc6" binding="containerMenu" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="20" y="20" width="860" height="484"/>
     </constraints>
     <properties/>
-    <border type="line">
+    <border type="empty">
       <color color="-2104859"/>
     </border>
     <children>
-      <grid id="aeb61" binding="menu" layout-manager="GridLayoutManager" row-count="12" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="aeb61" binding="menu" layout-manager="GridLayoutManager" row-count="13" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
-        <constraints border-constraint="South"/>
+        <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
         <children>
@@ -86,7 +86,7 @@
           </component>
           <component id="5e4dc" class="javax.swing.JButton" binding="exitButton">
             <constraints>
-              <grid row="11" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="12" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="❌ Quitter"/>
@@ -114,11 +114,13 @@
             </constraints>
             <properties/>
           </component>
+          <vspacer id="6759e">
+            <constraints>
+              <grid row="11" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
         </children>
       </grid>
-      <vspacer id="498a3">
-        <constraints border-constraint="West"/>
-      </vspacer>
     </children>
   </grid>
 </form>

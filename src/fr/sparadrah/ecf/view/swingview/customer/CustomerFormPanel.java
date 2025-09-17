@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.view.swingview;
+package fr.sparadrah.ecf.view.swingview.customer;
 
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
 import fr.sparadrah.ecf.model.lists.person.DoctorList;
@@ -8,12 +8,10 @@ import fr.sparadrah.ecf.model.person.Doctor;
 import fr.sparadrah.ecf.model.person.MutualInsurance;
 import fr.sparadrah.ecf.utils.DateFormat;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
-import fr.sparadrah.ecf.utils.validator.Validator;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 
 public class CustomerFormPanel extends  JFrame {
     private JPanel editPanel;
@@ -77,8 +75,8 @@ public class CustomerFormPanel extends  JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     submitForm(currentCustomer, mode);
-                } catch (SaisieException ex) {
-                    JOptionPane.showMessageDialog(CustomerFormPanel.this, ex.getMessage());
+                } catch (SaisieException exception) {
+                    JOptionPane.showMessageDialog(CustomerFormPanel.this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
 
 
@@ -104,8 +102,7 @@ public class CustomerFormPanel extends  JFrame {
         Doctor doctor = DoctorList.findDoctorByLicenseNumber(doctorNir);
 
             if (lastName.isEmpty() || firstName.isEmpty() || address.isEmpty() || postCode.isEmpty() || city.isEmpty() || phone.isEmpty() || email.isEmpty() || birthDate.isEmpty() || nir.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Champs obligatoires manquants.", "Erreur", JOptionPane.ERROR_MESSAGE);
-                return;
+                throw new SaisieException("Champs obligatoires manquants.");
             }
 
 
@@ -151,7 +148,7 @@ public class CustomerFormPanel extends  JFrame {
             mutualField.setText(c.getMutualInsurance().getCompagnyName());
         }
         if (c.getDoctor() != null) {
-            doctorField.setText(c.getDoctor().getLicenseNumber());
+            doctorField.setText(c.getDoctor().getRpps());
         }
     }
 

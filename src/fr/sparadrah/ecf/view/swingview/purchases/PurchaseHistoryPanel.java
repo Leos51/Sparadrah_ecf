@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.view.swingview;
+package fr.sparadrah.ecf.view.swingview.purchases;
 
 import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
 import fr.sparadrah.ecf.model.person.Customer;
@@ -6,6 +6,8 @@ import fr.sparadrah.ecf.model.purchase.CartItem;
 import fr.sparadrah.ecf.model.purchase.Purchase;
 import fr.sparadrah.ecf.utils.DateFormat;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
+import fr.sparadrah.ecf.utils.validator.Validator;
+import fr.sparadrah.ecf.view.swingview.DisplayList;
 import fr.sparadrah.ecf.view.swingview.tablemodele.TableModele;
 
 import javax.swing.*;
@@ -95,15 +97,16 @@ public class PurchaseHistoryPanel extends JPanel {
                             System.out.println(filteredPurchases);
                             break;
                         case "Date personnalisée":
-                            if (dateField.getText().trim().equals("")) {
-                                    throw new SaisieException("Remplir le champ date avant de filtrer les achats");
+                            if (!Validator.isValidDate(dateField.getText())){
+                                    throw new SaisieException("Remplir le champ date au format : \"dd/MM/yyyy\" avant de filtrer les achats");
                             }
                             filteredPurchases = PurchasesList.findPurchaseByDate(dateField.getText());
                             break;
                         case "Période personnalisée":
-                            if (periodStartField.getText().trim().equals("") && periodEndField.getText().trim().equals("")) {
-                                throw new SaisieException("Remplir les champs date avant de filtrer les achats");
+                            if(!Validator.isValidDate(periodStartField.getText()) || !Validator.isValidDate(periodEndField.getText())) {
+                                throw new SaisieException("Remplir les champs date au format : \"dd/MM/yyyy\"");
                             }
+
                             if(periodEndField.getText().trim().equals("")){
                                 periodEndField.setText(DateFormat.formatDate(LocalDate.now(), "dd/MM/yyyy"));
                             }
@@ -121,9 +124,6 @@ public class PurchaseHistoryPanel extends JPanel {
                 }catch (SaisieException ex){
                     JOptionPane.showMessageDialog(null,"Erreur de saisie : " + ex.getMessage(),"Erreur",JOptionPane.ERROR_MESSAGE);
                 }
-
-
-
             }
         });
     }

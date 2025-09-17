@@ -8,10 +8,12 @@ import fr.sparadrah.ecf.model.purchase.Purchase;
 import fr.sparadrah.ecf.utils.DateFormat;
 
 import javax.swing.table.AbstractTableModel;
+import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TableModele<T> extends AbstractTableModel {
+    private final DecimalFormat df = new DecimalFormat("0.00");
     private final List<T> data;
     private final String[] columnNames;
     private final Class<?>[] columnClasses;
@@ -68,7 +70,7 @@ public class TableModele<T> extends AbstractTableModel {
                 case 1 -> doctor.getEmail();
                 case 2 -> doctor.getPhone();
                 case 3 -> doctor.getCity();
-                case 4 -> doctor.getLicenseNumber();
+                case 4 -> doctor.getRpps();
 
                 default -> null;
             };
@@ -95,7 +97,7 @@ public class TableModele<T> extends AbstractTableModel {
                 case 0 -> DateFormat.formatDate(purchase.getPurchaseDate(), "dd/MM/yyyy");
                 case 1 -> purchase.getCustomer().getFullName();
                 case 2 -> purchase.isPrescriptionBased()? "Avec ordonnance" : "Direct";
-                case 3 -> purchase.getTotal();
+                case 3 -> String.format("%.2f €",purchase.getTotal());
                 default -> null;
             };
         }

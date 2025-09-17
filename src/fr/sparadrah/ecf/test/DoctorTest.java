@@ -23,13 +23,13 @@ class DoctorTest {
 
     @Test
     void getLicenseNumber() {
-        assertEquals("12345678590", doctor.getLicenseNumber());
+        assertEquals("12345678590", doctor.getRpps());
     }
 
     @Test
     void setLicenseNumber() throws SaisieException {
-        doctor.setlicenseNumber("12345678698");
-        assertEquals("12345678698", doctor.getLicenseNumber());
+        doctor.setRpps("12345678698");
+        assertEquals("12345678698", doctor.getRpps());
     }
 
 }

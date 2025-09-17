@@ -13,18 +13,34 @@ public class DoctorList {
     public static List<Doctor> getDoctors() {
         return doctors;
     }
+
+    public static List<Doctor> filterDoctor(String pSearch) {
+        String search = pSearch.toLowerCase().trim();
+        List<Doctor> filteredDoctors = getDoctors().stream()
+                .filter(doctor ->
+                        doctor.getFullName().toLowerCase().contains(search) ||
+                                doctor.getRpps().contains(search) ||
+                                doctor.getEmail().contains(search) ||
+                                doctor.getCity().toLowerCase().contains(search)
+
+                ).toList();
+        return filteredDoctors;
+    }
+
     public void setDoctors(List<Doctor> doctors) {
+
         this.doctors = doctors;
     }
     public static void addDoctor(Doctor doctor) {
         getDoctors().add(doctor);
     }
-    public void deleteDoctor(Doctor doctor) {
-        this.doctors.remove(doctor);
+    public static void removeDoctor(Doctor doctor) {
+
+        doctors.remove(doctor);
     }
     public static Doctor findDoctorByLicenseNumber(String certificateNumber) {
         for (Doctor d : doctors) {
-            if(certificateNumber.equals(d.getLicenseNumber())){
+            if(certificateNumber.equals(d.getRpps())){
                 return d;
             };
         }

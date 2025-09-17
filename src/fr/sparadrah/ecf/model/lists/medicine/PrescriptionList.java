@@ -38,7 +38,7 @@ public class PrescriptionList {
      */
     public static List<Prescription> findPrescriptionsByDoctor(Doctor doctor) {
         return prescriptionList.stream()
-                .filter(p -> p.getDoctor().getLicenseNumber().equals(doctor.getLicenseNumber()))
+                .filter(p -> p.getDoctor().getRpps().equals(doctor.getRpps()))
                 .collect(Collectors.toList());
     }
 

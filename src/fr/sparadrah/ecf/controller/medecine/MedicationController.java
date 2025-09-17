@@ -9,12 +9,6 @@ import fr.sparadrah.ecf.utils.exception.SaisieException;
 public class MedicationController {
     public static void seedMedicationData() {
         try{
-           /*
-            "Analgésiques"
-            "Antiviraux"
-            "Antibiotiques"
-            "Analgésiques"
-            */
 
             Category analgesique = CategoriesList.findCategoryByName("Analgésiques");
             Category ai =  CategoriesList.findCategoryByName("anti-inflammatoires");

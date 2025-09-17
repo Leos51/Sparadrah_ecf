@@ -9,6 +9,7 @@ import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.model.person.Doctor;
 import fr.sparadrah.ecf.utils.DateFormat;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
+import fr.sparadrah.ecf.utils.validator.Validator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,7 @@ public class PrescriptionCreationPanel extends JDialog {
     private Customer customer;
 
     // Composants de l'interface
-    private JPanel mainPanel;
+    private JPanel contentPane;
     private JPanel headerPanel;
     private JPanel formPanel;
     private JPanel medicinesPanel;
@@ -65,9 +66,9 @@ public class PrescriptionCreationPanel extends JDialog {
         setResizable(false);
 
         // Panel principal
-        mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        setContentPane(mainPanel);
+        contentPane = new JPanel(new BorderLayout(10, 10));
+        contentPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setContentPane(contentPane);
 
         // Panel d'en-tête
         headerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -115,10 +116,10 @@ public class PrescriptionCreationPanel extends JDialog {
         buttonPanel = createButtonPanel();
 
         // Ajout des panels au panel principal
-        mainPanel.add(headerPanel, BorderLayout.NORTH);
-        mainPanel.add(formPanel, BorderLayout.NORTH);
-        mainPanel.add(medicinesPanel, BorderLayout.CENTER);
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        contentPane.add(headerPanel, BorderLayout.NORTH);
+        contentPane.add(formPanel, BorderLayout.NORTH);
+        contentPane.add(medicinesPanel, BorderLayout.CENTER);
+        contentPane.add(buttonPanel, BorderLayout.SOUTH);
     }
 
     private JPanel createMedicinesPanel() {
@@ -198,7 +199,7 @@ public class PrescriptionCreationPanel extends JDialog {
             doctorComboBox.addItem(doctor);
         }
 
-        // Sélectionner le médecin traitant du client s'il existe
+        // Sélectionner le médecin réferent du client s'il existe
         if (customer.getDoctor() != null) {
             doctorComboBox.setSelectedItem(customer.getDoctor());
         }
@@ -259,9 +260,9 @@ public class PrescriptionCreationPanel extends JDialog {
                 return;
             }
 
-            if (prescriptionDate.isEmpty()) {
+            if (prescriptionDate.isEmpty() || !Validator.isValidDate(prescriptionDate)) {
                 JOptionPane.showMessageDialog(this,
-                        "Veuillez saisir la date de prescription.",
+                        "Veuillez saisir la date de prescription. Format valide : \"dd/MM/yyyy\"",
                         "Champ manquant",
                         JOptionPane.ERROR_MESSAGE);
                 return;

@@ -5,28 +5,30 @@ import fr.sparadrah.ecf.utils.exception.SaisieException;
 import fr.sparadrah.ecf.utils.validator.Validator;
 
 public class Doctor extends Person {
-    private String licenseNumber;
+    private String rpps;
 
-
-
-    public Doctor(String lastName, String firstName, String adress, String postalCode, String city, String phone, String email, String licenseNumber) throws SaisieException {
-        super(lastName, firstName, adress, postalCode, city, phone, email);
-        this.setlicenseNumber(licenseNumber);
+    public Doctor(){
+        super();
     }
 
-    public String getLicenseNumber() {
-        return licenseNumber;
+    public Doctor(String lastName, String firstName, String address, String postalCode, String city, String phone, String email, String rpps) throws SaisieException {
+        super(lastName, firstName, address, postalCode, city, phone, email);
+        this.setRpps(rpps);
     }
 
-    public void setlicenseNumber(String licenseNumber) throws SaisieException {
-        if (licenseNumber == null) {
+    public String getRpps() {
+        return rpps;
+    }
+
+    public void setRpps(String rpps) throws SaisieException {
+        if (rpps == null) {
             throw new SaisieException("Le numero d'agréement ne peut pas etre vide ou null");
         }
-        if (!licenseNumber.matches(RegexPatterns.RPPS_REGEX)) {
+        if (!rpps.matches(RegexPatterns.RPPS_REGEX)) {
             throw new SaisieException("Numero d'agréement invalide");
         }
 
-        this.licenseNumber = licenseNumber;
+        this.rpps = rpps;
     }
 
 
@@ -43,6 +45,6 @@ public class Doctor extends Person {
 
     @Override
     public String toString() {
-        return super.toString() + " - N° agréement : " + this.licenseNumber;
+        return super.toString() + " - N° agréement : " + this.rpps;
     }
 }

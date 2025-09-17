@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.view.swingview;
+package fr.sparadrah.ecf.view.swingview.purchases;
 
 import fr.sparadrah.ecf.model.lists.medicine.CategoriesList;
 import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
@@ -12,6 +12,8 @@ import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.model.purchase.Purchase;
 import fr.sparadrah.ecf.model.purchase.CartItem;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
+import fr.sparadrah.ecf.view.swingview.DisplayList;
+import fr.sparadrah.ecf.view.swingview.PrescriptionCreationPanel;
 import fr.sparadrah.ecf.view.swingview.tablemodele.TableModele;
 
 import javax.swing.*;
@@ -72,8 +74,9 @@ public class PurchaseManagementPanel extends  JPanel {
     private JButton searchCustomerBtn;
     private JButton prescriptionScanBtn;
     private JTextField medicineSearchField;
-    private JComboBox prescriptionComboBox;
     private JButton createPrescriptionBtn;
+    private JButton addItemCartBtn;
+    private JButton removeUnitItemCartBtn;
 
 
     // Panneaux avec DisplayList
@@ -172,6 +175,19 @@ try{
             }
         });
 
+        addItemCartBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addCartItem();
+
+            }
+        });
+        removeUnitItemCartBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeCartItem();
+            }
+        });
     }
 
     public static List<CartItem> getCart() {
@@ -205,6 +221,9 @@ try{
         customerTable = customerDisplayList.getTable();
         medicineTable = medicineDisplayList.getTable();
         cartTable = cartDisplayList.getTable();
+
+
+        quantitySpinner.setModel(new SpinnerNumberModel(1, 0, 100, 1));
 
     }
 
@@ -265,6 +284,12 @@ try{
     private void addToCart(){
         selectedMedicine = getSelectedItem(medicineDisplayList.getTable(), (TableModele<Medicine>) medicineDisplayList.getTable().getModel());
         int quantity = (Integer) quantitySpinner.getValue();
+        if (!(quantity > 0)) {
+            JOptionPane.showMessageDialog(this,
+                    "Quantité invalide " + quantity,
+                    "Erreur de quantité", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         // Vérifier le stock
         if(quantity > selectedMedicine.getStock()){
@@ -319,9 +344,39 @@ try{
             JOptionPane.showMessageDialog(this,
                     removed.getMedicine().getMedicineName() + " retiré du panier!",
                     "Suppression réussie", JOptionPane.INFORMATION_MESSAGE);
-
         }
     }
+
+    private void addCartItem(){
+        CartItem selectedItem = getSelectedItem(cartTable, (TableModele<CartItem>) cartTable.getModel());
+
+        if(selectedItem.getQuantity() >= selectedItem.getMedicine().getStock()){
+            JOptionPane.showMessageDialog(this,
+                    "Stock insuffisant! Stock disponible: " + selectedMedicine.getStock(),
+                    "Stock insuffisant", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        selectedItem.setQuantity(selectedItem.getQuantity() + 1);
+
+        updateTotal();
+        cartTable.repaint();
+        cartTable.revalidate();
+    }
+
+    private void removeCartItem() {
+        CartItem selectedItem =  getSelectedItem(cartTable, (TableModele<CartItem>) cartTable.getModel());
+        if(selectedItem.getQuantity() <= 1 ){
+            removeFromCart();
+            updateButtonStates();
+            return;
+        }else{
+            selectedItem.setQuantity(selectedItem.getQuantity() - 1);
+        }
+        updateTotal();
+        cartTable.repaint();
+        cartTable.revalidate();
+    }
+
 
     private double calculateTotal(){
         return cart.stream().mapToDouble(CartItem::getLinePrice).sum();
@@ -491,6 +546,9 @@ try{
         prescriptionScanBtn.setVisible(hasPrescription);
         prescriptionScanBtn.setEnabled(hasCustomer);
         createPrescriptionBtn.setVisible(hasPrescription);
+        addItemCartBtn.setEnabled(hasItemsInCart);
+        removeFromCartBtn.setEnabled(hasItemsInCart);
+        removeUnitItemCartBtn.setEnabled(hasItemsInCart);
     }
 
 
