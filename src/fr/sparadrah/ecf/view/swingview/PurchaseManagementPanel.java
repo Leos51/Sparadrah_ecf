@@ -2,10 +2,12 @@ package fr.sparadrah.ecf.view.swingview;
 
 import fr.sparadrah.ecf.model.lists.medicine.CategoriesList;
 import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
+import fr.sparadrah.ecf.model.lists.medicine.PrescriptionList;
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
 import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
 import fr.sparadrah.ecf.model.medicine.Category;
 import fr.sparadrah.ecf.model.medicine.Medicine;
+import fr.sparadrah.ecf.model.medicine.Prescription;
 import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.model.purchase.Purchase;
 import fr.sparadrah.ecf.model.purchase.CartItem;
@@ -27,6 +29,7 @@ public class PurchaseManagementPanel extends  JPanel {
 
     private Customer selectedCustomer;
     private Medicine selectedMedicine;
+    private Prescription selectedPrescription;
 
 
     Component PurchaseManagementPanel;
@@ -69,6 +72,8 @@ public class PurchaseManagementPanel extends  JPanel {
     private JButton searchCustomerBtn;
     private JButton prescriptionScanBtn;
     private JTextField medicineSearchField;
+    private JComboBox prescriptionComboBox;
+    private JButton createPrescriptionBtn;
 
 
     // Panneaux avec DisplayList
@@ -160,6 +165,13 @@ try{
 
             }
         });
+        createPrescriptionBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showPrescriptionDialog();
+            }
+        });
+
     }
 
     public static List<CartItem> getCart() {
@@ -229,17 +241,25 @@ try{
         }
     }
 
-    private void selectCustomer(){
-            selectedCustomer = getSelectedItem(customerTable, (TableModele<Customer>) customerTable.getModel());
-            if(selectedCustomer != null){
-                customerSelectedLabel.setText("Client: " + selectedCustomer);
-                customerSelectedLabel.setForeground(new Color(0, 128, 0));
+    private void selectCustomer() {
+        selectedCustomer = getSelectedItem(customerTable, (TableModele<Customer>) customerTable.getModel());
+        if (selectedCustomer != null) {
+            customerSelectedLabel.setText("Client: " + selectedCustomer);
+            customerSelectedLabel.setForeground(new Color(0, 128, 0));
 
-                // Créer un nouvel achat
+            currentPurchase.setCustomer(selectedCustomer);
+            currentPurchase.setPrescriptionBased(hasPrescription);
 
-                currentPurchase.setCustomer(selectedCustomer);
-                currentPurchase.setPrescriptionBased(hasPrescription);
+            // Mettre à jour les informations du client
+            updateCustomerInfo(selectedCustomer);
+
+            // Si achat avec ordonnance, charger les ordonnances du client
+            if (hasPrescription) {
+                loadCustomerPrescriptions();
             }
+
+            updateButtonStates();
+        }
     }
 
     private void addToCart(){
@@ -323,6 +343,11 @@ try{
     private void validatePurchase(){
         if (cart.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Le panier est vide!", "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Si achat avec ordonnance, valider la conformité
+        if (hasPrescription && !validatePrescriptionCompliance()) {
             return;
         }
 
@@ -465,7 +490,166 @@ try{
         validatePurchaseBtn.setEnabled(hasCustomer && hasItemsInCart);
         prescriptionScanBtn.setVisible(hasPrescription);
         prescriptionScanBtn.setEnabled(hasCustomer);
+        createPrescriptionBtn.setVisible(hasPrescription);
     }
+
+
+
+    private void showPrescriptionDialog() {
+        List<Prescription> prescriptions = PrescriptionList.findRecentPrescriptions(selectedCustomer);
+
+        if(prescriptions.isEmpty()) {
+            int choice = JOptionPane.showConfirmDialog(this,
+                    "Aucune ordonnance trouvée pour ce client.\nVoulez-vous créer une nouvelle ordonnance ?",
+                    "Pas d'ordonnance", JOptionPane.YES_NO_OPTION);
+
+            if(choice == JOptionPane.YES_OPTION) {
+                openPrescriptionCreationDialog();
+            }
+            return;
+        }
+
+        Prescription selected = (Prescription) JOptionPane.showInputDialog(this,
+                "Choisir une ordonnance :",
+                "Sélection d'ordonnance",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                prescriptions.toArray(),
+                prescriptions.get(0));
+
+        if(selected != null) {
+            selectedPrescription = selected;
+            currentPurchase.setPrescription(selected);
+            populateCartFromPrescription(selected);
+        }
+    }
+
+
+    private boolean validatePrescriptionCompliance() {
+        if (selectedPrescription == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Aucune ordonnance sélectionnée pour cet achat avec ordonnance!",
+                    "Ordonnance manquante",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        List<Medicine> prescribedMedicines = selectedPrescription.getPrescriptedMedicines();
+        List<Medicine> cartMedicines = cart.stream()
+                .map(CartItem::getMedicine)
+                .collect(Collectors.toList());
+
+        // Vérifier que tous les médicaments du panier sont dans l'ordonnance
+        for (Medicine cartMedicine : cartMedicines) {
+            if (!prescribedMedicines.contains(cartMedicine)) {
+                int choice = JOptionPane.showConfirmDialog(this,
+                        "Le médicament '" + cartMedicine.getMedicineName() +
+                                "' n'est pas dans l'ordonnance!\n" +
+                                "Voulez-vous continuer quand même ?",
+                        "Non conforme à l'ordonnance",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+
+                if (choice != JOptionPane.YES_OPTION) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    private void openPrescriptionCreationDialog() {
+        if (selectedCustomer == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Veuillez d'abord sélectionner un client.",
+                    "Client requis",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        // Créer et afficher le dialog
+        PrescriptionCreationPanel dialog = new PrescriptionCreationPanel(
+                (JFrame) SwingUtilities.getWindowAncestor(this),
+                selectedCustomer
+        );
+        dialog.setVisible(true);
+
+        // Après fermeture du dialog, recharger les ordonnances du client
+        loadCustomerPrescriptions();
+    }
+
+    private void loadCustomerPrescriptions() {
+        if (selectedCustomer == null || !hasPrescription) {
+            return;
+        }
+
+        List<Prescription> prescriptions = PrescriptionList.findRecentPrescriptions(selectedCustomer);
+
+        if (prescriptions.isEmpty()) {
+            int choice = JOptionPane.showConfirmDialog(this,
+                    "Aucune ordonnance récente trouvée pour ce client.\n" +
+                            "Voulez-vous créer une nouvelle ordonnance ?",
+                    "Pas d'ordonnance",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if (choice == JOptionPane.YES_OPTION) {
+                openPrescriptionCreationDialog();
+            }
+            return;
+        }
+
+        // Afficher le dialog de sélection d'ordonnance
+        showPrescriptionSelectionDialog(prescriptions);
+    }
+
+    private void showPrescriptionSelectionDialog(List<Prescription> prescriptions) {
+        Prescription selected = (Prescription) JOptionPane.showInputDialog(this,
+                "Choisir une ordonnance :",
+                "Sélection d'ordonnance",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                prescriptions.toArray(),
+                prescriptions.get(0));
+
+        if (selected != null) {
+            selectedPrescription = selected;
+            currentPurchase.setPrescription(selected);
+            populateCartFromPrescription(selected);
+        }
+    }
+
+    private void populateCartFromPrescription(Prescription prescription) {
+        cart.clear();
+
+        for (Medicine medicine : prescription.getPrescriptedMedicines()) {
+            // Vérifier le stock disponible
+            if (medicine.getStock() > 0) {
+                cart.add(new CartItem(medicine, 1)); // Quantité par défaut à 1
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Le médicament '" + medicine.getMedicineName() +
+                                "' prescrit n'est pas en stock.",
+                        "Stock insuffisant",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
+        // Rafraîchir l'affichage du panier
+        cartDisplayList.configTable(cart, DisplayList.HEADER_CARTITEM,
+                new Class<?>[]{String.class, Integer.class, Double.class, Double.class});
+        updateTotal();
+
+        JOptionPane.showMessageDialog(this,
+                "Médicaments de l'ordonnance ajoutés au panier.\n" +
+                        "Vous pouvez modifier les quantités si nécessaire.",
+                "Ordonnance chargée",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+
+
+
 
 
 

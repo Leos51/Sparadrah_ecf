@@ -5,16 +5,16 @@ import fr.sparadrah.ecf.model.person.Doctor;
 import fr.sparadrah.ecf.utils.DateFormat;
 import fr.sparadrah.ecf.utils.exception.SaisieException;
 
-import java.beans.MethodDescriptor;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class Prescription {
-    private static LocalDate prescriptingDate;
-    private static Doctor doctor;
-    private static Customer customer;
-    private static List<Medicine> prescriptedMedicines ;
+    private LocalDate prescriptingDate;
+    private Doctor doctor;
+    private Customer customer;
+    private List<Medicine> prescriptedMedicines;
 
 
     public Prescription(String prescriptingDate, Doctor doctor, Customer customer, List<Medicine> medicines) throws SaisieException {
@@ -48,14 +48,14 @@ public class Prescription {
         this.getPrescriptedMedicines().add(medicine);
     }
 
-    public static void removeMedicine(Medicine medicine) throws SaisieException {
+    public void removeMedicine(Medicine medicine) throws SaisieException {
         if(medicine == null){
             throw new IllegalArgumentException("Le medicament ne peut pas etre null");
         }
-        if(!prescriptedMedicines.contains(medicine)){
+        if(!this.prescriptedMedicines.contains(medicine)){
             throw new SaisieException("Le medicament n'est pas dans la liste");
         }
-        prescriptedMedicines.remove(medicine);
+        this.prescriptedMedicines.remove(medicine);
     }
 
 

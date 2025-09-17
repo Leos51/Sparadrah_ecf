@@ -226,6 +226,12 @@
                                   <text value="Selectionner le client"/>
                                 </properties>
                               </component>
+                              <component id="8fd3a" class="javax.swing.JComboBox" binding="prescriptionComboBox">
+                                <constraints/>
+                                <properties>
+                                  <model/>
+                                </properties>
+                              </component>
                             </children>
                           </grid>
                           <grid id="36182" binding="customerTablePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
@@ -262,6 +268,12 @@
               <enabled value="true"/>
               <text value="Scanner ordonnance"/>
               <visible value="false"/>
+            </properties>
+          </component>
+          <component id="7fd29" class="javax.swing.JButton" binding="createPrescriptionBtn">
+            <constraints/>
+            <properties>
+              <text value="Créer Ordonnance"/>
             </properties>
           </component>
           <component id="13667" class="javax.swing.JButton" binding="annulerButton" default-binding="true">

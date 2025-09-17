@@ -21,7 +21,7 @@ public class DisplayList extends JPanel {
     public static final String[] HEADER_CUSTOMERS = new String[]{"Nom", "Email", "Téléphone", "Ville", "N° NIR"};
     private final String[] HEADER_DOCTORS = new String[]{"Nom", "Email", "Téléphone", "Ville", "N° agréement"};
     public static final String[] HEADER_MEDICINE = new String[]{"Nom", "Categorie", "Prix", "Stock", "Date"};
-    private final String[] HEADER_CARTITEM = new String[]{"Nom", "Quantité", "Prix", "Total ligne"};
+    public static final String[] HEADER_CARTITEM = new String[]{"Nom", "Quantité", "Prix", "Total ligne"};
     public static final String[] HEADER_PURCHASES = new String[]{"Date", "Client", "Type", "Montant Total"};
 
 
