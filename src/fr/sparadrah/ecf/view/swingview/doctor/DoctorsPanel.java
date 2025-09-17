@@ -1,8 +1,9 @@
 package fr.sparadrah.ecf.view.swingview.doctor;
 
+import fr.sparadrah.ecf.model.lists.person.CustomersList;
 import fr.sparadrah.ecf.model.lists.person.DoctorList;
+import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.model.person.Doctor;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
 import fr.sparadrah.ecf.view.swingview.DisplayList;
 import fr.sparadrah.ecf.view.swingview.tablemodele.TableModele;
 
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import static fr.sparadrah.ecf.view.swingview.DisplayList.*;
@@ -34,6 +36,7 @@ public class DoctorsPanel extends JPanel {
     private JPanel tablePanel;
     private JPanel left;
     private JPanel right;
+    private JButton showCustomersBtn;
     private DisplayList doctorsDisplayList;
     public enum FormModes{
         ADD,
@@ -45,6 +48,7 @@ public class DoctorsPanel extends JPanel {
         this.add(doctorsPanel);
         doctorsDisplayList = new DisplayList(1);
         tablePanel.add(doctorsDisplayList);
+        updateButtonsState();
 
 
         doctorsDisplayList.getTable().getSelectionModel().addListSelectionListener(e -> {
@@ -54,10 +58,13 @@ public class DoctorsPanel extends JPanel {
             deleteButton.setEnabled(selected);
         });
 
+        // Boutons d'action
+
+        searchField.addActionListener(e -> searchDoctors());
         showDetailsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showDoctorssDetails();
+                showDoctorDetails();
 
             }
         });
@@ -65,7 +72,7 @@ public class DoctorsPanel extends JPanel {
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editDoctors();
+                editDoctor();
             }
         });
 
@@ -77,7 +84,7 @@ public class DoctorsPanel extends JPanel {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchDoctor();
+                searchDoctors();
             }
         });
 
@@ -85,13 +92,25 @@ public class DoctorsPanel extends JPanel {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    addDoctor();
+                addDoctor();
+            }
+        });
+        showCustomersBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
 
-    private void searchDoctor() {
+
+
+    private void searchDoctors() {
         String search = searchField.getText().trim();
+        if (search.isEmpty()) {
+            refreshTable();
+            return;
+        }
         List<Doctor> filteredList = DoctorList.filterDoctor(search);
         doctorsDisplayList.configTable(filteredList,HEADER_DOCTORS, USER_COLUMN_CLASSES);
     }
@@ -107,8 +126,13 @@ public class DoctorsPanel extends JPanel {
         addButton.setEnabled(true);
     }
 
-    private void showDoctorssDetails(){
+    private void showDoctorDetails(){
         Doctor selectedDoctor = getSelectedDoctor();
+        if (selectedDoctor != null) {
+          //  DoctorDetailsDialog dialog = new DoctorDetailsDialog(
+            //        (Frame) SwingUtilities.getWindowAncestor(this), selectedDoctor);
+           // dialog.setVisible(true);
+        }
         if(selectedDoctor == null){
             JOptionPane.showMessageDialog(this, "Selectionner d'abord un médecin","Aucun client selectionné",  JOptionPane.ERROR_MESSAGE);
             return;
@@ -121,15 +145,30 @@ public class DoctorsPanel extends JPanel {
 
     }
 
-
-    private void addDoctor() {
-        DoctorFormPanel formPanel = new DoctorFormPanel(new Doctor(), FormModes.ADD);
-        formPanel.setVisible(true);
-        formPanel.pack();
+    private List<Customer> getCustomersByDoctor(Doctor doctor){
+        List<Customer> customers = CustomersList.getCustomers().stream()
+                .filter(customer -> customer.getDoctor() != null && customer.getDoctor().equals(doctor))
+                .toList();
+        return customers;
     }
 
 
-    private void editDoctors(){
+    private void addDoctor() {
+        DoctorFormPanel formPanel = new DoctorFormPanel(null, FormModes.ADD);
+        formPanel.setVisible(true);
+    }
+
+    public void showDoctorCustomers(){
+        Doctor selectedDoctor = getSelectedDoctor();
+        if (selectedDoctor != null) {
+            DoctorCustomersDialog dialog = new DoctorCustomersDialog(
+                    (Frame) SwingUtilities.getWindowAncestor(this), selectedDoctor);
+            dialog.setVisible(true);
+        }
+    }
+
+
+    private void editDoctor(){
         Doctor selectedDoctors = getSelectedDoctor();
         if(selectedDoctors == null){
             JOptionPane.showMessageDialog(this, "Selectionner d'abord un Medecin","Aucun médecin selectionné",  JOptionPane.ERROR_MESSAGE);
@@ -137,33 +176,62 @@ public class DoctorsPanel extends JPanel {
         }
         DoctorFormPanel formPanel = new DoctorFormPanel(selectedDoctors, FormModes.EDIT);
         formPanel.setVisible(true);
-        formPanel.pack();
     }
 
     private void deleteDoctor(){
-        Doctor selectedDoctors = getSelectedDoctor();
-        if(selectedDoctors == null){
+        Doctor selectedDoctor = getSelectedDoctor();
+        if(selectedDoctor == null){
             JOptionPane.showMessageDialog(this, "Selectionner d'abord un médecin","Aucun médecin selectionné",  JOptionPane.ERROR_MESSAGE);
             return;
         }
-        int confirm = JOptionPane.showConfirmDialog(
+        List<Customer> customers = getCustomersByDoctor(selectedDoctor);
+        if(!customers.isEmpty()){
+            int result = JOptionPane.showConfirmDialog(
+                    this,
+                    "Attention : Ce médecin a " + customers.size() + " patient(s) associé(s).\n" +
+                            "Si vous le supprimez, ces patients n'auront plus de médecin référent.\n" +
+                            "Voulez-vous vraiment continuer ?",
+                    "Confirmation de suppression",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+            );
+            if (result != JOptionPane.YES_OPTION) {
+                return;
+            }
+        }
+        int result = JOptionPane.showConfirmDialog(
                 this,
-                "Voulez-vous vraiment supprimer le médecin \"" + selectedDoctors.getFullName() + "\" ?",
+                "Voulez-vous vraiment supprimer le médecin \"" + selectedDoctor.getFullName() + "\" ?",
                 "Confirmation de suppression",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE
         );
-        if (confirm == JOptionPane.YES_OPTION) {
-            DoctorList.removeDoctor(selectedDoctors);
-            repaint();
-            revalidate();
-            updateButtonsState();
+        if (result == JOptionPane.YES_OPTION) {
+            for (Customer c : customers) {
+                try {
+                   c.setDoctorByLicenseNumber(null);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Patients perdu", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
+        DoctorList.getDoctors().remove(selectedDoctor);
+        refreshTable();
+        updateButtonsState();
+        JOptionPane.showMessageDialog(this,
+                "Médecin supprimé avec succès!",
+                "Suppression réussie",
+                JOptionPane.INFORMATION_MESSAGE);
+
+
     }
 
     private void refreshTable(){
         doctorsDisplayList.configTable(DoctorList.getDoctors(),HEADER_DOCTORS, USER_COLUMN_CLASSES);
     }
+
+
+
 }
 
 

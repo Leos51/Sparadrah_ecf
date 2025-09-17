@@ -35,26 +35,24 @@ public class DoctorFormPanel extends  JFrame {
     private JTextField rppsField;
     private JLabel rppsLabel;
     private Doctor doctor;
+    private DoctorsPanel.FormModes mode;
 
 
     public DoctorFormPanel(Doctor currentDoctor, DoctorsPanel.FormModes mode) {
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(600, 600);
-        this.setVisible(true);
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
+        this.doctor =  currentDoctor;
+        this.mode = mode;
+
+        setupFrame();
+
         this.setContentPane(formPanel);
+
 
 
         if(mode == DoctorsPanel.FormModes.EDIT && currentDoctor != null) {
             //remplissage du formulaire avec client selectionné
-            this.setTitle("Modification du client");
             populateFields(currentDoctor);
         }
 
-        if(mode == DoctorsPanel.FormModes.ADD) {
-            this.setTitle("Nouveau client");
-        }
 
 
         cancelButton.addActionListener( e ->{
@@ -75,8 +73,25 @@ public class DoctorFormPanel extends  JFrame {
         });
     }
 
+    private void setupFrame() {
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setSize(500, 600);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+
+
+        String title = (mode == DoctorsPanel.FormModes.ADD) ? "Nouveau Médecin" : "Modifier le Médecin";
+        this.setTitle(title);
+        String submitText = (mode == DoctorsPanel.FormModes.ADD) ? "➕ Ajouter" : "💾 Modifier";
+        submitButton.setText(submitText);
+    }
+
 
     private void submitForm(Doctor doctor ,DoctorsPanel.FormModes mode) throws SaisieException {
+        if(!validateFields()){
+            return;
+        }
+
         String lastName = lastNameField.getText().trim();
         String firstName = firstNameField.getText().trim();
         String address = addressField.getText().trim();
@@ -87,15 +102,18 @@ public class DoctorFormPanel extends  JFrame {
         String rpps = rppsField.getText().trim();
 
 
-            if (lastName.isEmpty() || firstName.isEmpty() || address.isEmpty() || postCode.isEmpty() || city.isEmpty() || phone.isEmpty() || email.isEmpty() || rpps.isEmpty()) {
-                throw new SaisieException("Champs obligatoires manquants.");
-            }
+
+
 
 
             if (mode == DoctorsPanel.FormModes.ADD) {
-                doctor = new Doctor(lastName,firstName,address, postCode,city, phone, email, rpps);
-                DoctorList.addDoctor(doctor);
-                JOptionPane.showMessageDialog(this, "Client ajouté !");
+                if(DoctorList.findDoctorByLicenseNumber(rpps) != null){
+                    throw new SaisieException("Un médecin avec ce numero D'agréement existe deja");
+                }
+                Doctor newDoctor = new Doctor(lastName,firstName,address, postCode,city, phone, email, rpps);
+                DoctorList.addDoctor(newDoctor);
+                JOptionPane.showMessageDialog(this, "Médecin ajouté avec succès!",
+                        "Succès", JOptionPane.INFORMATION_MESSAGE);
             } else {
 
                 doctor.setLastName(lastName);
@@ -109,13 +127,15 @@ public class DoctorFormPanel extends  JFrame {
 
 
 
-                JOptionPane.showMessageDialog(this, "Medecin mis à jour !");
+                JOptionPane.showMessageDialog(this, "Medecin mis à jour !","Succes",  JOptionPane.INFORMATION_MESSAGE);
             }
+            this.dispose();
     }
 
     private void populateFields(Doctor c){
+
         titleLabel.setText("Modifier le medecin");
-        submitButton.setText("Valider la modification");
+
         lastNameField.setText(c.getLastName());
         firstNameField.setText(c.getFirstName());
         addressField.setText(c.getAddress());
@@ -124,6 +144,24 @@ public class DoctorFormPanel extends  JFrame {
         phoneField.setText(c.getPhone());
         emailField.setText(c.getEmail());
         rppsField.setText(c.getRpps());
+    }
+
+    private boolean validateFields() {
+        if (lastNameField.getText().trim().isEmpty() ||
+                firstNameField.getText().trim().isEmpty() ||
+                addressField.getText().trim().isEmpty() ||
+                postCodeField.getText().trim().isEmpty() ||
+                cityField.getText().trim().isEmpty() ||
+                phoneField.getText().trim().isEmpty() ||
+                emailField.getText().trim().isEmpty() ||
+                rppsField.getText().trim().isEmpty()) {
+
+            JOptionPane.showMessageDialog(this, "Tous les champs sont obligatoires!",
+                    "Erreur", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
     }
 
 }

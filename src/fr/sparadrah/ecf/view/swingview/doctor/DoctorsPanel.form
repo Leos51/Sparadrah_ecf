@@ -42,6 +42,12 @@
             <properties/>
             <border type="none"/>
             <children>
+              <component id="1706" class="javax.swing.JButton" binding="showCustomersBtn">
+                <constraints/>
+                <properties>
+                  <text value="Patients"/>
+                </properties>
+              </component>
               <component id="77638" class="javax.swing.JButton" binding="showDetailsBtn">
                 <constraints/>
                 <properties>
@@ -112,7 +118,7 @@
                 <properties>
                   <columns value="20"/>
                   <minimumSize width="50" height="25"/>
-                  <preferredSize width="226" height="25"/>
+                  <preferredSize width="246" height="25"/>
                   <toolTipText value="votre recherche"/>
                 </properties>
               </component>

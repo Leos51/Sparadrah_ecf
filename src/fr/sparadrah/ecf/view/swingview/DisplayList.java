@@ -16,7 +16,7 @@ public class DisplayList extends JPanel {
     JPanel listTitlePanel;
     JScrollPane scrollPane = new JScrollPane();
     JTable table = new JTable();
-    JLabel tableLabel = new JLabel();
+    String tableTitleBorder;
 
 
     public static final String[] HEADER_CUSTOMERS = new String[]{"Nom", "Email", "Téléphone", "Ville", "N° NIR"};
@@ -44,23 +44,28 @@ public class DisplayList extends JPanel {
 
         switch (type) {
             case 0:
-                tableLabel.setText("Liste des Clients:");
+                tableTitleBorder = "Liste des CLients";
+                scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
                 configTable(CustomersList.getCustomers(),HEADER_CUSTOMERS,USER_COLUMN_CLASSES);
                 break;
             case 1:
-                tableLabel.setText("Liste des Medecins:");
+                tableTitleBorder = "Liste des Medecins";
+                scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
                 configTable(DoctorList.getDoctors(),HEADER_DOCTORS,USER_COLUMN_CLASSES);
                 break;
             case 2:
-                tableLabel.setText("Liste des médicaments:");
+                tableTitleBorder = "Liste des médicaments";
+                scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
                 configTable(MedicineList.getMedicines(),HEADER_MEDICINE,MEDICINE_COLUMN_CLASSES);
                 break;
             case 3:
-                tableLabel.setText("Items au panier:");
+                tableTitleBorder = "Panier";
+                scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
                 configTable(PurchaseManagementPanel.getCart() ,HEADER_CARTITEM,CARTITEM_COLUMN_CLASSES);
                 break;
             case 4:
-                tableLabel.setText("Historique des achats:");
+                tableTitleBorder = "Historique des achats";
+                scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
                 configTable(PurchasesList.getPurchases(),HEADER_PURCHASES,PURCHASE_COLUMN_CLASSES);
                 break;
             default:
