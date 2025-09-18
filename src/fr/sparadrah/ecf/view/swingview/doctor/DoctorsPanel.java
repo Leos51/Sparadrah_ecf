@@ -11,7 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import static fr.sparadrah.ecf.view.swingview.DisplayList.*;
@@ -37,6 +36,7 @@ public class DoctorsPanel extends JPanel {
     private JPanel left;
     private JPanel right;
     private JButton showCustomersBtn;
+    private JButton showDoctorPrescriptionsBtn;
     private DisplayList doctorsDisplayList;
     public enum FormModes{
         ADD,
@@ -52,10 +52,7 @@ public class DoctorsPanel extends JPanel {
 
 
         doctorsDisplayList.getTable().getSelectionModel().addListSelectionListener(e -> {
-            boolean selected = doctorsDisplayList.getTable().getSelectedRow() != -1;
-            showDetailsBtn.setEnabled(selected);
-            editButton.setEnabled(selected);
-            deleteButton.setEnabled(selected);
+            updateButtonsState();
         });
 
         // Boutons d'action
@@ -92,16 +89,25 @@ public class DoctorsPanel extends JPanel {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 addDoctor();
             }
         });
         showCustomersBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                showDoctorCustomers();
 
             }
         });
+        showDoctorPrescriptionsBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showDoctorPrescriptions();
+            }
+        });
     }
+
 
 
 
@@ -118,21 +124,22 @@ public class DoctorsPanel extends JPanel {
 
     private void updateButtonsState() {
         boolean hasDoctors = !DoctorList.getDoctors().isEmpty();
-        boolean hasSelection = doctorsTable.getSelectedRow() != -1;
+        boolean hasSelection = doctorsDisplayList.getTable().getSelectedRow() != -1;
         showDetailsBtn.setEnabled(hasSelection);
         deleteButton.setEnabled(hasSelection);
         editButton.setEnabled(hasSelection);
+        showCustomersBtn.setEnabled(hasSelection);
+        showDoctorPrescriptionsBtn.setEnabled(hasSelection);
         searchButton.setEnabled(true);
         addButton.setEnabled(true);
     }
 
+    /**
+     * affiche la fenetre de details du medecin selectionné
+     */
     private void showDoctorDetails(){
         Doctor selectedDoctor = getSelectedDoctor();
-        if (selectedDoctor != null) {
-          //  DoctorDetailsDialog dialog = new DoctorDetailsDialog(
-            //        (Frame) SwingUtilities.getWindowAncestor(this), selectedDoctor);
-           // dialog.setVisible(true);
-        }
+
         if(selectedDoctor == null){
             JOptionPane.showMessageDialog(this, "Selectionner d'abord un médecin","Aucun client selectionné",  JOptionPane.ERROR_MESSAGE);
             return;
@@ -140,11 +147,21 @@ public class DoctorsPanel extends JPanel {
         JOptionPane.showMessageDialog(doctorsPanel, selectedDoctor.showDetails(), "Détails du Médecin",  JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * selectionne un medecin dans le tableau
+     * @return un Medecin
+     */
     private Doctor getSelectedDoctor(){
         return getSelectedItem(doctorsDisplayList.getTable(), (TableModele<Doctor>) doctorsDisplayList.getTable().getModel());
 
     }
 
+
+    /**
+     * Filtre les patients associé a un médecin en particulier
+     * @param doctor
+     * @return Liste de patients
+     */
     private List<Customer> getCustomersByDoctor(Doctor doctor){
         List<Customer> customers = CustomersList.getCustomers().stream()
                 .filter(customer -> customer.getDoctor() != null && customer.getDoctor().equals(doctor))
@@ -153,16 +170,32 @@ public class DoctorsPanel extends JPanel {
     }
 
 
+    /**
+     * affiche la fenetre d'ajout de medecin
+     */
     private void addDoctor() {
         DoctorFormPanel formPanel = new DoctorFormPanel(null, FormModes.ADD);
         formPanel.setVisible(true);
     }
 
+    /**
+     * affiche la fenetre  qui montre la liste des patients du médecin selectionné
+     */
     public void showDoctorCustomers(){
         Doctor selectedDoctor = getSelectedDoctor();
         if (selectedDoctor != null) {
-            DoctorCustomersDialog dialog = new DoctorCustomersDialog(
-                    (Frame) SwingUtilities.getWindowAncestor(this), selectedDoctor);
+            DoctorCustomersDialog dialog = new DoctorCustomersDialog(selectedDoctor);
+            dialog.setVisible(true);
+        }
+    }
+
+    /**
+     * affiche la fenetre montrant les ordonnances d'un médecin
+     */
+    private void showDoctorPrescriptions() {
+        Doctor selectedDoctor = getSelectedDoctor();
+        if (selectedDoctor != null) {
+            DoctorPrescriptionsDialog dialog = new DoctorPrescriptionsDialog(selectedDoctor);
             dialog.setVisible(true);
         }
     }
@@ -211,11 +244,11 @@ public class DoctorsPanel extends JPanel {
                 try {
                    c.setDoctorByLicenseNumber(null);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Patients perdu", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Le patient " + c.getFullName() + " n'a plus de médecin réferent", "Patients abandonné", JOptionPane.WARNING_MESSAGE);
                 }
             }
         }
-        DoctorList.getDoctors().remove(selectedDoctor);
+        DoctorList.removeDoctor(selectedDoctor);
         refreshTable();
         updateButtonsState();
         JOptionPane.showMessageDialog(this,
@@ -229,6 +262,8 @@ public class DoctorsPanel extends JPanel {
     private void refreshTable(){
         doctorsDisplayList.configTable(DoctorList.getDoctors(),HEADER_DOCTORS, USER_COLUMN_CLASSES);
     }
+
+
 
 
 

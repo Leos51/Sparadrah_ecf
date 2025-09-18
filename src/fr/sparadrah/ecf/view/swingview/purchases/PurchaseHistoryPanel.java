@@ -29,8 +29,6 @@ public class PurchaseHistoryPanel extends JPanel {
     private JPanel centerPanel;
     private JPanel buttonPanel;
     private JButton detailsBtn;
-    private JButton returnBtn;
-    private JButton exitBtn;
     private JPanel tablePanel;
     private JPanel detailsContainer;
     private JTable table1;
@@ -72,6 +70,7 @@ public class PurchaseHistoryPanel extends JPanel {
         detailsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 displayPurchaseDetails();
             }
         });
@@ -79,48 +78,14 @@ public class PurchaseHistoryPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selected = (String) periodComboBox.getSelectedItem();
-                dateField.setVisible(selected.equalsIgnoreCase("Date personnalisée"));
-                periodStartField.setVisible(selected.equalsIgnoreCase("Période personnalisée"));
-                periodEndField.setVisible(selected.equalsIgnoreCase("Période personnalisée"));
-                revalidate();
-                repaint();
+                updateFieldsVisibility(selected);
             }
         });
         filterBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    List<Purchase> filteredPurchases;
-                    switch (periodComboBox.getSelectedItem().toString()) {
-                        case "Aujourd'hui":
-                            filteredPurchases = PurchasesList.findPurchaseOfDay();
-                            System.out.println(filteredPurchases);
-                            break;
-                        case "Date personnalisée":
-                            if (!Validator.isValidDate(dateField.getText())){
-                                    throw new SaisieException("Remplir le champ date au format : \"dd/MM/yyyy\" avant de filtrer les achats");
-                            }
-                            filteredPurchases = PurchasesList.findPurchaseByDate(dateField.getText());
-                            break;
-                        case "Période personnalisée":
-                            if(!Validator.isValidDate(periodStartField.getText()) || !Validator.isValidDate(periodEndField.getText())) {
-                                throw new SaisieException("Remplir les champs date au format : \"dd/MM/yyyy\"");
-                            }
-
-                            if(periodEndField.getText().trim().equals("")){
-                                periodEndField.setText(DateFormat.formatDate(LocalDate.now(), "dd/MM/yyyy"));
-                            }
-                            if(periodStartField.getText().trim().equals("")){
-                                periodStartField.setText(DateFormat.formatDate(getOldestPurchaseDate(), "dd/MM/yyyy"));
-                            }
-                            filteredPurchases = PurchasesList.findPurchasebyPeriod(periodStartField.getText(), periodEndField.getText());
-                            break;
-                        default:
-                            filteredPurchases = PurchasesList.getPurchases();
-                            System.out.println("Aucun filtre appliqué");
-                            break;
-                    }
-                    purchases.configTable(filteredPurchases, HEADER_PURCHASES, PURCHASE_COLUMN_CLASSES );
+                    filterPurchases();
                 }catch (SaisieException ex){
                     JOptionPane.showMessageDialog(null,"Erreur de saisie : " + ex.getMessage(),"Erreur",JOptionPane.ERROR_MESSAGE);
                 }
@@ -129,14 +94,19 @@ public class PurchaseHistoryPanel extends JPanel {
     }
 
 
+    /**
+     * Selectionne un achat dans le tableau
+     * @return un achat enregistré
+     */
     private Purchase  selectPurchase(){
         Purchase selectedPurchase = getSelectedItem(purchasesTable, (TableModele<Purchase>) purchasesTable.getModel());
         return selectedPurchase;
     };
 
 
-
-
+    /**
+     * Affiche le detail d'un achat qui a été séléctionné
+     */
     private void displayPurchaseDetails() {
 
         if(selectPurchase()!=null){
@@ -168,6 +138,79 @@ public class PurchaseHistoryPanel extends JPanel {
         }else{
             detailsPanel.setVisible(false);
         }
+    }
+
+    /**
+     * Met a jour la visibilité des Inputs en fonction de l'item selectionné dans la combobox
+     * @param selected
+     */
+    private void updateFieldsVisibility(String selected) {
+        boolean isDate = "Date personnalisée".equalsIgnoreCase(selected);
+        boolean isPeriod = "Période personnalisée".equalsIgnoreCase(selected);
+
+        dateField.setVisible(isDate);
+        periodStartField.setVisible(isPeriod);
+        periodEndField.setVisible(isPeriod);
+
+        periodComboBox.revalidate();
+        periodComboBox.repaint();
+    }
+
+
+    /**
+     * remplit l'input avec la date du jour
+     * @param dateField Le nom de la JtextField
+     */
+    private void fillEmptyDateField(JTextField dateField){
+        if(dateField.getText().trim().isEmpty()){
+            dateField.setText(DateFormat.formatDate(LocalDate.now(), "dd/MM/yyyy"));
+        }
+    }
+
+    /**
+     * Remplit Les Input de la Periode avec la date de la plus ancienne facture et la date du jour
+     */
+    private void fillEmptyPeriodsFields(){
+        fillEmptyDateField(periodEndField);
+        if(periodStartField.getText().trim().isEmpty()){
+            periodStartField.setText(DateFormat.formatDate(getOldestPurchaseDate(), "dd/MM/yyyy"));
+        }
+    }
+
+    /**
+     * Filtre l'historique d'achat en fonction de la selection dans la combobox
+     * - aujourd'hui
+     * - Date Precise
+     * - Periode
+     * @throws SaisieException
+     */
+    private void filterPurchases() throws SaisieException {
+        List<Purchase> filteredPurchases;
+        switch (periodComboBox.getSelectedItem().toString()) {
+            case "Aujourd'hui":
+                filteredPurchases = PurchasesList.findPurchaseOfDay();
+                break;
+            case "Date personnalisée":
+                fillEmptyDateField(dateField);
+                if (!Validator.isValidDate(dateField.getText())){
+                    throw new SaisieException("Remplir le champ date au format : \"dd/MM/yyyy\" avant de filtrer les achats");
+                }
+                filteredPurchases = PurchasesList.findPurchaseByDate(dateField.getText());
+                break;
+            case "Période personnalisée":
+                fillEmptyPeriodsFields();
+                if(!Validator.isValidDate(periodStartField.getText()) || !Validator.isValidDate(periodEndField.getText())) {
+                    throw new SaisieException("Remplir les champs date au format : \"dd/MM/yyyy\"");
+                }
+
+                filteredPurchases = PurchasesList.findPurchasebyPeriod(periodStartField.getText(), periodEndField.getText());
+                break;
+            default:
+                filteredPurchases = PurchasesList.getPurchases();
+                System.out.println("Aucun filtre appliqué");
+                break;
+        }
+        purchases.configTable(filteredPurchases, HEADER_PURCHASES, PURCHASE_COLUMN_CLASSES );
     }
 
 

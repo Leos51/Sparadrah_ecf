@@ -97,7 +97,7 @@ public class PurchaseMenu {
                 quantity = 0;
             }
             try{
-                purchase.addMedicine(medicine, quantity);
+                purchase.addMedicine(medicine, quantity, medicine.getPrice());
 
 
             }catch(StockInsuffisantException e){

@@ -90,6 +90,9 @@ public class CustomersPanel extends JPanel {
         });
     }
 
+    /**
+     * recherche des patients dans le tableau  et affiche un nouveau tableau filtré
+     */
     private void searchCustomers() {
         String search = searchField.getText().trim();
         List<Customer> filteredList = CustomersList.filterCustomers(search);
@@ -97,6 +100,9 @@ public class CustomersPanel extends JPanel {
     }
 
 
+    /**
+     * Met a jour la visibilité des boutons
+     */
     private void updateButtonsState() {
         boolean hasCustomers = !CustomersList.getCustomers().isEmpty();
         boolean hasSelection = customersTable.getSelectedRow() != -1;
@@ -107,6 +113,9 @@ public class CustomersPanel extends JPanel {
         addButton.setEnabled(true);
     }
 
+    /**
+     * affiche le detail du client séléctionné
+     */
     private void showCustomersDetails(){
         Customer selectedCustomer = getSelectedCustomer();
         if(selectedCustomer == null){
@@ -116,12 +125,19 @@ public class CustomersPanel extends JPanel {
         JOptionPane.showMessageDialog(customersPanel, selectedCustomer.showDetails(), "Détails du CLient",  JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * selectionne un client
+     * @return le client
+     */
     private Customer getSelectedCustomer(){
         return getSelectedItem(customerDisplayList.getTable(), (TableModele<Customer>) customerDisplayList.getTable().getModel());
 
     }
 
 
+    /**
+     * affiche la fenetre d'ajout d'un nouveau patient
+     */
     private void addCustomer(){
         CustomerFormPanel formPanel = new CustomerFormPanel(new Customer(), FormModes.ADD);
         formPanel.setVisible(true);
@@ -129,6 +145,9 @@ public class CustomersPanel extends JPanel {
     }
 
 
+    /**
+     * affiche la fenetre d'edition d'un patient existant
+     */
     private void editCustomer(){
         Customer selectedCustomer = getSelectedCustomer();
         if(selectedCustomer == null){
@@ -140,6 +159,9 @@ public class CustomersPanel extends JPanel {
         formPanel.pack();
     }
 
+    /**
+     * supprime le patient selectionné
+     */
     private void deleteCustomer(){
         Customer selectedCustomer = getSelectedCustomer();
         if(selectedCustomer == null){
@@ -161,6 +183,9 @@ public class CustomersPanel extends JPanel {
         }
     }
 
+    /**
+     * Remise a zero du tableau
+     */
     private void refreshTable(){
         customerDisplayList.configTable(CustomersList.getCustomers(),HEADER_CUSTOMERS, USER_COLUMN_CLASSES);
     }

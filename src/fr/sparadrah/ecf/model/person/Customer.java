@@ -34,16 +34,32 @@ public class Customer extends Person {
     public String getNir() {
         return nir;
     }
+
+    /**
+     * met a jour le numero de sécurité social d'un patient
+     * @param nir
+     * @throws SaisieException
+     */
     public void setNir(String nir) throws SaisieException {
         if(!Validator.isValidNIR(nir)){
             throw new SaisieException("Erreur Saisie NIR : "+ nir);
         }
         this.nir = nir;
     }
+
+    /**
+     * recupere la date de naissance d'un patient
+     * @return
+     */
     public LocalDate getBirthDate() {
         return birthDate;
     }
 
+    /**
+     * mets a jour la date de naissance d'un patient
+     * @param birthDate
+     * @throws SaisieException
+     */
     public void setBirthDate(LocalDate birthDate) throws SaisieException {
         if(birthDate == null){
             throw new SaisieException("Le date doit pas etre vide");
@@ -59,29 +75,53 @@ public class Customer extends Person {
         if (birthDate == null || birthDate.isEmpty()){
             throw new SaisieException("La date de naissance ne doit pas etre vide");
         }
-        if (birthDate.length() != 10){
+        if (!Validator.isValidDate(birthDate)){
             throw new SaisieException("La date de format doit etre du type \"dd/MM/aaaa\"");
         }
-//        this.setBirthDate(LocalDate.parse(birthDate));
+//
         this.setBirthDate(DateFormat.parseDateFromString(birthDate));
     }
+
+    /**
+     * recupere la mutuelle du patient
+     * @return
+     */
     public MutualInsurance getMutualInsurance() {
         return mutualInsurance;
     }
+
+    /**
+     * mets a jour la mutuelle du patient
+     * @param mutualInsurance
+     */
     public void setMutualInsurance(MutualInsurance mutualInsurance) {
         this.mutualInsurance = mutualInsurance;
     }
 
+    /**
+     * recupere le meddecin du patient
+     * @return
+     */
     public Doctor getDoctor() {
         return doctor;
     }
-    private void setDoctor(Doctor doctor) throws SaisieException {
+
+    /**
+     * met a jour le medecin réferent du patient
+     * @param doctor
+     */
+    private void setDoctor(Doctor doctor) {
         if(doctor == null){
-            System.out.println("Le medecin n'est pas entré");
+            System.err.println("Le medecin n'a pas été enregistré sur la fiche client");
         }
         this.doctor = doctor;
     }
 
+    /**
+     * Met a jour le medecin referent du patient à partir de la liste des medecins
+     * @param str
+     * @throws SaisieException
+     */
     public void setDoctorByLicenseNumber(String str) throws SaisieException {
         Doctor doctorTemp = DoctorList.findDoctorByLicenseNumber(str);
         if(doctorTemp == null){

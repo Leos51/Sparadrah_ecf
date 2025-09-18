@@ -10,10 +10,20 @@ public class Category {
         this.setCategoryName(categoryName);
     }
 
+    /**
+     * recupere le nom d'une categorie
+     * @return
+     */
     public String getCategoryName() {
+
         return categoryName;
     }
 
+    /**
+     * Crée une nouvelle categorie
+     * @param categoryName
+     * @throws SaisieException
+     */
     public void setCategoryName(String categoryName) throws SaisieException {
         if (categoryName == null || categoryName.isEmpty()){
             throw new SaisieException("Le nom de la categorie ne peut pas etre vide");

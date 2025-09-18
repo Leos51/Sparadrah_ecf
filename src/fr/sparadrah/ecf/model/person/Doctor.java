@@ -16,10 +16,20 @@ public class Doctor extends Person {
         this.setRpps(rpps);
     }
 
+
+    /**
+     * recupere le n°d'agréement du médecin
+     * @return
+     */
     public String getRpps() {
         return rpps;
     }
 
+    /**
+     * Mets a jour le numero d'agréement du médecin
+     * @param rpps
+     * @throws SaisieException
+     */
     public void setRpps(String rpps) throws SaisieException {
         if (rpps == null) {
             throw new SaisieException("Le numero d'agréement ne peut pas etre vide ou null");

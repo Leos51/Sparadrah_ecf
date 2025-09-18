@@ -34,6 +34,7 @@ public  class MainMenu extends JPanel {
     private JPanel menu;
     private JButton purchaseHistoryBtn;
     private JButton homeBtn;
+    private JButton prescriptionsHistoryBtn;
     private Boolean hasPrescription = false;
     private JButton activeButton = null;
 
@@ -120,6 +121,15 @@ public  class MainMenu extends JPanel {
 
             }
         });
+        prescriptionsHistoryBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showPrescriptionsHistory();
+                resetBtnMenu();
+                prescriptionsHistoryBtn.setEnabled(false);
+
+            }
+        });
     }
 
     private void resetBtnMenu() {
@@ -130,6 +140,7 @@ public  class MainMenu extends JPanel {
         customerManagerBtn.setEnabled(true);
         doctorsManagerBtn.setEnabled(true);
         medicineManagerBtn.setEnabled(true);
+        prescriptionsHistoryBtn.setEnabled(true);
 
 
     }
@@ -165,11 +176,18 @@ public  class MainMenu extends JPanel {
         }
     }
 
+
     private void showCustomers() {
         mainPanel.showView(customersPanel);
     }
+
     private void showPurchaseHistory() {
         mainPanel.showView(purchaseHistoryPanel);
+    }
+
+    private void showPrescriptionsHistory() {
+        // TODO: Implémenter PrescriptionHistoryPanel
+        JOptionPane.showMessageDialog(getParent(), "Fonctionnalité en développement");
     }
     private void showDoctors() {
         doctorsPanel = new DoctorsPanel();

@@ -217,6 +217,7 @@ public class PrescriptionCreationPanel extends JDialog {
         }
     }
 
+
     private void addSelectedMedicine() {
         Medicine selectedMedicine = availableMedicinesList.getSelectedValue();
         if (selectedMedicine != null) {
@@ -310,7 +311,7 @@ public class PrescriptionCreationPanel extends JDialog {
                     JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
-                    "Erreur inattendue:\n" + e.getMessage(),
+                    "Erreur :\n" + e.getMessage(),
                     "Erreur",
                     JOptionPane.ERROR_MESSAGE);
         }

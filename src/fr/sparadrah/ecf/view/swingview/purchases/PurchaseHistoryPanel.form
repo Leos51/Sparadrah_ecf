@@ -262,19 +262,7 @@
           <component id="722f" class="javax.swing.JButton" binding="detailsBtn">
             <constraints/>
             <properties>
-              <text value="details"/>
-            </properties>
-          </component>
-          <component id="16ec2" class="javax.swing.JButton" binding="returnBtn">
-            <constraints/>
-            <properties>
-              <text value="Retour"/>
-            </properties>
-          </component>
-          <component id="5e323" class="javax.swing.JButton" binding="exitBtn">
-            <constraints/>
-            <properties>
-              <text value="Quitter"/>
+              <text value="Afficher le detail de l'achat"/>
             </properties>
           </component>
         </children>

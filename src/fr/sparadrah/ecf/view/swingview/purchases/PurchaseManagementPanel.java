@@ -32,6 +32,7 @@ public class PurchaseManagementPanel extends  JPanel {
     private Customer selectedCustomer;
     private Medicine selectedMedicine;
     private Prescription selectedPrescription;
+    private CartItem selectedItem;
 
 
     Component PurchaseManagementPanel;
@@ -82,7 +83,7 @@ public class PurchaseManagementPanel extends  JPanel {
     // Panneaux avec DisplayList
     private DisplayList medicineDisplayList;
     DisplayList customerDisplayList;
-    DisplayList cartDisplayList;
+    private DisplayList cartDisplayList;
 
     JTable customerTable;
     JTable medicineTable;
@@ -106,9 +107,18 @@ public class PurchaseManagementPanel extends  JPanel {
         }
 try{
     initialize();
+    cartDisplayList.getTable().getSelectionModel().addListSelectionListener(e -> {
+        boolean selected = customerDisplayList.getTable().getSelectedRow() != -1;
+        addItemCartBtn.setEnabled(selected);
+        removeFromCartBtn.setEnabled(selected);
+        removeUnitItemCartBtn.setEnabled(selected);
+    });
+    updateButtonStates();
 }catch(Exception e){
     System.out.println("Erreur init" + e.getMessage());
 }
+
+
 
 
         selectCustomerButton.addActionListener(new ActionListener() {
@@ -319,7 +329,7 @@ try{
 
 
         }else{
-            cart.add(new CartItem(selectedMedicine, quantity));
+            cart.add(new CartItem(selectedMedicine, quantity, selectedMedicine.getPrice()));
             updateTotal();
         }
         medicineTable.repaint();
@@ -450,7 +460,7 @@ try{
     private void processPurchase(){
         // Ajouter les médicaments à l'achat et réduire les stocks
         for(CartItem item : cart){
-            currentPurchase.addMedicine(item.getMedicine(), item.getQuantity());
+            currentPurchase.addMedicine(item.getMedicine(), item.getQuantity(), item.getLinePrice());
         }
         // Ajouter l'achat à la liste des achats
         PurchasesList.addPurchase(currentPurchase);
@@ -683,7 +693,7 @@ try{
         for (Medicine medicine : prescription.getPrescriptedMedicines()) {
             // Vérifier le stock disponible
             if (medicine.getStock() > 0) {
-                cart.add(new CartItem(medicine, 1)); // Quantité par défaut à 1
+                cart.add(new CartItem(medicine, 1, medicine.getPrice())); // Quantité par défaut à 1
             } else {
                 JOptionPane.showMessageDialog(this,
                         "Le médicament '" + medicine.getMedicineName() +

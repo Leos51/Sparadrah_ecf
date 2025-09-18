@@ -1,6 +1,7 @@
 package fr.sparadrah.ecf.view.swingview;
 
 import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
+import fr.sparadrah.ecf.model.lists.medicine.PrescriptionList;
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
 import fr.sparadrah.ecf.model.lists.person.DoctorList;
 import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
@@ -24,6 +25,7 @@ public class DisplayList extends JPanel {
     public static final String[] HEADER_MEDICINE = new String[]{"Nom", "Categorie", "Prix", "Stock", "Date"};
     public static final String[] HEADER_CARTITEM = new String[]{"Nom", "Quantité", "Prix", "Total ligne"};
     public static final String[] HEADER_PURCHASES = new String[]{"Date", "Client", "Type", "Montant Total"};
+    public static final String[] HEADER_PRESCRIPTIONS = new String[]{"Date", "Médecin", "Client", "Nombre de medicaments"};
 
 
     public static final Class<?>[] USER_COLUMN_CLASSES = {String.class, String.class, String.class, String.class, String.class};
@@ -31,6 +33,7 @@ public class DisplayList extends JPanel {
     public static final Class<?>[] MEDICINE_COLUMN_CLASSES = {String.class, String.class, Double.class, Integer.class, String.class};
     private final Class<?>[] CARTITEM_COLUMN_CLASSES = {String.class, Integer.class, Double.class, Double.class};
     public static final Class<?>[] PURCHASE_COLUMN_CLASSES = {String.class, String.class, String.class, String.class, Double.class};
+    public static final Class<?>[] PRESCRIPTION_COLUMN_CLASSES = {String.class, String.class, String.class, Integer.class};
 
 
 
@@ -67,6 +70,11 @@ public class DisplayList extends JPanel {
                 tableTitleBorder = "Historique des achats";
                 scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
                 configTable(PurchasesList.getPurchases(),HEADER_PURCHASES,PURCHASE_COLUMN_CLASSES);
+                break;
+            case 5:
+                tableTitleBorder = "Historique des prescriptions";
+                scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
+                configTable(PrescriptionList.getPrescriptionList(),HEADER_PRESCRIPTIONS,PRESCRIPTION_COLUMN_CLASSES);
                 break;
             default:
                 break;

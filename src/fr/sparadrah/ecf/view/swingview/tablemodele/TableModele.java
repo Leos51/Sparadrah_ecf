@@ -1,6 +1,7 @@
 package fr.sparadrah.ecf.view.swingview.tablemodele;
 
 import fr.sparadrah.ecf.model.medicine.Medicine;
+import fr.sparadrah.ecf.model.medicine.Prescription;
 import fr.sparadrah.ecf.model.person.Customer;
 import fr.sparadrah.ecf.model.person.Doctor;
 import fr.sparadrah.ecf.model.purchase.CartItem;
@@ -98,6 +99,14 @@ public class TableModele<T> extends AbstractTableModel {
                 case 1 -> purchase.getCustomer().getFullName();
                 case 2 -> purchase.isPrescriptionBased()? "Avec ordonnance" : "Direct";
                 case 3 -> String.format("%.2f €",purchase.getTotal());
+                default -> null;
+            };
+        }else if (item instanceof Prescription prescription) {
+            return switch (columnIndex) {
+                case 0 -> DateFormat.formatDate(prescription.getPrescriptingDate(), "dd/MM/yyyy");
+                case 1 -> prescription.getDoctor().getFullName();
+                case 2 -> prescription.getCustomer().getFullName();
+                case 3 -> prescription.getPrescriptedMedicines().size();
                 default -> null;
             };
         }

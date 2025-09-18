@@ -20,8 +20,12 @@ public class CustomersList {
         getCustomers().remove(customer);
     }
 
+    /**
+     * Recherche un client par son n° de securité social
+     * @param nir (n° de securité sociale)
+     * @return le client dont le numero correspond
+     */
     public static Customer findByNir(String nir) {
-
         return customers
                 .stream()
                 .filter(c -> c.getNir().equals(nir))
@@ -29,6 +33,15 @@ public class CustomersList {
                 .orElse(null);
     }
 
+    /**
+     * Filtre les client par rapport au mot en parametre - le filtrage s'effectue  sur :
+     * - nom
+     * - prenom
+     * - numero de securité social
+     * - ville
+     * @param pSearch
+     * @return une liste de clients
+     */
     public static List<Customer> filterCustomers(String pSearch) {
         String search = pSearch.toLowerCase().trim();
         List<Customer> filteredCustomers = getCustomers().stream()
@@ -42,6 +55,11 @@ public class CustomersList {
         return filteredCustomers;
     };
 
+    /**
+     * recherche un client a partir de son nom complet accompagné de son prenom : ("nom prenom")
+     * @param fullName
+     * @return
+     */
     public static Customer findByFullName(String fullName) {
         String search = fullName.toLowerCase().trim();
         for(Customer customer : getCustomers()) {

@@ -67,12 +67,22 @@ public class MedicineList {
     }
 
 
+    /**
+     * Crée une nouvelle liste de Medicament dont le nom contient le mot en parametre
+     * @param medName
+     * @return
+     */
     public static List<Medicine> filterMedicines(String medName){
         String search = medName.toLowerCase().trim();
         List<Medicine> filteredList = getMedicines().stream().filter(item -> item.getMedicineName().toLowerCase().contains(search)).toList() ;
         return filteredList;
     }
 
+    /**
+     * Recherche dans la liste de médicament ceux qui corrrespondent a la categorie en parametre
+     * @param category
+     * @return une liste filtré
+     */
     public static List<Medicine> filterMedicinesByCategory(Category category){
 
         List<Medicine> filteredList = getMedicines().stream().filter(item -> item.getCategory().equals(category.getCategoryName())).toList();

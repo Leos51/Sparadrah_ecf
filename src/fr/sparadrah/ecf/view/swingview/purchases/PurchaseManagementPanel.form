@@ -286,18 +286,12 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="be86c" class="javax.swing.JButton" binding="prescriptionScanBtn">
-            <constraints/>
-            <properties>
-              <enabled value="true"/>
-              <text value="Scanner ordonnance"/>
-              <visible value="false"/>
-            </properties>
-          </component>
           <component id="7fd29" class="javax.swing.JButton" binding="createPrescriptionBtn">
             <constraints/>
             <properties>
-              <text value="Créer Ordonnance"/>
+              <enabled value="true"/>
+              <text value="Ordonnance"/>
+              <visible value="false"/>
             </properties>
           </component>
           <component id="13667" class="javax.swing.JButton" binding="annulerButton" default-binding="true">

@@ -14,6 +14,16 @@ public class DoctorList {
         return doctors;
     }
 
+
+    /**
+     * Filtre les médecins par rapport au mot en parametre - le filtrage s'effectue  sur :
+     * - nom
+     * - prenom
+     * - n° d'agréement
+     * - ville
+     * @param pSearch
+     * @return une liste de médecins filtré
+     */
     public static List<Doctor> filterDoctor(String pSearch) {
         String search = pSearch.toLowerCase().trim();
         List<Doctor> filteredDoctors = getDoctors().stream()
@@ -31,21 +41,42 @@ public class DoctorList {
 
         this.doctors = doctors;
     }
+
+    /**
+     * ajoute un medecin a la liste de medecin existante
+     * @param doctor
+     */
     public static void addDoctor(Doctor doctor) {
         getDoctors().add(doctor);
     }
-    public static void removeDoctor(Doctor doctor) {
 
+    /**
+     * Supprime un medecin de la liste des medecins
+     * @param doctor
+     */
+    public static void removeDoctor(Doctor doctor) {
         doctors.remove(doctor);
     }
-    public static Doctor findDoctorByLicenseNumber(String certificateNumber) {
+
+    /**
+     * Recherche un medecin à partir de son numéro d'agreéement
+     * @param rpps
+     * @return un Medecin si correspondance trouve
+     */
+    public static Doctor findDoctorByLicenseNumber(String rpps) {
         for (Doctor d : doctors) {
-            if(certificateNumber.equals(d.getRpps())){
+            if(rpps.equals(d.getRpps())){
                 return d;
             };
         }
         return null;
     }
+
+    /**
+     * recherche un medecin par son nom complet
+     * @param fullName
+     * @return doctor
+     */
     public static Doctor findByFullName(String fullName) {
         String search = fullName.toLowerCase().trim();
         for(Doctor doctor : getDoctors()) {

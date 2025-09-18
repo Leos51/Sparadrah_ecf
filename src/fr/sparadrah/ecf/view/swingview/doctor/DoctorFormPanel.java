@@ -87,6 +87,12 @@ public class DoctorFormPanel extends  JFrame {
     }
 
 
+    /**
+     * Soumet et valide le formulaire d'ajout/edition d''un médecin
+     * @param doctor
+     * @param mode ajout ou edition : FormModes.ADD /FormModes.EDIT
+     * @throws SaisieException
+     */
     private void submitForm(Doctor doctor ,DoctorsPanel.FormModes mode) throws SaisieException {
         if(!validateFields()){
             return;
@@ -132,20 +138,28 @@ public class DoctorFormPanel extends  JFrame {
             this.dispose();
     }
 
-    private void populateFields(Doctor c){
+    /**
+     * rempli les champs du formulaires avec les données du médecin selectionné
+     * @param doctor
+     */
+    private void populateFields(Doctor doctor) {
 
         titleLabel.setText("Modifier le medecin");
 
-        lastNameField.setText(c.getLastName());
-        firstNameField.setText(c.getFirstName());
-        addressField.setText(c.getAddress());
-        postCodeField.setText(c.getPostCode());
-        cityField.setText(c.getCity());
-        phoneField.setText(c.getPhone());
-        emailField.setText(c.getEmail());
-        rppsField.setText(c.getRpps());
+        lastNameField.setText(doctor.getLastName());
+        firstNameField.setText(doctor.getFirstName());
+        addressField.setText(doctor.getAddress());
+        postCodeField.setText(doctor.getPostCode());
+        cityField.setText(doctor.getCity());
+        phoneField.setText(doctor.getPhone());
+        emailField.setText(doctor.getEmail());
+        rppsField.setText(doctor.getRpps());
     }
 
+    /**
+     * verifie si un des champ du formulaire est vide
+     * @return true/false
+     */
     private boolean validateFields() {
         if (lastNameField.getText().trim().isEmpty() ||
                 firstNameField.getText().trim().isEmpty() ||

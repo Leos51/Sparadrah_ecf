@@ -116,7 +116,7 @@
                   <component id="f9302" class="javax.swing.JTextPane" binding="doctorPane">
                     <constraints border-constraint="North"/>
                     <properties>
-                      <text value="Selectionner un client pour afficher le detail"/>
+                      <text value="Selectionner un médecin pour afficher le detail"/>
                     </properties>
                   </component>
                 </children>

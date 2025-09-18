@@ -53,17 +53,19 @@ public class CustomerFormPanel extends  JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setContentPane(formPanel);
+        this.setTitle(
+                mode == CustomersPanel.FormModes.ADD?
+                        "Nouveau client":
+                        "Modification du client"
+        );
+
 
 
         if(mode == CustomersPanel.FormModes.EDIT && currentCustomer != null) {
             //remplissage du formulaire avec client selectionné
-            this.setTitle("Modification du client");
             populateFields(currentCustomer);
         }
 
-        if(mode == CustomersPanel.FormModes.ADD) {
-            this.setTitle("Nouveau client");
-        }
 
 
         cancelButton.addActionListener( e ->{
@@ -75,6 +77,7 @@ public class CustomerFormPanel extends  JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     submitForm(currentCustomer, mode);
+
                 } catch (SaisieException exception) {
                     JOptionPane.showMessageDialog(CustomerFormPanel.this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
@@ -85,7 +88,12 @@ public class CustomerFormPanel extends  JFrame {
     }
 
 
-
+    /**
+     * Validation du formulaire avec comportement different si nouveau client ou client existant
+     * @param customer client selectionné
+     * @param mode  FormMode.ADD ou FormModes.EDIT
+     * @throws SaisieException
+     */
     private void submitForm(Customer customer ,CustomersPanel.FormModes mode) throws SaisieException {
         String lastName = lastNameField.getText().trim();
         String firstName = firstNameField.getText().trim();
@@ -109,6 +117,9 @@ public class CustomerFormPanel extends  JFrame {
             if (mode == CustomersPanel.FormModes.ADD) {
                 customer = new Customer(lastName,firstName,address, postCode,city, phone, email, nir, birthDate, mutualInsurance, doctor);
                 CustomersList.addCustomer(customer);
+
+
+
                 JOptionPane.showMessageDialog(this, "Client ajouté !");
             } else {
 
@@ -125,12 +136,18 @@ public class CustomerFormPanel extends  JFrame {
                 customer.setMutualInsurance(mutualInsurance);
                 JOptionPane.showMessageDialog(this, "Client mis à jour !");
             }
+            repaint();
+            revalidate();
+            this.dispose();
 
 
     }
 
 
-
+    /**
+     * Remplis le formulaiure avec les donnée du client en parametre
+     * @param c Le client
+     */
     private void populateFields(Customer c){
         titleLabel.setText("Modifier le client");
         submitButton.setText("Valider la modification");

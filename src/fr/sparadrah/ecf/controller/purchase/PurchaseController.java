@@ -1,6 +1,7 @@
 package fr.sparadrah.ecf.controller.purchase;
 
 import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
+import fr.sparadrah.ecf.model.medicine.Medicine;
 import fr.sparadrah.ecf.model.purchase.Purchase;
 import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrah.ecf.model.lists.person.CustomersList;
@@ -23,12 +24,19 @@ public class PurchaseController {
         Purchase p2 = new Purchase(DateFormat.parseDateFromString("18/10/2022"),c, false);
         p1.setCustomer(c);
         p2.setCustomer(c);
-        p1.addMedicine(MedicineList.findMedicineByName("Advil"), 20);
-        p1.addMedicine(MedicineList.findMedicineByName("Doliprane"), 5);
-        p1.addMedicine(MedicineList.findMedicineByName("Ibuprofen"), 2);
-        p2.addMedicine(MedicineList.findMedicineByName("Doliprane"), 1);
+
+        Medicine m1 = MedicineList.findMedicineByName("Advil");
+        Medicine m2 =  MedicineList.findMedicineByName("Doliprane");
+        Medicine m3 =  MedicineList.findMedicineByName("Ibuprofen");
+        Medicine m4 =  MedicineList.findMedicineByName("Doliprane");
+
+        p1.addMedicine(m1, 20, m1.getPrice() );
+        p1.addMedicine(m2, 5,  m2.getPrice() );
+        p1.addMedicine(m3, 2,   m3.getPrice() );
+        p2.addMedicine(m4, 1,   m4.getPrice() );
         PurchasesList.addPurchase(p1);
         PurchasesList.addPurchase(p2);
+        System.out.println("price m1: " + p1.getMedicines().stream().findFirst().get().getPrice());
     }
 
 

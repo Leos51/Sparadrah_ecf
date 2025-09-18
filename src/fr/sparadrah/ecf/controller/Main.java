@@ -28,6 +28,7 @@ public class Main {
             startSwing();
     }
 
+
     private void askConsoleOrSwing(){
         int rep;
         do{
@@ -63,7 +64,7 @@ public class Main {
             seedPurchaseData();
             System.out.println("Nombre client : " + CustomersList.getCustomers().size());
         }catch(Exception e){
-            System.err.println("Erreur init" + e.getMessage());;
+            System.err.println("Erreur d'initialisation des données : " + e.getMessage());;
         }
     }
 }

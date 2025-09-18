@@ -48,7 +48,7 @@ public class PurchasesList {
     }
 
     /**
-     * Liste les achats effectué à une date precise (dd/MM/aaaa)
+     * Liste les achats effectué à une date precise
      * @param date  date au format : "dd/MM/aaaa"
      * @return liste d'achat
      */
@@ -101,6 +101,10 @@ public class PurchasesList {
         return  customerPurchases;
     }
 
+    /**
+     * Recherche la facture dont la date est la plus ancienne et recupere sa date
+     * @return date
+     */
     public static LocalDate getOldestPurchaseDate() {
         return purchases.stream()
                 .map(Purchase::getPurchaseDate).min(Comparator.naturalOrder()).get();

@@ -17,6 +17,7 @@ public class Purchase {
     private List<CartItem> purchasedMedicines;
 
 
+
     public Purchase() {
         this.setPurchaseDate(LocalDate.now());
         this.customer = new Customer();
@@ -103,14 +104,15 @@ public class Purchase {
     }
 
 
+
+
     /**
      * Ajoute un medicament et sa quantité dans la liste d'achat
      * @param medicine Nom du medicament
      * @param quantity Quantité de medicament acheté par le client
      */
-    public void addMedicine(Medicine medicine, int quantity) {
-
-        this.purchasedMedicines.add(new CartItem(medicine,  quantity));
+    public void addMedicine(Medicine medicine, int quantity, double price) {
+        this.purchasedMedicines.add(new CartItem(medicine,  quantity, price));
         medicine.reduceStock(quantity);
     }
 
@@ -119,6 +121,10 @@ public class Purchase {
     }
 
 
+    /**
+     * Supprime un médicament de la liste des medicaments
+     * @param medicine
+     */
     public void removePurchasedMedicine(MedicineList medicine) {
         purchasedMedicines.remove(medicine);
     }

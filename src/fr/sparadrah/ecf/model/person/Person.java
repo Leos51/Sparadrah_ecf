@@ -30,52 +30,122 @@ public class Person {
     }
 
 
+    /**
+     * recupere le prénom de cette personne
+     * @return
+     */
     public String getFirstName() {
         return firstName;
     }
+
+    /**
+     * Mets a jour le prénom de cette personne
+     * @param firstName
+     */
     public void setFirstName(String firstName) {
         firstName = firstName.trim();
         this.firstName = capitalize(firstName);
     }
+
+    /**
+     * Recupere le nom de cette personne
+     * @return
+     */
     public String getLastName() {
         return lastName;
     }
+
+    /**
+     * Mets a jour le nom
+     * @param lastName
+     */
     public void setLastName(String lastName) {
         lastName = lastName.trim();
         this.lastName = capitalize(lastName);
     }
 
+    /**
+     * recupere l'adresse
+     * @return
+     */
     public String getAddress() {
         return this.address;
     }
+
+    /**
+     * Mets a jour l'adresse
+     * @param address
+     */
     public void setAddress(String address) {
         this.address = address;
     }
+
+    /**
+     * recupere le code postal
+     * @return
+     */
     public String getPostCode() {
         return postCode;
     }
+
+    /**
+     * Mets a jour le code postal
+     * @param postCode
+     * @throws SaisieException
+     */
     public void setPostCode(String postCode) throws SaisieException {
         if(!Validator.isValidPostalCode(postCode)){
             throw new SaisieException("Code postal non valide");
         }
         this.postCode = postCode;
     }
+
+    /**
+     * Recupere la ville
+     * @return
+     */
     public String getCity() {
         return city;
     }
+
+    /**
+     * Mets a jour la ville
+     * @param city
+     */
     public void setCity(String city) {;
         this.city = city;
     }
+
+    /**
+     * recupere le numero de téléphone
+     * @return
+     */
     public String getPhone() {
         return phone;
     }
+
+    /**
+     * mets a jour le numero de téléphone
+     * @param phone
+     */
     public void setPhone(String phone) {
 
         this.phone = phone;
     }
+
+    /**
+     * recupere le mail
+     * @return
+     */
     public String getEmail() {
         return email;
     }
+
+    /**
+     * Mets a jour le mail
+     * @param email
+     * @throws SaisieException
+     */
     public void setEmail(String email) throws SaisieException {
         email = email
                 .trim()
@@ -87,6 +157,10 @@ public class Person {
     }
 
 
+    /**
+     * renvoie la concatenation avec prénom et nom
+     * @return
+     */
     public String getFullName() {
         return this.firstName + " " + this.lastName;
     }

@@ -2,14 +2,14 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="fr.sparadrah.ecf.view.swingview.menu.MainMenu">
   <grid id="27dc6" binding="containerMenu" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="860" height="484"/>
+      <xy x="20" y="20" width="860" height="506"/>
     </constraints>
     <properties/>
     <border type="empty">
       <color color="-2104859"/>
     </border>
     <children>
-      <grid id="aeb61" binding="menu" layout-manager="GridLayoutManager" row-count="13" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="aeb61" binding="menu" layout-manager="GridLayoutManager" row-count="16" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="Center"/>
         <properties/>
@@ -42,13 +42,13 @@
           </component>
           <component id="22200" class="javax.swing.JSeparator">
             <constraints>
-              <grid row="5" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
           </component>
           <component id="22e5c" class="javax.swing.JLabel">
             <constraints>
-              <grid row="6" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="9" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Gestion"/>
@@ -56,7 +56,7 @@
           </component>
           <component id="291d5" class="javax.swing.JButton" binding="customerManagerBtn">
             <constraints>
-              <grid row="7" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="10" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="👥 Gestion Clients"/>
@@ -64,7 +64,7 @@
           </component>
           <component id="4f1df" class="javax.swing.JButton" binding="doctorsManagerBtn">
             <constraints>
-              <grid row="8" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="11" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="👨‍⚕️ Gestion Médecins"/>
@@ -72,32 +72,25 @@
           </component>
           <component id="12fce" class="javax.swing.JButton" binding="medicineManagerBtn">
             <constraints>
-              <grid row="9" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="12" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <icon value="fr/sparadrah/ecf/view/swingview/ressources/travaux-routiers.png"/>
               <text value="💊 Gestion des Stocks"/>
             </properties>
           </component>
           <component id="da326" class="javax.swing.JSeparator">
             <constraints>
-              <grid row="10" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="13" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
           </component>
           <component id="5e4dc" class="javax.swing.JButton" binding="exitButton">
             <constraints>
-              <grid row="12" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="15" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="❌ Quitter"/>
-            </properties>
-          </component>
-          <component id="27634" class="javax.swing.JButton" binding="purchaseHistoryBtn">
-            <constraints>
-              <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Historique des achats"/>
             </properties>
           </component>
           <component id="b2ebf" class="javax.swing.JButton" binding="homeBtn">
@@ -116,9 +109,40 @@
           </component>
           <vspacer id="6759e">
             <constraints>
-              <grid row="11" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="14" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
+          <component id="fb382" class="javax.swing.JSeparator">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="bffde" class="javax.swing.JButton" binding="prescriptionsHistoryBtn">
+            <constraints>
+              <grid row="8" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <icon value="fr/sparadrah/ecf/view/swingview/ressources/travaux-routiers.png"/>
+              <text value="Historique des ordonnances"/>
+            </properties>
+          </component>
+          <component id="27634" class="javax.swing.JButton" binding="purchaseHistoryBtn">
+            <constraints>
+              <grid row="7" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Historique des achats"/>
+            </properties>
+          </component>
+          <component id="c3a2f" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Historique"/>
+            </properties>
+          </component>
         </children>
       </grid>
     </children>
