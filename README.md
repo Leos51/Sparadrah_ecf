@@ -233,7 +233,7 @@ double calculateReimbursement(Purchase purchase) {
 
 
 ### **Historique Complet**
-- 🕒 Filtrage par période (jour/semaine/mois)
+- 🕒 Filtrage par dates
 - 👤 Historique par client/médecin
 
 ---
@@ -264,6 +264,7 @@ double calculateReimbursement(Purchase purchase) {
    - L'application démarre automatiquement
    - Les données de test se chargent
    - Interface prête à l'emploi
+
 
 
 
