@@ -3,7 +3,6 @@
 [![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://www.oracle.com/java/)
 [![Swing](https://img.shields.io/badge/GUI-Swing-blue.svg)](https://docs.oracle.com/javase/tutorial/uiswing/)
 [![License](https://img.shields.io/badge/License-Educational-green.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Completed-success.svg)](README.md)
 
 > Application de gestion interne pour pharmacie développée en Java Swing dans le cadre de l'ECF Java - Formation CCP Développeur d'Applications
 
@@ -265,6 +264,7 @@ double calculateReimbursement(Purchase purchase) {
    - L'application démarre automatiquement
    - Les données de test se chargent
    - Interface prête à l'emploi
+
 
 
 
