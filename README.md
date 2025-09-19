@@ -2,7 +2,6 @@
 
 [![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://www.oracle.com/java/)
 [![Swing](https://img.shields.io/badge/GUI-Swing-blue.svg)](https://docs.oracle.com/javase/tutorial/uiswing/)
-[![License](https://img.shields.io/badge/License-Educational-green.svg)](LICENSE)
 
 > Application de gestion interne pour pharmacie développée en Java Swing dans le cadre de l'ECF Java - Formation CCP Développeur d'Applications
 
@@ -136,6 +135,8 @@ double aPayer = total - remboursement;
 │       ├── doctor/        # Interfaces médecins
 │       └── purchases/     # Interfaces achats  
 └── 🔧 utils/          # Utilitaires
+    ├── userinputs     # Scanner entrée console
+    ├── regexpatterns  # Regex
     ├── validator/     # Validation données
     └── exception/     # Exceptions métier
 ```
@@ -158,11 +159,11 @@ BACKGROUND = #ECF0F1       // Gris interface
 ### **Validations Implémentées**
 | Donnée | Validation | Exemple |
 |--------|------------|---------|
-| **NIR** | Format + Clé Luhn | `1234567890123` |
-| **Email** | RFC 5322 | `user@domain.com` |
+| **NIR** | Format  | `1234567890123` |
+| **Email** | contient "w@w.w"  | `user@domain.com` |
 | **Téléphone** | Format français | `01.23.45.67.89` |
 | **Code Postal** | 5 chiffres France | `51000` |
-| **RPPS Médecin** | Unicité + format | `12345678901` |
+| **RPPS Médecin** | format | `12345678901` |
 | **Dates** | Format dd/MM/yyyy | `25/12/2024` |
 
 
@@ -193,7 +194,7 @@ Au premier lancement, l'application se charge avec :
 | ![IntelliJ](https://img.shields.io/badge/IntelliJ%20IDEA-000000.svg?style=flat&logo=intellij-idea&logoColor=white) | **2024** | IDE développement |
 | ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white) | **Latest** | Contrôle de version |
 
-**Aucune dépendance externe** - Application 100% Java vanilla
+**Aucune dépendance externe** - Application 100% Java vanilla (interfaces créées avec Swing UI Designer)
 
 ---
 
@@ -264,6 +265,7 @@ double calculateReimbursement(Purchase purchase) {
    - L'application démarre automatiquement
    - Les données de test se chargent
    - Interface prête à l'emploi
+
 
 
 
