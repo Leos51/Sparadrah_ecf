@@ -160,7 +160,7 @@ BACKGROUND = #ECF0F1       // Gris interface
 | Donnée | Validation | Exemple |
 |--------|------------|---------|
 | **NIR** | Format  | `1234567890123` |
-| **Email** | contient "w@w.w"  | `user@domain.com` |
+| **Email** | Validation regex personnalisée   | `user@domain.com` |
 | **Téléphone** | Format français | `01.23.45.67.89` |
 | **Code Postal** | 5 chiffres France | `51000` |
 | **RPPS Médecin** | format | `12345678901` |
@@ -265,6 +265,7 @@ double calculateReimbursement(Purchase purchase) {
    - L'application démarre automatiquement
    - Les données de test se chargent
    - Interface prête à l'emploi
+
 
 
 
